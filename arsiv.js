@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function populateArchive() {
         try {
-            const response = await fetch('/api/content');
+            const response = await fetch('/content.json');
             if (!response.ok) throw new Error('İçerik yüklenemedi.');
             allContent = await response.json();
 

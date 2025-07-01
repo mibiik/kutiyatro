@@ -23,53 +23,49 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- API'den içerik çekme ---
-    async function populateContent() {
+    // Tüm içeriği çekmek için tek bir fonksiyon
+    async function fetchContent() {
         try {
-            const response = await fetch('/api/content');
-            if (!response.ok) throw new Error('İçerik yüklenemedi.');
-            const content = await response.json();
-
-            // Hero
-            if (content.hero) {
-                document.querySelector('#hero h1').textContent = content.hero.title;
-                document.querySelector('#hero .event-highlight p').textContent = content.hero.subtitle;
+            // Vercel'de doğrudan dosyayı çek, lokalde API'yi kullan
+            const response = await fetch('/content.json'); 
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
             }
-
-            // Hakkımızda
-            if (content.hakkimizda) {
-                document.querySelector('#hakkimizda .hakkimizda-icerik p').textContent = content.hakkimizda.text;
-            }
+            const data = await response.json();
+            
+            // Fonksiyonları çağır
+            populateHero(data.hero);
+            populateHakkimizda(data.hakkimizda);
             
             // Ekip
-            if (content.ekip) {
-                renderEkip(content.ekip);
+            if (data.ekip) {
+                renderEkip(data.ekip);
             }
 
             // Footer (İletişim)
-            if (content.iletisim) {
+            if (data.iletisim) {
                 const sosyalMedya = document.querySelector('.sosyal-medya');
                 if (sosyalMedya) {
                     sosyalMedya.innerHTML = `
-                        <a href="${content.iletisim.instagram}" target="_blank">Instagram</a>
-                        <a href="${content.iletisim.twitter}" target="_blank">Twitter</a>
-                        <a href="${content.iletisim.youtube}" target="_blank">Youtube</a>
+                        <a href="${data.iletisim.instagram}" target="_blank">Instagram</a>
+                        <a href="${data.iletisim.twitter}" target="_blank">Twitter</a>
+                        <a href="${data.iletisim.youtube}" target="_blank">Youtube</a>
                     `;
                 }
                 const iletisimBilgileri = document.querySelector('.iletisim-bilgileri');
                 if (iletisimBilgileri) {
                     iletisimBilgileri.innerHTML = `
-                        <p>${content.iletisim.adres.replace(/<br>/g, '<br>')}</p>
-                        <p>${content.iletisim.email}</p>
+                        <p>${data.iletisim.adres.replace(/<br>/g, '<br>')}</p>
+                        <p>${data.iletisim.email}</p>
                     `;
                 }
             }
             
             // Oyunlar
-            if (content.oyunlar) {
-                window.tumOyunlar = content.oyunlar;
-                renderYaklasanOyunlar(content.oyunlar); // Yaklaşanları render et
-                renderOneCikanOyunlar(content.oyunlar);  // Öne Çıkanları (Bitmiş) render et
+            if (data.oyunlar) {
+                window.tumOyunlar = data.oyunlar;
+                renderYaklasanOyunlar(data.oyunlar); // Yaklaşanları render et
+                renderOneCikanOyunlar(data.oyunlar);  // Öne Çıkanları (Bitmiş) render et
             }
 
         } catch (error) {
@@ -196,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Sayfa yüklendiğinde içeriği doldur
-    populateContent();
+    fetchContent();
 });
 
 // Scroll Animasyonları
