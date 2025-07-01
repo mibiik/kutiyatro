@@ -73,6 +73,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function populateHero(heroData) {
+        if (!heroData) return;
+        const heroTitle = document.querySelector('#hero h1');
+        const heroSubtitle = document.querySelector('#hero .event-highlight p');
+        if (heroTitle) heroTitle.textContent = heroData.title;
+        if (heroSubtitle) heroSubtitle.textContent = heroData.subtitle;
+    }
+
+    function populateHakkimizda(hakkimizdaData) {
+        if (!hakkimizdaData) return;
+        const hakkimizdaText = document.querySelector('#hakkimizda .hakkimizda-icerik p');
+        if (hakkimizdaText) hakkimizdaText.textContent = hakkimizdaData.text;
+    }
+
     function renderEkip(ekipUyeleri) {
         const ekipGridContainer = document.querySelector('.ekip-grid');
         if (!ekipGridContainer) return;
