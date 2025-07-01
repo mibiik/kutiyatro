@@ -217,7 +217,10 @@ section.is-visible {
 
 /* HERO BÖLÜMÜ */
 #hero {
-    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -225,6 +228,7 @@ section.is-visible {
     text-align: center;
     position: relative;
     overflow: hidden;
+    z-index: -1;
 }
 
 .hero-background-images {
@@ -237,16 +241,7 @@ section.is-visible {
 }
 
 .afis-mosaic {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 24px;
-    width: 100vw;
-    height: 100vh;
-    align-items: center;
-    justify-items: center;
-    filter: blur(12px) brightness(0.3);
-    position: relative;
-    transform: scale(1.1);
+    display: none;
 }
 
 .afis-mosaic svg {
@@ -255,16 +250,11 @@ section.is-visible {
 }
 
 .afis-mosaic-img {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    opacity: 0.7;
-    border-radius: 24px;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.22);
-    transition: opacity 0.3s, transform 0.7s cubic-bezier(.4,2,.6,.9);
-    background: #222;
+    display: none;
+}
+
+.afis-mosaic-img.glitch {
+    display: none;
 }
 
 .afis-gradient {
@@ -1758,4 +1748,33 @@ main {
 /* Diğer Bölümler */
 #ekip {
     padding: 100px 0;
+}
+
+.hero-scroll-container {
+    height: 300vh; /* Kaydırma direncini bu değer belirler. Ne kadar yüksekse, o kadar yavaş geçilir. */
+}
+
+/* Eski mozaik stillerini temizle */
+.afis-mosaic, .afis-mosaic-img, .afis-mosaic-img.glitch {
+    display: none;
+}
+
+/* Yeni film şeridi stilleri */
+.film-strip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5vh; /* Afişler arası dikey boşluk */
+    will-change: transform; /* Tarayıcıya animasyon ipucu */
+}
+
+.film-strip-img {
+    display: block;
+    width: 30vw; /* Ekran genişliğine göre boyut */
+    max-width: 400px; /* Maksimum boyut */
+    min-width: 250px; /* Minimum boyut */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border: 3px solid white;
 }

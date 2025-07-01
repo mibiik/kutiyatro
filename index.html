@@ -60,38 +60,33 @@
     </div>
 
     <main>
-        <section id="hero">
-            <div class="hero-background-images">
-                <div class="afis-mosaic">
-                    <svg>
-                        <filter id="pixelate">
-                            <feFlood x="4" y="4" height="8" width="8"/>
-                            <feComposite width="8" height="8"/>
-                            <feTile result="a"/>
-                            <feComposite in="SourceGraphic" in2="a" operator="in"/>
-                        </filter>
-                    </svg>
-                    <img src="assets/vuryagmalayeniden.jpg" class="afis-mosaic-img">
-                    <img src="assets/acik_denizde.jpg" class="afis-mosaic-img">
-                    <img src="assets/almost_maine.png" class="afis-mosaic-img">
-                    <img src="assets/biryazgecesi.jpg" class="afis-mosaic-img">
-                    <img src="assets/delikadinhikayeleri.jpg" class="afis-mosaic-img">
-                    <img src="assets/hayvanciftligi.jpg" class="afis-mosaic-img">
-                    <img src="assets/karmakarisik.jpg" class="afis-mosaic-img">
-                    <img src="assets/onikincigece.png" class="afis-mosaic-img">
-                    <img src="assets/periferi.jpg" class="afis-mosaic-img">
-                    <img src="assets/cadikazani.jpg" class="afis-mosaic-img">
+        <div class="hero-scroll-container">
+            <section id="hero">
+                <div class="hero-background-images">
+                    <div class="film-strip">
+                        <img src="assets/vuryagmalayeniden.jpg" class="film-strip-img">
+                        <img src="assets/acik_denizde.jpg" class="film-strip-img">
+                        <img src="assets/almost_maine.png" class="film-strip-img">
+                        <img src="assets/biryazgecesi.jpg" class="film-strip-img">
+                        <img src="assets/delikadinhikayeleri.jpg" class="film-strip-img">
+                        <img src="assets/hayvanciftligi.jpg" class="film-strip-img">
+                        <img src="assets/karmakarisik.jpg" class="film-strip-img">
+                        <img src="assets/onikincigece.png" class="film-strip-img">
+                        <img src="assets/periferi.jpg" class="film-strip-img">
+                        <img src="assets/cadikazani.jpg" class="film-strip-img">
+                        <img src="assets/seuzanıniyiinsanı.jpg" class="film-strip-img">
+                    </div>
+                    <div class="afis-gradient"></div>
                 </div>
-                <div class="afis-gradient"></div>
-            </div>
-            <h1>KUTİYATRO SUNAR</h1>
-            <div class="event-highlight">
-                <p>Koç Üniversitesi Tiyatro Kulübü</p>
-            </div>
-            <a href="#instagram-feed" class="scroll-down-arrow" aria-label="Aşağı Kaydır">
-                <span></span>
-            </a>
-        </section>
+                <h1>KUTİYATRO SUNAR</h1>
+                <div class="event-highlight">
+                    <p>Koç Üniversitesi Tiyatro Kulübü</p>
+                </div>
+                <a href="#hakkimizda" class="scroll-down-arrow" aria-label="Aşağı Kaydır">
+                    <span></span>
+                </a>
+            </section>
+        </div>
 
         <section id="hakkimizda" class="animated-section">
             <div class="hakkimizda-baslik-logo">
@@ -162,78 +157,39 @@
     window.addEventListener('DOMContentLoaded', function() {
       // Sadece 768px'den geniş ekranlarda masaüstü animasyonunu çalıştır
       if (window.innerWidth > 768) {
-        const mosaic = document.querySelector('.afis-mosaic');
-        let images = Array.from(document.querySelectorAll('.afis-mosaic-img'));
-        function layoutImages() {
-          const cols = 5;
-          const rows = Math.ceil(images.length / cols);
-          const w = mosaic.offsetWidth / cols;
-          const h = mosaic.offsetHeight / rows;
-          images.forEach((img, i) => {
-            const col = i % cols;
-            const row = Math.floor(i / cols);
-            img.style.left = (col * w) + 'px';
-            img.style.top = (row * h) + 'px';
-            img.style.width = w + 'px';
-            img.style.height = h + 'px';
-            img.style.position = 'absolute';
-          });
-        }
-        layoutImages();
-        window.addEventListener('resize', layoutImages);
-        // Maksimum 3 defa, negatif-normal geçişleri 0.7-2s arası rastgele
-        function crazyGlitchEffect(img) {
-          let count = 0;
-          function doGlitch() {
-            img.classList.add('glitch');
-            const glitchTime = 700 + Math.random() * 1300; // 0.7s - 2s
-            setTimeout(() => {
-              img.classList.remove('glitch');
-              count++;
-              if (count < 3) {
-                const pause = 300 + Math.random() * 600;
-                setTimeout(doGlitch, pause);
-              }
-            }, glitchTime);
-          }
-          doGlitch();
-        }
-        function swapRandomPair() {
-          if (images.length < 2) return;
-          let i = Math.floor(Math.random() * images.length);
-          let j;
-          do {
-            j = Math.floor(Math.random() * images.length);
-          } while (j === i);
-          const imgA = images[i];
-          const imgB = images[j];
-          crazyGlitchEffect(imgA);
-          setTimeout(() => {
-            crazyGlitchEffect(imgB);
-          }, 400);
-          setTimeout(() => {
-            crazyGlitchEffect(imgA);
-            crazyGlitchEffect(imgB);
-          }, 2500);
-          setTimeout(() => {
-            const leftA = imgA.style.left, topA = imgA.style.top;
-            const leftB = imgB.style.left, topB = imgB.style.top;
-            imgA.style.left = leftB;
-            imgA.style.top = topB;
-            imgB.style.left = leftA;
-            imgB.style.top = topA;
-            const temp = images[i];
-            images[i] = images[j];
-            images[j] = temp;
-            setTimeout(() => {
-              layoutImages();
-              const delays = [3000, 5000, 6000];
-              const nextDelay = delays[Math.floor(Math.random() * delays.length)];
-              setTimeout(swapRandomPair, nextDelay);
-            }, 1200);
-          }, 5000);
-        }
-        swapRandomPair();
+        const heroContainer = document.querySelector('.hero-scroll-container');
+        const heroSection = document.querySelector('#hero');
+        const filmStrip = document.querySelector('.film-strip');
+
+        const vh = window.innerHeight;
+        // Film şeridinin ilk ve son afişinin ekranın ortasına gelebilmesi için dolgu ekle
+        filmStrip.style.padding = `${vh / 2.5}px 0`;
+        
+        const scrollHandler = () => {
+            const rect = heroContainer.getBoundingClientRect();
+            
+            // Performans optimizasyonu: sadece ekrandayken çalıştır
+            if (rect.top > vh || rect.bottom < 0) {
+                return; 
+            }
+
+            const scrollInContainer = Math.max(0, -rect.top);
+            const scrollableHeight = heroContainer.offsetHeight - vh;
+            
+            let progress = scrollInContainer / scrollableHeight;
+            progress = Math.max(0, Math.min(1, progress));
+
+            // Film şeridinin kat etmesi gereken toplam mesafe
+            const filmStripTravelDistance = filmStrip.scrollHeight - vh;
+            const translateY = progress * filmStripTravelDistance;
+
+            requestAnimationFrame(() => {
+                filmStrip.style.transform = `translateY(-${translateY}px)`;
+            });
+        };
+        window.addEventListener('scroll', scrollHandler, { passive: true });
+        // Sayfa yenilendiğinde doğru pozisyonda başlaması için bir kez çalıştır
+        scrollHandler();
       }
     });
     </script>
