@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
             archiveContainer.innerHTML = ''; // Konteyneri temizle
 
             content.arsiv.forEach(sezon => {
+                const sezonKarti = document.createElement('div');
+                sezonKarti.className = 'sezon-kart';
+                sezonKarti.dataset.year = sezon.sezon.split(' ')[0]; // '2023-2024 Sezonu' -> '2023-2024'
                 const oyunlarHTML = sezon.oyunlar.map(oyun => `
                     <div class="oyun-karti">
                         <img src="${oyun.img}" alt="${oyun.ad} afişi">
@@ -21,8 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${foto}" alt="Sezon fotoğrafı">
                 `).join('');
 
-                const sezonKarti = document.createElement('div');
-                sezonKarti.className = 'sezon-kart';
                 sezonKarti.innerHTML = `
                     <h2 class="sezon-baslik">${sezon.sezon}</h2>
                     <p class="sezon-aciklama">${sezon.aciklama}</p>
@@ -59,5 +60,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // Eski hamburger menü işlevselliği kaldırıldı - yeni navbar kullanılıyor
     // Yeni navbar mobile.js tarafından yönetiliyor
 
-    populateArchive();
+    function setupYearFilters() {
+        const filterContainer = document.querySelector('.year-filter-container');
+        const archiveContainer = document.getElementById('archive-container');
+
+        if (!filterContainer) return;
+
+        filterContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('year-filter-btn')) {
+                // Buton aktif durumunu güncelle
+                filterContainer.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+
+                const selectedYear = e.target.dataset.year;
+                const sezonKartlari = archiveContainer.querySelectorAll('.sezon-kart');
+
+                sezonKartlari.forEach(kart => {
+                    if (selectedYear === 'all' || kart.dataset.year === selectedYear) {
+                        kart.style.display = 'block';
+                    } else {
+                        kart.style.display = 'none';
+                    }
+                });
+            }
+        });
+    }
+
+    populateArchive().then(() => {
+        setupYearFilters();
+    });
 });

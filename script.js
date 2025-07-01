@@ -78,43 +78,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderEkip(ekipUyeleri) {
-        const yonetimContainer = document.querySelector('.ekip-yonetim');
-        const uyelerContainer = document.querySelector('.ekip-uyeler');
+        const ekipGridContainer = document.querySelector('.ekip-grid');
+        if (!ekipGridContainer) return;
 
-        if (!yonetimContainer || !uyelerContainer) return;
+        ekipGridContainer.innerHTML = '';
 
-        yonetimContainer.innerHTML = '';
-        uyelerContainer.innerHTML = '';
-
-        const baskanlar = ekipUyeleri.filter(uye => uye.rol === 'Eş Başkan');
-        let digerUyeler = ekipUyeleri.filter(uye => uye.rol !== 'Eş Başkan');
-        
-        // Can Şahin'i bul ve listenin sonuna taşı
-        const canIndex = digerUyeler.findIndex(uye => uye.ad === 'Can Şahin');
-        if (canIndex > -1) {
-            const can = digerUyeler.splice(canIndex, 1)[0];
-            digerUyeler.push(can);
-        }
-
-        baskanlar.forEach(uye => {
-            yonetimContainer.innerHTML += createEkipKarti(uye, true); // Başkanlar için özel flag
+        // Başkanları üste almak için sıralama yapabiliriz (isteğe bağlı)
+        ekipUyeleri.sort((a, b) => {
+            const aIsBaskan = a.rol === 'Eş Başkan' || a.rol === 'Başkan';
+            const bIsBaskan = b.rol === 'Eş Başkan' || b.rol === 'Başkan';
+            return bIsBaskan - aIsBaskan;
         });
-
-        digerUyeler.forEach(uye => {
-            uyelerContainer.innerHTML += createEkipKarti(uye, false);
+        
+        // Tüm üyeleri tek bir döngüde oluştur
+        ekipUyeleri.forEach(uye => {
+            const isBaskan = uye.rol === 'Eş Başkan' || uye.rol === 'Başkan';
+            ekipGridContainer.innerHTML += createEkipPerson(uye, isBaskan);
         });
     }
 
-    function createEkipKarti(uye, isBaskan) {
-        // Başkanlar için daha büyük bir kart stili uygulanabilir
-        const kartClass = isBaskan ? 'ekip-karti baskan-karti' : 'ekip-karti';
+    function createEkipPerson(uye, isBaskan) {
+        const personClass = isBaskan ? 'ekip-person baskan' : 'ekip-person';
+        
         return `
-            <div class="${kartClass}">
-                <img src="${uye.img}" alt="${uye.ad}">
-                <h3>${uye.ad}</h3>
-                <p class="rol">${uye.rol}</p>
-                <a href="mailto:${uye.email}" class="ekip-mail">İletişim</a>
-            </div>`;
+            <div class="${personClass}">
+                <img src="${uye.img || 'assets/pngegg.png'}" alt="${uye.ad}" class="person-image">
+                <h3 class="person-name">${uye.ad}</h3>
+                <p class="person-role">${uye.rol}</p>
+            </div>
+        `;
     }
 
     function renderYaklasanOyunlar(oyunlar) {
@@ -152,30 +144,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.querySelector('#oyunlarimiz .oyunlar-grid');
         if (!container) return;
 
-        // Ana oyunları öncelikli olarak göster
-        let gosterilecekOyunlar = oyunlar
-            .filter(oyun => oyun.kategori === 'ana' && oyun.anasayfadaGoster === true)
-            .slice(0, 5);
-
-        // Eğer 5 ana oyun yoksa, diğer oyunlardan ekle
-        if (gosterilecekOyunlar.length < 5) {
-            const digerOyunlar = oyunlar
-                .filter(oyun => !(oyun.kategori === 'ana' && oyun.anasayfadaGoster === true))
-                .filter(oyun => oyun.durum === 'bitmis')
-                .slice(0, 5 - gosterilecekOyunlar.length);
-            
-            gosterilecekOyunlar = [...gosterilecekOyunlar, ...digerOyunlar];
-        }
+        // Panelde "Öne Çıkar" olarak işaretlenen oyunları filtrele.
+        // Sıralama zaten panelde yapıldığı için burada sadece filtrelemek yeterli.
+        const gosterilecekOyunlar = oyunlar.filter(oyun => oyun.oneCikan === true).slice(0, 5); // En fazla 5 tane göster
 
         if (gosterilecekOyunlar.length === 0) {
-            container.innerHTML = '<p style="text-align: center; width: 100%;">Gösterilecek tamamlanmış oyun bulunmuyor.</p>';
+            container.innerHTML = '<p style="text-align: center; width: 100%;">Öne çıkarılan oyun bulunmuyor.</p>';
             return;
         }
 
         container.innerHTML = '';
         gosterilecekOyunlar.forEach(oyun => {
+            const oyunId = oyun.id || oyunlar.indexOf(oyun); // ID yoksa geçici index kullan
             const oyunKartHTML = `
-                <div class="oyun-karti-modern" onclick="showOyunModal(${oyun.id})">
+                <div class="oyun-karti-modern" onclick="showOyunModal('${oyunId}')">
                     <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="oyun-karti-modern-banner">
                     <div class="oyun-karti-modern-bilgi">
                         <h3 class="oyun-karti-modern-baslik">${oyun.ad}</h3>
@@ -183,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p class="oyun-karti-modern-detay">Yönetmen: ${oyun.yonetmen || 'Bilinmiyor'}</p>
                         <div class="oyun-karti-modern-ek-bilgi">
                              <p class="oyun-karti-modern-detay">${oyun.tarih || ''}</p>
-                             <p class="oyun-karti-modern-detay">${oyun.mekan || ''}</p>
+                             <p class="oyun-karti-modern-detay">${oyun.konum || ''}</p>
                         </div>
                     </div>
                 </div>
@@ -254,52 +236,115 @@ window.addEventListener("scroll", () => {
 // Initial check
 handleScrollAnimation();
 
-// Oyun detay modalı fonksiyonu (basit)
+// Oyun detay modalı fonksiyonu (yeni şık tasarım)
 window.showOyunModal = function(oyunId) {
-    const oyun = window.tumOyunlar?.find(o => o.id === oyunId);
+    const oyun = window.tumOyunlar.find(o => (o.id || window.tumOyunlar.indexOf(o)) == oyunId);
     if (!oyun) return;
-    
-    let modal = document.getElementById('oyun-modal');
-    if (!modal) {
-        modal = document.createElement('div');
-        modal.id = 'oyun-modal';
-        modal.className = 'oyun-modal';
-        document.body.appendChild(modal);
+
+    // Önceki modal varsa kaldır
+    const existingModal = document.getElementById('oyun-detay-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    const existingFullscreen = document.getElementById('fullscreen-afis-modal');
+    if (existingFullscreen) {
+        existingFullscreen.remove();
     }
 
-    const oyuncuListesi = (oyun.oyuncular && oyun.oyuncular.length > 0)
-        ? oyun.oyuncular.map(o => `<div class="oyuncu-tag">${o.ad}</div>`).join('')
-        : '<p>Kadro henüz açıklanmadı.</p>';
 
-    modal.innerHTML = `
-        <div class="oyun-modal-icerik">
-            <button class="oyun-modal-kapat" onclick="document.getElementById('oyun-modal').style.display='none'">&times;</button>
-            <div class="modal-layout">
-                <div class="modal-sol-panel">
-                    <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="modal-afis">
+    let modalHtml = `<div id="oyun-detay-modal" class="oyun-modal-overlay">
+        <div class="oyun-modal-content">
+            <button class="oyun-modal-close-btn">&times;</button>
+            <div class="oyun-modal-layout">
+                <div class="oyun-modal-afis-container">
+                    <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="oyun-modal-afis">
                 </div>
-                <div class="modal-sag-panel">
-                    <h2 class="modal-oyun-adi">${oyun.ad}</h2>
-                    <p class="modal-yazar"><strong>Yazar:</strong> ${oyun.yazar || 'Bilinmiyor'}</p>
-                    <div class="modal-detay-grid">
-                        <div><strong>Yönetmen:</strong> ${oyun.yonetmen || '-'}</div>
-                        <div><strong>Yrd. Yönetmen:</strong> ${oyun.yardimci_yonetmen || '-'}</div>
-                        <div><strong>Tarih:</strong> ${oyun.tarih || '-'}</div>
-                        <div><strong>Mekan:</strong> ${oyun.mekan || '-'}</div>
-                        <div><strong>Süre:</strong> ${oyun.sure || '-'}</div>
-                        <div><strong>Kategori:</strong> ${oyun.kategori || '-'}</div>
+                <div class="oyun-modal-bilgi">
+                    <h2 class="oyun-modal-baslik">${oyun.ad}</h2>
+                    ${oyun.yazar ? `<p class="oyun-modal-yazar"><strong>Yazar:</strong> ${oyun.yazar}</p>` : ''}
+                    ${oyun.yonetmen ? `<p class="oyun-modal-yonetmen"><strong>Yönetmen:</strong> ${oyun.yonetmen}</p>` : ''}
+                    
+                    <div class="oyun-modal-detay-grid">
+                        ${oyun.tarih ? `<div><i class="fa-regular fa-calendar-days"></i><span>${oyun.tarih}</span></div>` : ''}
+                        ${oyun.saat ? `<div><i class="fa-regular fa-clock"></i><span>${oyun.saat}</span></div>` : ''}
+                        ${oyun.konum ? `<div><i class="fa-solid fa-location-dot"></i><span>${oyun.konum}</span></div>` : ''}
+                        ${oyun.süre ? `<div><i class="fa-solid fa-hourglass-half"></i><span>${oyun.süre}</span></div>` : ''}
+                        ${oyun.tur ? `<div><i class="fa-solid fa-masks-theater"></i><span>${oyun.tur}</span></div>` : ''}
                     </div>
-                    <div class="modal-aciklama">
-                        <h4>Oyun Hakkında</h4>
-                        <p>${oyun.aciklama || 'Açıklama mevcut değil.'}</p>
-                    </div>
-                    <div class="modal-oyuncular">
-                        <h4>Oyuncular</h4>
-                        <div class="oyuncu-listesi">${oyuncuListesi}</div>
-                    </div>
+
+                    ${oyun.aciklama ? `<div class="oyun-modal-aciklama"><p>${oyun.aciklama.replace(/\n/g, '<br>')}</p></div>` : ''}
+
+                    ${oyun.bilet ? `<a href="${oyun.bilet}" target="_blank" class="oyun-modal-bilet-btn">Bilet Al</a>` : ''}
+                    
+                    ${(oyun.oyuncular && oyun.oyuncular.length > 0) ? `
+                        <div class="oyun-modal-kadro">
+                            <h4>Oyuncu Kadrosu</h4>
+                            <ul>
+                                ${oyun.oyuncular.map(o => `<li><strong>${o.ad}</strong>${o.karakter ? `: ${o.karakter}` : ''}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         </div>
-    `;
-    modal.style.display = 'flex';
+    </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const modal = document.getElementById('oyun-detay-modal');
+    
+    // Kapatma fonksiyonları
+    const closeModal = () => {
+        modal.classList.add('closing');
+        setTimeout(() => modal.remove(), 300);
+    };
+
+    modal.querySelector('.oyun-modal-close-btn').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeModal();
+        }
+    }, { once: true });
+
+    // Afişe tıklayınca tam ekran yapma
+    const afisImg = modal.querySelector('.oyun-modal-afis');
+    afisImg.addEventListener('click', () => {
+        showFullscreenAfis(oyun.afis);
+    });
 }
+
+function showFullscreenAfis(src) {
+    if (!src) return;
+    
+    const fullscreenHtml = `
+        <div id="fullscreen-afis-modal" class="fullscreen-modal">
+            <span class="fullscreen-close-btn">&times;</span>
+            <img src="${src}" alt="Afiş Tam Ekran">
+        </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', fullscreenHtml);
+
+    const fullscreenModal = document.getElementById('fullscreen-afis-modal');
+    
+    const closeFullscreen = () => {
+        fullscreenModal.remove();
+    };
+
+    fullscreenModal.querySelector('.fullscreen-close-btn').addEventListener('click', closeFullscreen);
+    fullscreenModal.addEventListener('click', (e) => {
+        if (e.target === fullscreenModal) {
+            closeFullscreen();
+        }
+    });
+     document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+            closeFullscreen();
+        }
+    }, { once: true });
+}
+

@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- MASAÜSTÜ NAVBAR (Sadece geniş ekranlarda görünür) -->
@@ -23,19 +24,9 @@
             <ul class="nav-links">
                 <li><a href="index.html">Ana Sayfa</a></li>
                 <li><a href="#oyunlarimiz">Oyunlarımız</a></li>
-                <li class="dropdown">
-                    <a href="arsiv.html">Arşiv &#9662;</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="arsiv.html#2025-2026">2025-2026</a></li>
-                        <li><a href="arsiv.html#2024-2025">2024-2025</a></li>
-                        <li><a href="arsiv.html#2023-2024">2023-2024</a></li>
-                        <li><a href="arsiv.html#2022-2023">2022-2023</a></li>
-                        <li><a href="arsiv.html#2021-2022">2021-2022</a></li>
-                        <li><a href="arsiv.html#2020-2021">2020-2021</a></li>
-                    </ul>
-                </li>
+                <li><a href="arsiv.html">Arşiv</a></li>
                 <li><a href="#ekip">Ekip</a></li>
-                <li><a href="#hakkimizda">Ku Tiyatro Kimdir?</a></li>
+                <li><a href="#hakkimizda">KUTİY Kimdir?</a></li>
                 <li><a href="#iletisim">İletişim</a></li>
             </ul>
         </nav>
@@ -60,19 +51,9 @@
             <ul class="new-navbar__links">
                 <li><a href="index.html">Ana Sayfa</a></li>
                 <li><a href="#oyunlarimiz">Oyunlarımız</a></li>
-                <li class="has-submenu">
-                    <a href="arsiv.html" class="submenu-toggle">Arşiv</a>
-                    <ul class="submenu">
-                        <li><a href="arsiv.html#2025-2026">2025-2026</a></li>
-                        <li><a href="arsiv.html#2024-2025">2024-2025</a></li>
-                        <li><a href="arsiv.html#2023-2024">2023-2024</a></li>
-                        <li><a href="arsiv.html#2022-2023">2022-2023</a></li>
-                        <li><a href="arsiv.html#2021-2022">2021-2022</a></li>
-                        <li><a href="arsiv.html#2020-2021">2020-2021</a></li>
-                    </ul>
-                </li>
+                <li><a href="arsiv.html">Arşiv</a></li>
                 <li><a href="#ekip">Ekip</a></li>
-                <li><a href="#hakkimizda">Ku Tiyatro Kimdir?</a></li>
+                <li><a href="#hakkimizda">KUTİY Kimdir?</a></li>
                 <li><a href="#iletisim">İletişim</a></li>
             </ul>
         </nav>
@@ -112,6 +93,16 @@
             </a>
         </section>
 
+        <section id="hakkimizda" class="animated-section">
+            <div class="hakkimizda-baslik-logo">
+                <img src="assets/logo.png" alt="KUTİY Logo" class="hakkimizda-logo">
+                <h2>BİZ KİMİZ?</h2>
+            </div>
+            <div class="hakkimizda-icerik">
+                <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY), üniversitemizin en köklü ve aktif öğrenci kulüplerinden biridir. Amacımız, tiyatronun birleştirici gücüyle kampüs içinde sanatsal bir alan yaratmak, öğrencilerimize sahne sanatları alanında kendilerini geliştirme fırsatı sunmak ve unutulmaz performanslarla izleyicilerimizle buluşmaktır. Oda tiyatromuzda hem klasik hem de modern oyunlara kendi yorumumuzu katarak yeni ve postmodern bir sahne estetiği arayışındayız.</p>
+            </div>
+        </section>
+
         <section id="instagram-feed" class="animated-section">
             <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
             <script src="https://static.elfsight.com/platform/platform.js" async></script>
@@ -128,13 +119,6 @@
             </div>
         </section>
 
-        <section id="hakkimizda" class="animated-section">
-            <h2>Ku Tiyatro Kimdir?</h2>
-            <div class="hakkimizda-icerik">
-                <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY), üniversitemizin en köklü ve aktif öğrenci kulüplerinden biridir. Amacımız, tiyatronun birleştirici gücüyle kampüs içinde sanatsal bir alan yaratmak, öğrencilerimize sahne sanatları alanında kendilerini geliştirme fırsatı sunmak ve unutulmaz performanslarla izleyicilerimizle buluşmaktır. Oda tiyatromuzda hem klasik hem de modern oyunlara kendi yorumumuzu katarak yeni ve postmodern bir sahne estetiği arayışındayız.</p>
-            </div>
-        </section>
-
         <section id="oyunlarimiz" class="section-container">
             <h2 class="section-title">Öne Çıkan Oyunlarımız</h2>
             <div class="oyunlar-grid buyuk-kartlar">
@@ -146,12 +130,15 @@
         </section>
 
         <section id="ekip" class="animated-section">
-            <h2>EKİP</h2>
-            <div class="ekip-yonetim">
-                <!-- Başkanlar (Selen ve Uğur) buraya eklenecek -->
-            </div>
-            <div class="ekip-uyeler">
-                <!-- Diğer ekip üyeleri buraya eklenecek -->
+            <div class="ekip-container">
+                <h2>EKİP</h2>
+                <div class="ekip-grid">
+                    <!-- Tüm ekip üyeleri script.js tarafından buraya eklenecek -->
+                </div>
+                <div class="ekip-contact-section">
+                    <h3>İletişim</h3>
+                    <a href="mailto:info@kutiyatro.com" class="contact-btn-text">Ekiple İletişime Geç</a>
+                </div>
             </div>
         </section>
     </main>

@@ -104,11 +104,21 @@
 
         <!-- 3. OYUNLAR BÖLÜMÜ -->
         <section id="oyunlar" class="content-section" style="display: none;">
-            <h2>Oyunlarımız
-            </h2>
-            <div class="content-block">
-                <div id="oyunlar-list"></div>
-                <button id="add-oyun-button">Yeni Oyun Ekle</button>
+            <h2>Oyunlarımız</h2>
+
+            <div class="oyun-yonetim-container">
+                <div class="oyun-list-kolon">
+                    <h3>Tüm Oyunlar</h3>
+                    <p class="liste-aciklama">Tüm oyunlarınız burada listelenir. Sıralamaları, 'Tüm Oyunlar' sayfasındaki sırayı belirler.</p>
+                    <div id="oyunlar-list"></div>
+                    <button id="add-oyun-button" class="add-new-button"><i class="fas fa-plus"></i> Yeni Oyun Ekle</button>
+                </div>
+                
+                <div class="oyun-list-kolon">
+                    <h3>Ana Sayfada Görüntülenenler</h3>
+                    <p class="liste-aciklama">"Öne Çıkar" olarak işaretlenen oyunlar burada görünür. Buradaki sıralama, ana sayfadaki 'Öne Çıkan Oyunlarımız' bölümünün sırasını belirler.</p>
+                    <div id="one-cikan-oyunlar-list"></div>
+                </div>
             </div>
         </section>
 

@@ -92,7 +92,8 @@ body {
 .main-content {
     margin-left: 260px; /* Sidebar genişliği kadar boşluk */
     flex-grow: 1;
-    padding: 40px;
+    padding: 30px;
+    background-color: #f4f7fa;
     overflow-y: auto;
 }
 
@@ -110,6 +111,7 @@ body {
     margin-bottom: 25px;
     font-size: 1.8em;
     color: var(--primary-color);
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Genel Bakış Kartları */
@@ -240,48 +242,97 @@ button:disabled {
 /* Liste Elemanları (Oyunlar, Ekip, Arşiv) */
 .list-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: #f9f9f9;
     padding: 15px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 5px;
-    margin-bottom: 10px;
-    transition: box-shadow 0.2s;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
+
 .list-item:hover {
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.list-item.draggable {
+    cursor: grab;
+}
+
+.list-item.dragging {
+    opacity: 0.5;
+    background: #f0f8ff;
+    border: 1px dashed #007bff;
 }
 
 .list-item-content {
     display: flex;
     align-items: center;
-    gap: 15px; /* Resimle metin arası boşluk */
-    flex-grow: 1;
+    gap: 15px;
 }
 
-.list-item-content strong {
-    font-size: 1.1em;
+.list-item-preview {
+    width: 50px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.list-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-item-title {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #333;
+}
+
+.list-item-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 4px;
+}
+
+.list-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-item-actions .edit-btn,
+.list-item-actions .delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #888;
+    transition: color 0.2s;
+    padding: 5px;
+}
+
+.list-item-actions .edit-btn:hover {
     color: var(--primary-color);
 }
 
-.list-item-actions button {
-    margin-left: 10px;
-    padding: 8px 12px;
-    font-size: 0.9em;
-}
-
-.list-item-actions .edit-btn {
-    background-color: #28a745; /* Yeşil */
-}
-.list-item-actions .edit-btn:hover {
-    background-color: #218838;
-}
-
-.list-item-actions .delete-btn {
-    background-color: #dc3545; /* Kırmızı */
-}
 .list-item-actions .delete-btn:hover {
-    background-color: #c82333;
+    color: #dc3545;
+}
+
+.drag-handle {
+    font-size: 1.2rem;
+    color: #ccc;
+    cursor: grab;
+    transition: color 0.2s;
+}
+
+.list-item:hover .drag-handle {
+    color: #888;
 }
 
 /* Yeni Ekle Butonları */
@@ -318,11 +369,12 @@ button:disabled {
     box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     width: 90%;
     max-width: 600px;
-    max-height: calc(100vh - 40px);
+    max-height: 90vh;
     position: relative;
     animation: modal-fade-in 0.3s ease-out;
     margin: auto;
     overflow-y: auto;
+    background: #fff;
 }
 
 @keyframes modal-fade-in {
@@ -570,7 +622,7 @@ button:disabled {
     /* Ana içeriği tam genişlik yap */
     .main-content {
         margin-left: 0;
-        padding: 80px 20px 20px 20px; /* Mobil header yüksekliği kadar üstten boşluk */
+        padding: 80px 15px 20px 15px; /* Mobil header yüksekliği kadar üstten boşluk ve yan boşlukları azaltma */
     }
 
     /* Mobil header'ı göster */
@@ -581,24 +633,30 @@ button:disabled {
     /* Kartları tek sütuna düşür */
     .overview-cards {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     /* Liste elemanlarını daha kompakt yap */
     .list-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
+        flex-direction: row; /* İçerik ve aksiyonları yan yana tut */
+        align-items: center; /* Dikeyde ortala */
+        gap: 15px;
+    }
+    .list-item-content {
+       flex-grow: 1; /* İçerik alanının genişlemesini sağla */
     }
     .list-item-actions {
-        width: 100%;
-        display: flex;
+        width: auto; /* Otomatik genişlik */
         justify-content: flex-end;
+        flex-shrink: 0; /* Butonların küçülmesini engelle */
     }
-     .list-item-actions button {
-        flex-grow: 1;
-        text-align: center;
+     
+    /* Oyun yönetimini tek sütuna düşür */
+    .oyun-yonetim-container {
+        flex-direction: column;
+        gap: 25px;
     }
-    
+
     /* Modal mobil ayarları */
     .modal-overlay {
         padding: 10px 0;
@@ -609,7 +667,7 @@ button:disabled {
         width: 95%;
         max-width: none;
         max-height: calc(100vh - 20px);
-        padding: 20px;
+        padding: 30px 20px;
         margin: 0 auto;
     }
     
@@ -617,12 +675,127 @@ button:disabled {
         max-height: calc(70vh - 100px);
     }
     
-    #modal-fields .oyuncu-row {
+    .oyuncu-row {
         flex-direction: column;
-        gap: 5px;
+        align-items: stretch; /* Öğeleri tam genişliğe yay */
+        gap: 8px;
+        padding: 10px;
+        border: 1px solid #f0f0f0;
+        border-radius: 5px;
     }
     
-    #modal-fields .oyuncu-row input {
+    .oyuncu-row select,
+    .oyuncu-row input {
         width: 100%;
     }
+} 
+
+/* Oyuncu Kadrosu Yönetim Stilleri */
+.oyuncu-kadrosu-yonetim {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.oyuncu-kadrosu-yonetim h4 {
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.oyuncu-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.oyuncu-row select,
+.oyuncu-row input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.oyuncu-row .remove-oyuncu-btn {
+    padding: 8px 12px;
+    background-color: #fbebeb;
+    color: #dc3545;
+    border: 1px solid #f4c7c7;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.oyuncu-row .remove-oyuncu-btn:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+#add-oyuncu-row-btn {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #e6f7ff;
+    color: #007bff;
+    border: 1px solid #b3e0ff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+}
+
+#add-oyuncu-row-btn:hover {
+    background-color: #d0ebff;
+}
+
+.oyun-yonetim-container {
+    display: flex;
+    gap: 30px;
+}
+
+.oyun-list-kolon {
+    flex: 1;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.oyun-list-kolon h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: var(--primary-color);
+}
+
+.liste-aciklama {
+    font-size: 0.9rem;
+    color: #667;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    border-left: 3px solid #b3e0ff;
+    padding-left: 15px;
+}
+
+.add-new-button {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #e6f7ff;
+    color: #007bff;
+    border: 1px dashed #b3e0ff;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 600;
+}
+
+.add-new-button:hover {
+    background-color: #d0ebff;
+    border-style: solid;
+}
+
+.add-new-button i {
+    margin-right: 8px;
 } 

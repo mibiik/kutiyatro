@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Lists
     const oyunlarList = document.getElementById('oyunlar-list');
+    const oneCikanOyunlarList = document.getElementById('one-cikan-oyunlar-list');
     const ekipList = document.getElementById('ekip-list');
     const oyuncuHavuzuList = document.getElementById('oyuncu-havuzu-list');
     const arsivList = document.getElementById('arsiv-list');
@@ -140,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Lists
         renderOyunlar();
+        renderOneCikanOyunlar();
         renderEkip();
         renderOyuncuHavuzu();
         renderArsiv();
@@ -149,19 +151,31 @@ document.addEventListener('DOMContentLoaded', () => {
         oyunlarList.innerHTML = '';
         siteContent.oyunlar?.forEach((item, index) => {
             const itemDiv = createDraggableListItem(item, index, 'oyun');
-            itemDiv.querySelector('.edit-btn').addEventListener('click', () => handleOpenModal('oyun', index));
-            itemDiv.querySelector('.delete-btn').addEventListener('click', () => handleDeleteItem('oyun', index));
             oyunlarList.appendChild(itemDiv);
         });
         addDragAndDropListeners(oyunlarList, 'oyun');
+    };
+
+    const renderOneCikanOyunlar = () => {
+        if (!oneCikanOyunlarList) return;
+        oneCikanOyunlarList.innerHTML = '';
+        const oneCikanOyunlar = siteContent.oyunlar?.filter(o => o.oneCikan) || [];
+        
+        oneCikanOyunlar.forEach(item => {
+            // Find the original index to pass to handlers
+            const originalIndex = siteContent.oyunlar.findIndex(o => o.id === item.id);
+            if (originalIndex > -1) {
+                const itemDiv = createDraggableListItem(item, originalIndex, 'oyun');
+                oneCikanOyunlarList.appendChild(itemDiv);
+            }
+        });
+        addDragAndDropListeners(oneCikanOyunlarList, 'oyun');
     };
 
     const renderEkip = () => {
         ekipList.innerHTML = '';
         siteContent.ekip?.forEach((item, index) => {
             const itemDiv = createDraggableListItem(item, index, 'ekip');
-            itemDiv.querySelector('.edit-btn').addEventListener('click', () => handleOpenModal('ekip', index));
-            itemDiv.querySelector('.delete-btn').addEventListener('click', () => handleDeleteItem('ekip', index));
             ekipList.appendChild(itemDiv);
         });
         addDragAndDropListeners(ekipList, 'ekip');
@@ -188,8 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Gerçek index'i bul (sıralanmış listede değil, orijinal listede)
             const originalIndex = siteContent.oyuncu_havuzu.findIndex(o => o.id === item.id);
             const itemDiv = createDraggableListItem(item, originalIndex, 'oyuncu');
-            itemDiv.querySelector('.edit-btn').addEventListener('click', () => handleOpenModal('oyuncu', originalIndex));
-            itemDiv.querySelector('.delete-btn').addEventListener('click', () => handleDeleteItem('oyuncu', originalIndex));
             oyuncuHavuzuList.appendChild(itemDiv);
         });
         addDragAndDropListeners(oyuncuHavuzuList, 'oyuncu');
@@ -306,73 +318,71 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderArsiv = () => {
         arsivList.innerHTML = '';
         siteContent.arsiv?.forEach((item, index) => {
-            const itemDiv = createListItem(item, 'arsiv');
-            itemDiv.querySelector('.edit-btn').addEventListener('click', () => {
-                window.location.href = `sezon-detay.html?sezon=${index}`;
-            });
-            itemDiv.querySelector('.delete-btn').addEventListener('click', () => handleDeleteItem('arsiv', index));
+            const itemDiv = createDraggableListItem(item, index, 'arsiv');
             arsivList.appendChild(itemDiv);
         });
     };
 
-    const createListItem = (item, type) => {
+    const createDraggableListItem = (item, index, type) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'list-item';
+        itemDiv.className = 'list-item draggable';
+        itemDiv.dataset.index = index;
+        itemDiv.dataset.id = item.id || `item_${index}`;
+        itemDiv.draggable = true;
 
-        let contentHtml = '';
         let previewHtml = '';
-
-        // Ekip ve oyuncu için önizleme resmi oluştur
-        if ((type === 'ekip' || type === 'oyuncu') && item.img) {
-            previewHtml = `<img src="${item.img}" alt="${item.ad}" class="list-item-preview">`;
+        if (type === 'oyun' && item.afis) {
+            previewHtml = `<img src="${item.afis}" class="list-item-preview" alt="Önizleme">`;
+        } else if ((type === 'ekip' || type === 'oyuncu') && item.img) {
+            previewHtml = `<img src="${item.img}" class="list-item-preview" alt="Önizleme">`;
         }
 
-        // Metin içeriğini oluştur
-        if (type === 'oyun') {
-            const kategoriText = item.kategori === 'oda' ? 'Oda Tiyatrosu' : 'Ana Oyun';
-            const durumText = getDurumText(item.durum);
-            contentHtml = `<div><strong>${item.ad}</strong><br>${item.yazar || 'Yazar belirtilmemiş'} - ${kategoriText}<br>${item.tarih || 'Tarih TBA'} - ${durumText}</div>`;
-        } else if (type === 'ekip') {
-            contentHtml = `<div><strong>${item.ad}</strong><br>${item.rol}</div>`;
-        } else if (type === 'oyuncu') {
-            const durumBadge = item.durum === 'aktif' ? '🟢' : item.durum === 'pasif' ? '🟡' : '🔴';
-            const roller = item.roller || [item.tip]; // Çoklu rol veya eski sistem
-            
-            // Ana kategori belirle
-            let kategoriLabel = '';
-            if (roller.includes('baskan')) {
-                kategoriLabel = '🏛️ BAŞKAN';
-            } else if (roller.some(rol => ['baskan_yardimcisi', 'sekreter', 'sayman', 'kurul_uyesi'].includes(rol))) {
-                kategoriLabel = '👑 YÖNETİM KURULU';
-            } else if (roller.some(rol => ['yonetmen', 'yardimci_yonetmen', 'oyuncu', 'sahne_direktoru', 'teknik_sorumlu', 'isik_ses', 'sahne_tasarim', 'kostum_makyaj', 'sosyal_medya', 'grafik_tasarim', 'web_sorumlu', 'fotografci', 'aktif_uye'].includes(rol))) {
-                kategoriLabel = '🎭 AKTİF ÜYE';
-            } else {
-                kategoriLabel = '👤 ÜYE';
-            }
-            
-            // Rollerin görünen adlarını birleştir
-            const rolAdlari = roller.map(rol => getRolDisplayName(rol)).join(', ');
-            
-            contentHtml = `<div><strong>${item.ad}</strong><br><span style="font-weight: bold; color: #8B4513;">${kategoriLabel}</span><br>${rolAdlari}<br>${item.sinif} - ${item.bolum}<br>${durumBadge} ${item.durum.charAt(0).toUpperCase() + item.durum.slice(1)}</div>`;
-        } else if (type === 'arsiv') {
-             contentHtml = `<div><strong>${item.sezon}</strong><br>${item.oyunlar.length} oyun, ${item.fotograflar.length} fotoğraf</div>`;
-        }
+
+        const roleOrTitle = type === 'ekip' ? item.rol : (type === 'oyun' ? item.yazar : getRolDisplayName(getPrimaryRoleType(item.roller || [])));
         
         itemDiv.innerHTML = `
-            <div class="list-item-content">${previewHtml}${contentHtml}</div>
+            <div class="list-item-content">
+                 ${previewHtml}
+                <div class="list-item-info">
+                    <span class="list-item-title">${item.ad || 'İsimsiz'}</span>
+                    <span class="list-item-subtitle">${roleOrTitle || ''}</span>
+                </div>
+            </div>
             <div class="list-item-actions">
-                <button class="edit-btn">Düzenle</button>
-                <button class="delete-btn">Sil</button>
+                <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                 <i class="fas fa-grip-vertical drag-handle"></i>
             </div>
         `;
-        return itemDiv;
-    };
-    
-    const createDraggableListItem = (item, index, type) => {
-        const itemDiv = createListItem(item, type);
-        itemDiv.setAttribute('draggable', 'true');
-        itemDiv.dataset.index = index;
-        itemDiv.dataset.type = type;
+
+        // BUTONLARA İŞLEVSELLİK EKLE
+        const editBtn = itemDiv.querySelector('.edit-btn');
+        if (editBtn) {
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Sürüklemeyi tetiklemesin
+                
+                // Arşiv düzenlemesi için yeni sayfaya yönlendir
+                if (type === 'arsiv') {
+                    const sezonId = siteContent.arsiv[index]?.id;
+                    if(sezonId) {
+                        window.location.href = `sezon-detay.html?id=${sezonId}`;
+                    }
+                    return; // Modal açmayı engelle
+                }
+
+                handleOpenModal(type, index)
+            });
+        }
+        
+        const deleteBtn = itemDiv.querySelector('.delete-btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Sürüklemeyi tetiklemesin
+                handleDeleteItem(type, index)
+            });
+        }
+
+
         return itemDiv;
     };
 
@@ -421,127 +431,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleModalFormSubmit = async (e) => {
         e.preventDefault();
         const { type, index } = currentEdit;
-        const isNew = index === -1;
         const arrayKey = getArrayKeyFromType(type);
         if (!arrayKey) return;
 
-        let itemToUpdate;
+        let itemData = (index > -1) ? { ...siteContent[arrayKey][index] } : {};
 
-        if (isNew) {
-            itemToUpdate = {};
+        // Formdaki tüm inputları/textarea'ları/select'leri işle
+        const inputs = modalFields.querySelectorAll('input, textarea, select');
+        for (const input of inputs) {
+            const key = input.id.split('-').pop();
+            if (input.type === 'checkbox') {
+                if (key === 'roller') {
+                    if (input.checked) {
+                        if (!itemData.roller) itemData.roller = [];
+                        if (!itemData.roller.includes(input.value)) {
+                            itemData.roller.push(input.value);
+                        }
         } else {
-            itemToUpdate = siteContent[arrayKey][index];
+                        if (itemData.roller) {
+                            itemData.roller = itemData.roller.filter(r => r !== input.value);
+                        }
+                    }
+                } else {
+                     itemData[key] = input.checked;
+                }
+            } else if (input.type === 'file') {
+                if (input.files && input.files[0]) {
+                    const uploadedPath = await uploadImage(input.files[0]);
+                    if (uploadedPath) {
+                        itemData[key] = uploadedPath;
+                    }
+                }
+            } else if (input.tagName.toLowerCase() === 'select' && input.multiple) {
+                 itemData[key] = Array.from(input.selectedOptions).map(option => option.value);
+            }
+            else {
+                // 'id'si 'modal-tur' olanı 'tur' olarak kaydet
+                const finalKey = input.id === 'modal-tur' ? 'tur' : key;
+                itemData[finalKey] = input.value;
+            }
         }
-
+        
+        // Oyuncu kadrosunu işle
         if (type === 'oyun') {
-            itemToUpdate.ad = document.getElementById('oyun-ad').value;
-            itemToUpdate.yazar = document.getElementById('oyun-yazar').value;
-            itemToUpdate.yonetmen = document.getElementById('oyun-yonetmen').value;
-            itemToUpdate.yardimci_yonetmen = document.getElementById('oyun-yardimci-yonetmen').value;
-            itemToUpdate.kategori = document.getElementById('oyun-kategori').value;
-            itemToUpdate.tarih = document.getElementById('oyun-tarih').value;
-            itemToUpdate.mekan = document.getElementById('oyun-mekan').value;
-            itemToUpdate.sure = document.getElementById('oyun-sure').value;
-            itemToUpdate.durum = document.getElementById('oyun-durum').value;
-            itemToUpdate.aciklama = document.getElementById('oyun-aciklama').value;
-            itemToUpdate.bilet = document.getElementById('oyun-bilet').value;
-            itemToUpdate.anasayfadaGoster = document.getElementById('oyun-anasayfada-goster').checked;
-
-            const afisInput = document.getElementById('oyun-afis');
-            if (afisInput.files.length > 0) {
-                const newPath = await uploadImage(afisInput.files[0]);
-                if (newPath) itemToUpdate.afis = newPath;
-            }
-
-            const oyuncuRows = document.querySelectorAll('.oyuncu-row');
-            itemToUpdate.oyuncular = [];
+            itemData.oyuncular = [];
+            const oyuncuRows = modalFields.querySelectorAll('.oyuncu-row');
             oyuncuRows.forEach(row => {
-                const selectElement = row.querySelector('[data-field="oyuncu-select"]');
-                const adInput = row.querySelector('[data-field="ad"]');
-                const karakterInput = row.querySelector('[data-field="karakter"]');
-                
-                let oyuncuAdi = '';
-                if (selectElement && selectElement.value && selectElement.value !== 'manuel') {
-                    oyuncuAdi = selectElement.value;
-                } else if (adInput && adInput.value.trim()) {
-                    oyuncuAdi = adInput.value.trim();
-                }
-                
-                if (oyuncuAdi && karakterInput && karakterInput.value.trim()) {
-                    itemToUpdate.oyuncular.push({
-                        ad: oyuncuAdi,
-                        karakter: karakterInput.value.trim()
-                    });
+                const oyuncuAdi = row.querySelector('[data-field="oyuncu-ad"]').value;
+                const karakter = row.querySelector('[data-field="karakter"]').value;
+                if (oyuncuAdi) { // Sadece oyuncu adının olması yeterli
+                    itemData.oyuncular.push({ ad: oyuncuAdi, karakter: karakter || '' }); // Karakter boşsa boş string olarak kaydet
                 }
             });
-
-            if (isNew) {
-                itemToUpdate.id = Date.now();
-                itemToUpdate.fotograflar = [];
-            }
-        } else if (type === 'oyuncu') {
-            itemToUpdate.ad = document.getElementById('oyuncu-ad').value;
-            itemToUpdate.telefon = document.getElementById('oyuncu-telefon').value;
-            itemToUpdate.email = document.getElementById('oyuncu-email').value;
-            itemToUpdate.sinif = document.getElementById('oyuncu-sinif').value;
-            itemToUpdate.bolum = document.getElementById('oyuncu-bolum').value;
-            itemToUpdate.durum = document.getElementById('oyuncu-durum').value;
-            itemToUpdate.katilim_tarihi = document.getElementById('oyuncu-katilim').value;
-            
-            const selectedRoller = [];
-            const checkboxes = document.querySelectorAll('#oyuncu-roller-container input[type="checkbox"]:checked');
-            checkboxes.forEach(checkbox => {
-                selectedRoller.push(checkbox.value);
-            });
-            itemToUpdate.roller = selectedRoller;
-            
-            itemToUpdate.tip = getPrimaryRoleType(selectedRoller);
-            
-            const ozelliklerText = document.getElementById('oyuncu-ozellikler').value;
-            itemToUpdate.ozellikler = ozelliklerText ? ozelliklerText.split(',').map(s => s.trim()).filter(s => s) : [];
-            
-            const fileInput = document.getElementById('oyuncu-foto');
-            if (fileInput.files.length > 0) {
-                const newPath = await uploadImage(fileInput.files[0]);
-                if (newPath) itemToUpdate.img = newPath;
-            } else if (isNew) {
-                itemToUpdate.img = 'assets/pngegg.png';
-            }
-            
-            if (isNew) {
-                itemToUpdate.id = Date.now();
-            }
-        } else if (type === 'ekip') {
-            itemToUpdate.ad = document.getElementById('ekip-ad').value;
-            itemToUpdate.rol = document.getElementById('ekip-gorev').value;
-            itemToUpdate.email = document.getElementById('ekip-email').value;
-            
-            itemToUpdate.telefon = document.getElementById('ekip-telefon').value;
-            itemToUpdate.sinif = document.getElementById('ekip-sinif').value;
-            itemToUpdate.bolum = document.getElementById('ekip-bolum').value;
-            itemToUpdate.katilim_tarihi = document.getElementById('ekip-katilim').value;
-            
-            const ozelliklerText = document.getElementById('ekip-ozellikler').value;
-            itemToUpdate.ozellikler = ozelliklerText ? ozelliklerText.split(',').map(s => s.trim()).filter(s => s) : [itemToUpdate.rol];
-            
-            const fileInput = document.getElementById('ekip-foto');
-            if (fileInput.files.length > 0) {
-                const newPath = await uploadImage(fileInput.files[0]);
-                if (newPath) itemToUpdate.img = newPath;
-            } else if (isNew) {
-                itemToUpdate.img = 'assets/pngegg.png';
-            }
-            
-            if (isNew) {
-                itemToUpdate.id = Date.now();
-            }
         }
 
-        if (isNew) {
-            if (!siteContent[arrayKey]) {
-                siteContent[arrayKey] = [];
-            }
-            siteContent[arrayKey].push(itemToUpdate);
+        // ID'si yoksa yeni bir ID oluştur
+        if (!itemData.id) {
+            itemData.id = `item_${Date.now()}`;
+        }
+
+        if (index > -1) {
+            siteContent[arrayKey][index] = itemData;
+        } else {
+            if (!siteContent[arrayKey]) siteContent[arrayKey] = [];
+            siteContent[arrayKey].push(itemData);
+        }
+
+        if (type === 'ekip') {
+             syncEkipToOyuncuHavuzu(itemData);
         }
 
         await saveContent();
@@ -549,21 +506,38 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const handleDeleteItem = (type, index) => {
-        const itemArrayKey = getArrayKeyFromType(type);
-        if (!itemArrayKey) return;
-        const itemData = siteContent[itemArrayKey][index];
-        const itemName = itemData.ad || itemData.sezon;
-        if (confirm(`'${itemName}' adlı öğeyi silmek istediğinizden emin misiniz?`)) {
-            siteContent[itemArrayKey].splice(index, 1);
+        const arrayKey = getArrayKeyFromType(type);
+        if (!siteContent[arrayKey] || !siteContent[arrayKey][index]) return;
+
+        const itemName = siteContent[arrayKey][index].ad || siteContent[arrayKey][index].sezon || 'Öğe';
+        
+        if (confirm(`'${itemName}' adlı öğeyi silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.`)) {
+            const itemToDelete = siteContent[arrayKey][index];
+            
+            siteContent[arrayKey].splice(index, 1);
+            
+            if (type === 'ekip') {
+                syncEkipToOyuncuHavuzu(itemToDelete, true); // isDelete = true
+            }
+            
             saveContent();
         }
     };
     
     const handleAddSezon = () => {
-        const newSezonName = prompt("Yeni sezon için bir isim girin (örn: 2023-2024):");
-        if (newSezonName) {
-            siteContent.arsiv = siteContent.arsiv || [];
-            siteContent.arsiv.push({ sezon: newSezonName, oyunlar: [], fotograflar: [] });
+        const sezonAdi = prompt("Yeni sezonun adını girin (Örn: 2023-2024):");
+        if (sezonAdi && sezonAdi.trim() !== '') {
+            const newSezon = {
+                id: `sezon_${Date.now()}`,
+                sezon: sezonAdi.trim(),
+                aciklama: "",
+                icerikler: [] // Yeni esnek içerik dizisi
+            };
+
+            if (!siteContent.arsiv) {
+                siteContent.arsiv = [];
+            }
+            siteContent.arsiv.unshift(newSezon); // Yeni sezonu başa ekle
             saveContent();
         }
     };
@@ -571,97 +545,120 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleOpenModal = (type, index) => {
         currentEdit = { type, index };
         const isNew = index === -1;
-        const arrayKey = getArrayKeyFromType(type);
-        if (!arrayKey) return;
-
-        const item = isNew ? {} : siteContent[arrayKey][index];
+        const item = isNew ? {} : siteContent[getArrayKeyFromType(type)][index];
         
-        const typeNames = {
-            'oyun': 'Oyun',
-            'ekip': 'Kurul Üyesi', 
-            'oyuncu': 'Oyuncu',
-            'arsiv': 'Arşiv'
-        };
-        modalTitle.textContent = `${isNew ? 'Yeni Ekle' : 'Düzenle'}: ${typeNames[type] || type.charAt(0).toUpperCase() + type.slice(1)}`;
-        modalFields.innerHTML = ''; 
+        modalTitle.textContent = `${isNew ? 'Yeni Ekle' : 'Düzenle'}: ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+        modalFields.innerHTML = ''; // Formu temizle
 
-        let fieldsHtml = '';
-        if (type === 'oyun') {
-            const afisPreview = item.afis ? `<p>Mevcut Afiş:</p><img src="${item.afis}" alt="Mevcut afiş" style="max-width: 100px;">` : '';
-            fieldsHtml = `
-                <label for="oyun-ad">Oyun Adı:</label>
-                <input type="text" id="oyun-ad" value="${item.ad || ''}" required>
-                
-                <label for="oyun-yazar">Yazar:</label>
-                <input type="text" id="oyun-yazar" value="${item.yazar || ''}" required>
-                
-                <label for="oyun-yonetmen">Yönetmen:</label>
-                <input type="text" id="oyun-yonetmen" value="${item.yonetmen || ''}" required>
-                
-                <label for="oyun-yardimci-yonetmen">Yardımcı Yönetmen (Opsiyonel):</label>
-                <input type="text" id="oyun-yardimci-yonetmen" value="${item.yardimci_yonetmen || ''}">
-                
-                <label for="oyun-kategori">Kategori:</label>
-                <select id="oyun-kategori" required>
-                    <option value="ana" ${item.kategori === 'ana' ? 'selected' : ''}>Ana Oyun</option>
-                    <option value="oda" ${item.kategori === 'oda' ? 'selected' : ''}>Oda Tiyatrosu</option>
-                </select>
-                
-                <label for="oyun-tarih">Tarih:</label>
-                <input type="text" id="oyun-tarih" value="${item.tarih || ''}">
-                
-                <label for="oyun-mekan">Mekan:</label>
-                <input type="text" id="oyun-mekan" value="${item.mekan || ''}">
-                
-                <label for="oyun-sure">Süre (örn: 120 dakika):</label>
-                <input type="text" id="oyun-sure" value="${item.sure || ''}">
-                
-                <label for="oyun-durum">Durum:</label>
-                <select id="oyun-durum" required>
-                    <option value="yaklasiyor" ${item.durum === 'yaklasiyor' ? 'selected' : ''}>Yaklaşan</option>
-                    <option value="oynaniyor" ${item.durum === 'oynaniyor' ? 'selected' : ''}>Sahnede</option>
-                    <option value="bitmis" ${item.durum === 'bitmis' ? 'selected' : ''}>Tamamlandı</option>
-                </select>
-                
-                <label for="oyun-aciklama">Açıklama:</label>
-                <textarea id="oyun-aciklama" rows="4">${item.aciklama || ''}</textarea>
-                
-                <label for="oyun-afis">Afiş Yükle:</label>
-                <input type="file" id="oyun-afis" accept="image/*">
-                <div id="afis-preview-container">${afisPreview}</div>
-                
-                <label for="oyun-bilet">Bilet Linki (Opsiyonel):</label>
-                <input type="url" id="oyun-bilet" value="${item.bilet || ''}">
-                
-                <div style="margin-top: 15px; padding: 10px; background-color: #f0f8ff; border-radius: 5px;">
-                    <label style="display: flex; align-items: center; gap: 10px;">
-                        <input type="checkbox" id="oyun-anasayfada-goster" ${item.anasayfadaGoster ? 'checked' : ''} style="width: 20px; height: 20px;">
-                        <strong>Bu oyunu anasayfada "Oyunlarımız" bölümünde göster</strong>
-                    </label>
-                </div>
-                
-                <label>Oyuncu Kadrosu:</label>
-                <div id="oyuncular-container" style="border: 1px solid #ddd; border-radius: 5px; padding: 15px; background: #f9f9f9;">
-                    ${(item.oyuncular || []).map((oyuncu, i) => `
-                        <div class="oyuncu-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center; background: white; padding: 10px; border-radius: 5px; border: 1px solid #eee;">
-                            <select data-field="oyuncu-select" data-index="${i}" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" onchange="updateOyuncuAd(${i})">
-                                <option value="">Oyuncu Havuzundan Seç</option>
-                                ${siteContent.oyuncu_havuzu?.filter(p => p.durum === 'aktif').map(player => 
-                                    `<option value="${player.ad}" ${player.ad === oyuncu.ad ? 'selected' : ''}>${player.ad} (${player.sinif} - ${player.bolum})</option>`
-                                ).join('')}
-                                <option value="manuel" ${!siteContent.oyuncu_havuzu?.find(p => p.ad === oyuncu.ad) && oyuncu.ad ? 'selected' : ''}>Manuel Giriş</option>
+        // Dinamik form oluşturma
+        switch (type) {
+            case 'oyun':
+                const oyuncuKadroHtml = (item.oyuncular || []).map((oyuncu, index) => {
+                    return `
+                        <div class="oyuncu-row" data-index="${index}">
+                            <select data-field="oyuncu-ad">
+                                <option value="">Havuzdan Seç</option>
+                                ${siteContent.oyuncu_havuzu?.map(p => `<option value="${p.ad}" ${p.ad === oyuncu.ad ? 'selected' : ''}>${p.ad}</option>`).join('')}
                             </select>
-                            <input type="text" placeholder="Oyuncu Adı" value="${oyuncu.ad || ''}" data-field="ad" data-index="${i}" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px; ${siteContent.oyuncu_havuzu?.find(p => p.ad === oyuncu.ad) ? 'display: none;' : ''}">
-                            <input type="text" placeholder="Karakter Adı" value="${oyuncu.karakter || ''}" data-field="karakter" data-index="${i}" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                            <button type="button" onclick="removeOyuncu(${i})" style="padding: 8px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Sil</button>
+                            <input type="text" data-field="karakter" placeholder="Karakter Adı" value="${oyuncu.karakter || ''}">
+                            <button type="button" class="remove-oyuncu-btn">Sil</button>
                         </div>
-                    `).join('')}
-                </div>
-                <button type="button" onclick="addOyuncu()" style="margin-top: 10px; padding: 10px 15px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">+ Oyuncu Ekle</button>
-            `;
-        } else if (type === 'oyuncu') {
+                    `;
+                }).join('');
+
+                modalFields.innerHTML = `
+                    <label for="modal-ad">Oyun Adı:</label>
+                    <input type="text" id="modal-ad" value="${item.ad || ''}" required>
+                     <label for="modal-tur">Tür:</label>
+                    <select id="modal-tur">
+                        <option value="Ana Sahne" ${item.tur === 'Ana Sahne' ? 'selected' : ''}>Ana Sahne Oyunu</option>
+                        <option value="Oda Tiyatrosu" ${item.tur === 'Oda Tiyatrosu' ? 'selected' : ''}>Oda Tiyatrosu</option>
+                        <option value="Dış Oyun" ${item.tur === 'Dış Oyun' ? 'selected' : ''}>Dış Oyun</option>
+                    </select>
+                    <label for="modal-yonetmen">Yönetmen:</label>
+                    <input type="text" id="modal-yonetmen" value="${item.yonetmen || ''}">
+                    <label for="modal-yazar">Yazar:</label>
+                    <input type="text" id="modal-yazar" value="${item.yazar || ''}">
+                    <label for="modal-aciklama">Açıklama:</label>
+                    <textarea id="modal-aciklama" rows="4">${item.aciklama || ''}</textarea>
+                    <label for="modal-tarih">Tarih:</label>
+                    <input type="text" id="modal-tarih" value="${item.tarih || ''}" placeholder="Örn: 1-2 Ocak 2024">
+                     <label for="modal-saat">Saat:</label>
+                    <input type="text" id="modal-saat" value="${item.saat || ''}" placeholder="Örn: 20:00">
+                    <label for="modal-konum">Konum:</label>
+                    <input type="text" id="modal-konum" value="${item.konum || ''}" placeholder="Örn: Koç Üniversitesi Sevgi Gönül Oditoryumu">
+                     <label for="modal-bilet">Bilet Linki:</label>
+                    <input type="url" id="modal-bilet" value="${item.bilet || ''}" placeholder="https://bilet.ix/link">
+                    <label for="modal-afis">Afiş:</label>
+                    <input type="file" id="modal-afis" accept="image/*">
+                    ${item.afis ? `<img src="${item.afis}" alt="Mevcut Afiş" style="max-width: 100px; margin-top: 10px;">` : ''}
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="modal-oneCikan" ${item.oneCikan ? 'checked' : ''}>
+                        <label for="modal-oneCikan">Ana Sayfada Öne Çıkar</label>
+                    </div>
+
+                    <div class="oyuncu-kadrosu-yonetim">
+                        <h4>Oyuncu Kadrosu</h4>
+                        <div id="oyuncu-kadrosu-list">
+                            ${oyuncuKadroHtml}
+                        </div>
+                        <button type="button" id="add-oyuncu-row-btn">Oyuncu Ekle</button>
+                    </div>
+                `;
+
+                // Add event listeners for dynamic cast rows
+                document.getElementById('add-oyuncu-row-btn').addEventListener('click', addOyuncuRow);
+                modalFields.querySelectorAll('.remove-oyuncu-btn').forEach(btn => btn.addEventListener('click', (e) => removeOyuncuRow(e.target)));
+
+                break;
+            case 'ekip':
+                // Find the corresponding player data from the pool, or create an empty object
+                const oyuncuData = siteContent.oyuncu_havuzu?.find(p => p.ad === item.ad) || {};
+
+                modalFields.innerHTML = `
+                    <div style="background: #f0f8ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #0066cc;">
+                        <h4 style="margin: 0 0 10px 0; color: #0066cc;">💡 Yönetim Kurulu & Oyuncu Havuzu Bağlantılıdır</h4>
+                        <p style="margin: 0; color: #333; font-size: 14px;">Yönetim kurulu üyeleri otomatik olarak oyuncu havuzunda da yer alır. Burada yapılan değişiklikler (isim hariç) oyuncu havuzundaki profilini de günceller.</p>
+                    </div>
+                    
+                    <h3 style="color: var(--primary-color); margin-bottom: 15px;">👥 Yönetim Kurulu Bilgileri</h3>
+                    <label for="modal-ad">Ad Soyad:</label>
+                    <input type="text" id="modal-ad" value="${item.ad || ''}" required>
+                    
+                    <label for="modal-rol">Görev/Rol:</label>
+                    <input type="text" id="modal-rol" value="${item.rol || ''}" required> 
+                    
+                    <h3 style="color: var(--primary-color); margin: 25px 0 15px 0;">🎭 Oyuncu Havuzu Bilgileri</h3>
+                    
+                    <label for="modal-email">E-mail:</label>
+                    <input type="email" id="modal-email" value="${item.email || oyuncuData.email || ''}">
+                    
+                    <label for="modal-telefon">Telefon:</label>
+                    <input type="tel" id="modal-telefon" value="${oyuncuData.telefon || ''}">
+                    
+                    <label for="modal-sinif">Sınıf:</label>
+                    <select id="modal-sinif">
+                        <option value="">Seçiniz...</option>
+                        <option value="1. Sınıf" ${oyuncuData.sinif === '1. Sınıf' ? 'selected' : ''}>1. Sınıf</option>
+                        <option value="2. Sınıf" ${oyuncuData.sinif === '2. Sınıf' ? 'selected' : ''}>2. Sınıf</option>
+                        <option value="3. Sınıf" ${oyuncuData.sinif === '3. Sınıf' ? 'selected' : ''}>3. Sınıf</option>
+                        <option value="4. Sınıf" ${oyuncuData.sinif === '4. Sınıf' ? 'selected' : ''}>4. Sınıf</option>
+                        <option value="Yüksek Lisans" ${oyuncuData.sinif === 'Yüksek Lisans' ? 'selected' : ''}>Yüksek Lisans</option>
+                        <option value="Doktora" ${oyuncuData.sinif === 'Doktora' ? 'selected' : ''}>Doktora</option>
+                        <option value="Mezun" ${oyuncuData.sinif === 'Mezun' ? 'selected' : ''}>Mezun</option>
+                     </select>
+                    
+                    <label for="modal-bolum">Bölüm:</label>
+                    <input type="text" id="modal-bolum" value="${oyuncuData.bolum || ''}">
+                    
+                    <label for="modal-img">Fotoğraf:</label>
+                    <input type="file" id="modal-img" accept="image/*">
+                    ${item.img ? `<img src="${item.img}" alt="Mevcut Fotoğraf" style="max-width: 100px; margin-top: 10px;">` : ''}
+                `;
+                break;
+            case 'oyuncu':
             const previewSrc = item.img && item.img !== 'assets/pngegg.png' ? item.img : '';
-            fieldsHtml = `
+                modalFields.innerHTML = `
                 <label for="oyuncu-ad">Ad Soyad:</label>
                 <input type="text" id="oyuncu-ad" value="${item.ad || ''}" required>
                 
@@ -737,63 +734,36 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${previewSrc ? `<p>Mevcut Foto:</p><img src="${previewSrc}" alt="Mevcut fotoğraf">` : ''}
                 </div>
             `;
-        } else if (type === 'ekip') {
-            const previewSrc = item.img && item.img !== 'assets/pngegg.png' ? item.img : '';
-            const oyuncuData = siteContent.oyuncu_havuzu?.find(oyuncu => oyuncu.ad === item.ad) || {};
-            
-            fieldsHtml = `
-                <div style="background: #f0f8ff; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 4px solid #0066cc;">
-                    <h4 style="margin: 0 0 10px 0; color: #0066cc;">💡 Bu kişi aynı zamanda oyuncu havuzuna da eklenecek</h4>
-                    <p style="margin: 0; color: #333; font-size: 14px;">Yönetim kurulu üyeleri otomatik olarak oyuncu havuzunda da yer alır ve oyunlarda oynayabilir.</p>
-                </div>
-                
-                <h3 style="color: var(--primary-color); margin-bottom: 15px;">👥 Yönetim Kurulu Bilgileri</h3>
-                <label for="ekip-ad">Ad Soyad:</label>
-                <input type="text" id="ekip-ad" value="${item.ad || ''}" required>
-                
-                <label for="ekip-gorev">Görev/Rol:</label>
-                <input type="text" id="ekip-gorev" value="${item.rol || ''}" required> 
-                
-                <label for="ekip-email">E-mail:</label>
-                <input type="email" id="ekip-email" value="${item.email || oyuncuData.email || ''}">
-                
-                <h3 style="color: var(--primary-color); margin: 25px 0 15px 0;">🎭 Oyuncu Havuzu Bilgileri</h3>
-                <label for="ekip-telefon">Telefon:</label>
-                <input type="tel" id="ekip-telefon" value="${oyuncuData.telefon || ''}">
-                
-                <label for="ekip-sinif">Sınıf:</label>
-                <select id="ekip-sinif">
-                    <option value="1. Sınıf" ${oyuncuData.sinif === '1. Sınıf' ? 'selected' : ''}>1. Sınıf</option>
-                    <option value="2. Sınıf" ${oyuncuData.sinif === '2. Sınıf' ? 'selected' : ''}>2. Sınıf</option>
-                    <option value="3. Sınıf" ${oyuncuData.sinif === '3. Sınıf' ? 'selected' : ''}>3. Sınıf</option>
-                    <option value="4. Sınıf" ${oyuncuData.sinif === '4. Sınıf' ? 'selected' : ''}>4. Sınıf</option>
-                    <option value="Yüksek Lisans" ${oyuncuData.sinif === 'Yüksek Lisans' ? 'selected' : ''}>Yüksek Lisans</option>
-                    <option value="Doktora" ${oyuncuData.sinif === 'Doktora' ? 'selected' : ''}>Doktora</option>
-                    <option value="Mezun" ${oyuncuData.sinif === 'Mezun' ? 'selected' : ''}>Mezun</option>
-                </select>
-                
-                <label for="ekip-bolum">Bölüm:</label>
-                <input type="text" id="ekip-bolum" value="${oyuncuData.bolum || ''}">
-                
-                <label for="ekip-katilim">Katılım Tarihi:</label>
-                <input type="date" id="ekip-katilim" value="${oyuncuData.katilim_tarihi || ''}">
-                
-                <label for="ekip-ozellikler">Özellikler/Yetenekler (virgülle ayırın):</label>
-                <input type="text" id="ekip-ozellikler" value="${(oyuncuData.ozellikler || []).join(', ')}" placeholder="Yönetmenlik, Oyunculuk, Liderlik">
-                
-                <label for="ekip-foto">Fotoğraf Yükle:</label>
-                <input type="file" id="ekip-foto" accept="image/*">
-                <div id="modal-preview-container">
-                    ${previewSrc ? `<p>Mevcut Foto:</p><img src="${previewSrc}" alt="Mevcut fotoğraf">` : ''}
-                </div>
-            `;
+                break;
         }
-        modalFields.innerHTML = fieldsHtml;
         modal.style.display = 'flex';
     };
 
+    const addOyuncuRow = () => {
+        const list = document.getElementById('oyuncu-kadrosu-list');
+        const newIndex = list.children.length;
+        const row = document.createElement('div');
+        row.className = 'oyuncu-row';
+        row.dataset.index = newIndex;
+        row.innerHTML = `
+            <select data-field="oyuncu-ad">
+                <option value="">Havuzdan Seç</option>
+                ${siteContent.oyuncu_havuzu?.map(p => `<option value="${p.ad}">${p.ad}</option>`).join('')}
+                </select>
+            <input type="text" data-field="karakter" placeholder="Karakter Adı">
+            <button type="button" class="remove-oyuncu-btn">Sil</button>
+        `;
+        row.querySelector('.remove-oyuncu-btn').addEventListener('click', (e) => removeOyuncuRow(e.target));
+        list.appendChild(row);
+    }
+
+    const removeOyuncuRow = (button) => {
+        button.closest('.oyuncu-row').remove();
+    }
+
     const closeModal = () => {
         modal.style.display = 'none';
+        modalFields.innerHTML = '';
     };
 
     const toggleSidebar = () => {
@@ -804,28 +774,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------- DRAG AND DROP -----------------
     let draggedItem = null;
     const addDragAndDropListeners = (list, type) => {
-        list.addEventListener('dragstart', (e) => {
-            if (e.target.classList.contains('list-item')) {
+        let draggedItem = null;
+
+        list.addEventListener('dragstart', e => {
+            if (e.target.classList.contains('draggable')) {
                 draggedItem = e.target;
-                setTimeout(() => e.target.classList.add('dragging'), 0);
+                setTimeout(() => {
+                    e.target.classList.add('dragging');
+                }, 0);
             }
         });
-        list.addEventListener('dragend', () => {
+
+        list.addEventListener('dragend', e => {
             if (draggedItem) {
                 setTimeout(() => {
                     draggedItem.classList.remove('dragging');
                     draggedItem = null;
-                    updateOrder(list, type);
                 }, 0);
             }
         });
-        list.addEventListener('dragover', (e) => {
+
+        list.addEventListener('dragover', e => {
             e.preventDefault();
             const afterElement = getDragAfterElement(list, e.clientY);
             if (afterElement == null) {
                 list.appendChild(draggedItem);
             } else {
                 list.insertBefore(draggedItem, afterElement);
+            }
+        });
+
+        list.addEventListener('drop', async e => {
+            e.preventDefault();
+            if (draggedItem) {
+                 updateOrder(list, type);
             }
         });
     };
@@ -845,14 +827,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const updateOrder = (list, type) => {
         const arrayKey = getArrayKeyFromType(type);
-        if (!arrayKey) return;
-        const reorderedArray = [];
-        list.querySelectorAll('.list-item').forEach(item => {
-            const originalIndex = parseInt(item.dataset.index);
-            reorderedArray.push(siteContent[arrayKey][originalIndex]);
+        if (!siteContent[arrayKey]) return;
+
+        const newOrderedIds = Array.from(list.querySelectorAll('.list-item')).map(item => item.dataset.id);
+
+        if (list.id === 'one-cikan-oyunlar-list') {
+            // "Öne Çıkanlar" listesi güncellendiğinde, tüm oyunlar listesini yeniden sırala.
+            // Önce sürüklenen öne çıkanları al, sonra geri kalanları (öne çıkan ama sürüklenmeyenler + öne çıkmayanlar)
+            const allOtherItemIds = siteContent.oyunlar
+                .map(item => item.id)
+                .filter(id => !newOrderedIds.includes(id));
+            
+            const finalOrderedIds = [...newOrderedIds, ...allOtherItemIds];
+            
+            const newArray = finalOrderedIds.map(id => 
+                siteContent.oyunlar.find(item => item.id === id)
+            ).filter(Boolean);
+
+            if (newArray.length === siteContent.oyunlar.length) {
+                siteContent.oyunlar = newArray;
+            } else {
+                showNotification('Öne çıkanlar sıralanırken bir hata oluştu.', 'error');
+                return; // Kaydetme ve yeniden render etme.
+            }
+
+        } else { 
+            // "Tüm Oyunlar" veya "Ekip" gibi tam bir liste güncellendiğinde
+            const newArray = newOrderedIds.map(id =>
+                siteContent[arrayKey].find(item => item.id === id)
+            ).filter(Boolean);
+
+            if (newArray.length === siteContent[arrayKey].length) {
+                siteContent[arrayKey] = newArray;
+            } else {
+                showNotification('Genel sıralama sırasında bir hata oluştu.', 'error');
+                return; // Kaydetme ve yeniden render etme.
+            }
+        }
+
+        saveContent().then(() => {
+            // Değişiklikten sonra her iki oyun listesini de senkronize etmek için yeniden render et
+            if (arrayKey === 'oyunlar') {
+                renderOyunlar();
+                renderOneCikanOyunlar();
+            }
         });
-        siteContent[arrayKey] = reorderedArray;
-        saveContent();
     };
 
     // ----------------- HELPERS -----------------
@@ -997,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', () => {
     addOyunBtn.addEventListener('click', () => handleOpenModal('oyun', -1));
     addEkipBtn.addEventListener('click', () => handleOpenModal('ekip', -1));
     addOyuncuBtn.addEventListener('click', () => handleOpenModal('oyuncu', -1));
-    addSezonBtn.addEventListener('click', handleAddSezon);
+    addSezonBtn.addEventListener('click', () => handleAddSezon());
 
     navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
     

@@ -32,6 +32,37 @@
     color: var(--gri);
 }
 
+.year-filter-container {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.year-filter-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--gri);
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+}
+
+.year-filter-btn:hover {
+    background-color: var(--bordo);
+    color: white;
+    border-color: var(--bordo);
+}
+
+.year-filter-btn.active {
+    background-color: var(--bordo);
+    color: white;
+    border-color: var(--bordo);
+    font-weight: bold;
+}
+
 .sezon-kart {
     background-color: var(--light-bg);
     border: 1px solid var(--border-color);

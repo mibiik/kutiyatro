@@ -2,11 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Global Değişkenler ---
     let siteContent = {};
-    let currentSezon = null;
-    let currentSezonId = null;
-    let activeModal = { type: null, id: null };
+    let currentSeasonId = null;
+    let currentSeason = null;
+    let currentEdit = { type: null, index: -1 };
 
     // --- Element Referansları ---
+    const seasonTitleEl = document.getElementById('sezon-baslik');
+    const contentBlocksContainer = document.getElementById('content-blocks-container');
+    const addContentBlockBtn = document.getElementById('add-content-block-btn');
+    
     const sezonDetayBaslik = document.getElementById('sezon-detay-baslik');
     const sezonInfoForm = document.getElementById('sezon-info-form');
     const sezonBaslikInput = document.getElementById('sezon-baslik-input');
@@ -32,60 +36,139 @@ document.addEventListener('DOMContentLoaded', () => {
         notification.className = `notification ${type}`;
         notification.textContent = message;
         notificationContainer.appendChild(notification);
-        setTimeout(() => notification.classList.add('show'), 10);
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
         setTimeout(() => {
             notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 500);
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
         }, 3000);
     }
 
     // --- API & Veri İşlemleri ---
-    async function fetchDataAndRender() {
-        const params = new URLSearchParams(window.location.search);
-        currentSezonId = parseInt(params.get('id'));
-        if (!currentSezonId) {
-            document.body.innerHTML = '<h1>Geçersiz Sezon ID</h1><a href="panel.html">Panele Geri Dön</a>';
+    const init = async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        currentSeasonId = urlParams.get('id');
+
+        if (!currentSeasonId) {
+            seasonTitleEl.textContent = 'HATA: Sezon ID\'si bulunamadı.';
             return;
         }
+        
+        await fetchContent();
+    };
 
+    const fetchContent = async () => {
         try {
             const response = await fetch('/api/content');
-            if (!response.ok) throw new Error('Veri çekilemedi!');
+            if (!response.ok) throw new Error('İçerik sunucudan alınamadı.');
             siteContent = await response.json();
-            currentSezon = siteContent.arsiv.find(s => s.id === currentSezonId);
-            if (!currentSezon) throw new Error('Sezon bulunamadı!');
+            
+            currentSeason = siteContent.arsiv.find(s => s.id === currentSeasonId);
+
+            if (!currentSeason) {
+                seasonTitleEl.textContent = `HATA: ${currentSeasonId} ID'li sezon bulunamadı.`;
+                return;
+            }
+
             renderPage();
         } catch (error) {
-            showNotification(error.message, 'error');
+            console.error('Failed to fetch content:', error);
+            showNotification('İçerik yüklenemedi.', 'error');
         }
-    }
+    };
 
-    async function saveContent() {
+    const saveContent = async () => {
+        // Find the index of the current season in the main content and update it
+        const seasonIndex = siteContent.arsiv.findIndex(s => s.id === currentSeasonId);
+        if (seasonIndex > -1) {
+            siteContent.arsiv[seasonIndex] = currentSeason;
+        } else {
+             showNotification('Sezon kaydedilirken bir hata oluştu.', 'error');
+             return;
+        }
+
         try {
             const response = await fetch('/api/content', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(siteContent)
+                body: JSON.stringify(siteContent, null, 2)
             });
-            if (!response.ok) throw new Error('Değişiklikler kaydedilemedi!');
-            showNotification('Değişiklikler başarıyla kaydedildi!');
+            if (!response.ok) throw new Error('Değişiklikler sunucuya kaydedilemedi.');
+            showNotification('Değişiklikler başarıyla kaydedildi!', 'success');
+            await fetchContent(); // Re-fetch for consistency
         } catch (error) {
-            showNotification(error.message, 'error');
+            console.error('Failed to save content:', error);
+            showNotification('Değişiklikler kaydedilemedi.', 'error');
         }
-    }
+    };
 
     // --- Render Fonksiyonları ---
-    function renderPage() {
-        sezonDetayBaslik.textContent = currentSezon.sezon;
-        sezonBaslikInput.value = currentSezon.sezon;
-        sezonAciklamaInput.value = currentSezon.aciklama;
+    const renderPage = () => {
+        seasonTitleEl.textContent = `${currentSeason.sezon} Sezonu`;
+        sezonDetayBaslik.textContent = currentSeason.sezon;
+        sezonBaslikInput.value = currentSeason.sezon;
+        sezonAciklamaInput.value = currentSeason.aciklama;
+        renderContentBlocks();
         renderOyunlar();
         renderFotograflar();
-    }
+    };
+    
+    const renderContentBlocks = () => {
+        contentBlocksContainer.innerHTML = '';
+        if (!currentSeason.icerikler || currentSeason.icerikler.length === 0) {
+            contentBlocksContainer.innerHTML = '<p class="empty-state">Bu sezona henüz içerik eklenmemiş.</p>';
+            return;
+        }
+
+        currentSeason.icerikler.forEach((block, index) => {
+            const blockEl = createContentBlockElement(block, index);
+            contentBlocksContainer.appendChild(blockEl);
+        });
+    };
+
+    const createContentBlockElement = (block, index) => {
+        const div = document.createElement('div');
+        div.className = 'content-block-item'; // Add styling for this class
+        div.dataset.index = index;
+
+        let contentHtml = `<h4>${block.baslik || 'Başlıksız'} <span class="block-type-badge">${block.tip}</span></h4>`;
+        
+        switch(block.tip) {
+            case 'oyun':
+                contentHtml += `<p><strong>Yönetmen:</strong> ${block.yonetmen || '-'}</p>`;
+                break;
+            case 'galeri':
+                 contentHtml += `<p>${block.fotograflar?.length || 0} fotoğraf</p>`;
+                break;
+            case 'video':
+                contentHtml += `<p><a href="${block.videoUrl}" target="_blank">${block.videoUrl}</a></p>`;
+                break;
+            case 'metin':
+                contentHtml += `<p>${block.metin?.substring(0, 100) || ''}...</p>`;
+                break;
+        }
+
+        div.innerHTML = `
+            <div class="block-info">${contentHtml}</div>
+            <div class="block-actions">
+                <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                <i class="fas fa-grip-vertical drag-handle"></i>
+            </div>
+        `;
+
+        div.querySelector('.edit-btn').addEventListener('click', () => handleOpenModal(block.tip, index));
+        div.querySelector('.delete-btn').addEventListener('click', () => handleDeleteBlock(index));
+
+        return div;
+    };
 
     function renderOyunlar() {
         sezonOyunlarList.innerHTML = '';
-        currentSezon.oyunlar.forEach(oyun => {
+        currentSeason.oyunlar.forEach(oyun => {
             const item = document.createElement('div');
             item.className = 'play-list-item';
             item.innerHTML = `
@@ -104,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderFotograflar() {
         sezonFotografGalerisi.innerHTML = '';
-        currentSezon.fotograflar.forEach((photoPath, index) => {
+        currentSeason.fotograflar.forEach((photoPath, index) => {
             const photoItem = document.createElement('div');
             photoItem.className = 'photo-gallery-item';
             photoItem.innerHTML = `
@@ -116,69 +199,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function openOyunModal(oyunId = null) {
-        const oyun = oyunId ? currentSezon.oyunlar.find(o => o.id === oyunId) : { id: null, ad: '', yazar: '', img: '' };
-        activeModal = { type: 'oyun', id: oyunId };
-
-        modalTitle.textContent = oyunId ? 'Oyunu Düzenle' : 'Yeni Oyun Ekle';
-        modalFields.innerHTML = `
-            <label>Oyun Adı:</label><input type="text" id="modal-oyun-ad" value="${oyun.ad}" required>
-            <label>Yazar:</label><input type="text" id="modal-oyun-yazar" value="${oyun.yazar}">
-            <label>Afiş Resmi:</label>
-            <img src="../${oyun.img || 'assets/logo-placeholder.png'}" style="max-width: 100px; display: block; margin-bottom: 10px;">
-            <input type="hidden" id="modal-oyun-img" value="${oyun.img}">
-            <input type="file" id="modal-image-upload" accept="image/*">
-        `;
-        modal.style.display = 'flex';
-    }
-
-    function closeModal() {
-        modal.style.display = 'none';
-    }
+    // --- Modal ve Form İşlemleri ---
+    const handleOpenModal = (type, index) => {
+        // This will be complex and will be implemented in the next steps
+        showNotification('Düzenleme fonksiyonu yakında eklenecektir.', 'info');
+    };
     
-    async function handleModalSave() {
-        const { id } = activeModal;
-        let imageUrl = document.getElementById('modal-oyun-img').value;
-        const imageFile = document.getElementById('modal-image-upload').files[0];
+    addContentBlockBtn.addEventListener('click', () => {
+        // This will also be implemented
+         showNotification('Yeni blok ekleme fonksiyonu yakında eklenecektir.', 'info');
+    });
 
-        if (imageFile) {
-            const formData = new FormData();
-            formData.append('image', imageFile);
-            try {
-                const response = await fetch('/api/upload', { method: 'POST', body: formData });
-                const result = await response.json();
-                if (!response.ok) throw new Error(result.message || 'Resim yüklenemedi.');
-                imageUrl = result.filePath;
-            } catch (error) {
-                return showNotification(`Hata: ${error.message}`, 'error');
-            }
+    const handleDeleteBlock = (index) => {
+        if(confirm('Bu içerik bloğunu silmek istediğinizden emin misiniz?')) {
+            currentSeason.icerikler.splice(index, 1);
+            saveContent();
         }
-        
-        const updatedOyun = {
-            id: id || (currentSezon.oyunlar.length > 0 ? Math.max(...currentSezon.oyunlar.map(o => o.id)) + 1 : 1),
-            ad: document.getElementById('modal-oyun-ad').value,
-            yazar: document.getElementById('modal-oyun-yazar').value,
-            img: imageUrl
-        };
-        
-        if (id) { // Düzenleme
-            const index = currentSezon.oyunlar.findIndex(o => o.id === id);
-            currentSezon.oyunlar[index] = updatedOyun;
-        } else { // Ekleme
-            currentSezon.oyunlar.push(updatedOyun);
-        }
-        
-        renderOyunlar();
-        await saveContent();
-        closeModal();
-    }
+    };
 
     // --- Olay Dinleyicileri ---
     sezonInfoForm.addEventListener('submit', e => {
         e.preventDefault();
-        currentSezon.sezon = sezonBaslikInput.value;
-        currentSezon.aciklama = sezonAciklamaInput.value;
-        sezonDetayBaslik.textContent = currentSezon.sezon;
+        currentSeason.sezon = sezonBaslikInput.value;
+        currentSeason.aciklama = sezonAciklamaInput.value;
+        seasonTitleEl.textContent = `${currentSeason.sezon} Sezonu`;
         saveContent();
     });
 
@@ -193,20 +237,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('/api/upload', { method: 'POST', body: formData });
                 const result = await response.json();
                 if (!response.ok) throw new Error(result.message || 'Resim yüklenemedi.');
-                currentSezon.fotograflar.push(result.filePath);
+                currentSeason.fotograflar.push(result.filePath);
             } catch (error) {
                 showNotification(`Hata: ${error.message}`, 'error');
             }
         }
         addPhotosInput.value = ''; // Input'u temizle
         renderFotograflar();
-        await saveContent();
+        saveContent();
     });
 
     sezonFotografGalerisi.addEventListener('click', e => {
         if (e.target.classList.contains('delete-photo-btn')) {
             const index = parseInt(e.target.dataset.index);
-            currentSezon.fotograflar.splice(index, 1);
+            currentSeason.fotograflar.splice(index, 1);
             renderFotograflar();
             saveContent();
         }
@@ -223,12 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
             openOyunModal(oyunId);
         } else if (target.classList.contains('delete-btn')) {
             const oyunId = parseInt(target.dataset.id);
-            currentSezon.oyunlar = currentSezon.oyunlar.filter(o => o.id !== oyunId);
+            currentSeason.oyunlar = currentSeason.oyunlar.filter(o => o.id !== oyunId);
             renderOyunlar();
             saveContent();
         }
     });
 
     // --- Başlangıç ---
-    fetchDataAndRender();
+    init();
 }); 

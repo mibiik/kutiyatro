@@ -329,10 +329,11 @@
   }
 
   #hero h1 {
-    font-size: 12vw;
-    letter-spacing: 8px;
+    font-size: 20vw;
+    letter-spacing: 10px;
     margin: 0;
-    transform: none;
+    margin-top: -6vw; /* Biraz yukarı al */
+    transform: translateX(2vw);
     z-index: 3;
     position: relative;
   }
@@ -467,46 +468,7 @@
     margin: 0;
   }
   
-  /* EKİP - Simplified grid */
-  .ekip-yonetim,
-  .ekip-uyeler {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-  }
   
-  .ekip-karti {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.3s ease;
-  }
-  
-  .ekip-karti:active {
-    transform: scale(0.98);
-  }
-  
-  .ekip-karti img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 15px;
-  }
-  
-  .ekip-karti h3 {
-    font-size: 1rem;
-    margin: 10px 0 5px;
-    color: #fff;
-  }
-  
-  .ekip-karti .rol {
-    font-size: 0.85rem;
-    color: var(--gri);
-    margin: 0;
-  }
   
   /* FOOTER - Minimal */
   footer {
@@ -668,8 +630,10 @@
 /* Çok küçük ekranlar için (320px ve altı) */
 @media (max-width: 320px) {
   #hero h1 {
-    font-size: 14vw;
-    letter-spacing: 4px;
+    font-size: 13vw;
+    letter-spacing: 5px;
+    margin-top: -6vw;
+    transform: translateX(2vw);
   }
   
   .oyun-karti-modern-baslik {
@@ -1154,15 +1118,6 @@ body.new-navbar--menu-open {
   z-index: 2;
 }
 
-#hero h1 {
-  font-size: 12vw;
-  letter-spacing: 8px;
-  margin: 0;
-  transform: none;
-  z-index: 3;
-  position: relative;
-}
-
 .event-highlight p {
   font-size: 1rem;
   margin: 20px 0;
@@ -1297,7 +1252,7 @@ section h2 {
 .ekip-yonetim,
 .ekip-uyeler {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 20px;
 }
