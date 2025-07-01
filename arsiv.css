@@ -1,0 +1,101 @@
+/* Arşiv sayfası için renk paleti */
+:root {
+    --bordo: #800020;
+    --dark-bg: #121212;
+    --text-color: #f4f4f4;
+    --gri: #a9a9a9;
+    --heading-font: 'Anton', sans-serif;
+    --body-font: 'Montserrat', sans-serif;
+    --light-bg: #1e1e1e;
+    --border-color: #333;
+}
+
+#archive-main {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.archive-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.archive-header h1 {
+    font-size: 4rem;
+    color: var(--bordo);
+    margin: 0;
+}
+
+.archive-header p {
+    font-size: 1.2rem;
+    color: var(--gri);
+}
+
+.sezon-kart {
+    background-color: var(--light-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 40px;
+    margin-bottom: 60px;
+}
+
+.sezon-baslik {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    color: var(--bordo);
+    border-bottom: 2px solid var(--bordo);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.sezon-aciklama {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+}
+
+.sezon-kart h4 {
+    font-family: var(--heading-font);
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.sezon-oyunlar {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.sezon-oyunlar .oyun-karti {
+    width: 220px;
+    text-align: center;
+}
+
+.sezon-oyunlar .oyun-karti img {
+    border-radius: 5px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.sezon-fotograflar {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.sezon-fotograflar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.sezon-fotograflar img:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+}

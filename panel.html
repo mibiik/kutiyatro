@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUTİY - Yönetim Paneli</title>
+    <link rel="stylesheet" href="panel.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="mobile-extras.css">
+    <!-- Font Awesome İkon Kütüphanesi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<!-- MOBİL İÇİN ÜST BAR (YENİ KONUM) -->
+<header class="mobile-header">
+    <h3>KUTİY Panel</h3>
+    <button id="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<div class="dashboard-container">
+    <!-- YAN NAVİGASYON MENÜSÜ -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>KUTİY Panel</h3>
+            <button class="close-sidebar">&times;</button> <!-- Mobil için kapatma butonu -->
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-link active" data-target="overview"><i class="fas fa-tachometer-alt"></i> Genel Bakış</a>
+            <a href="#" class="nav-link" data-target="hero-hakkimizda"><i class="fas fa-file-alt"></i> Ana Sayfa İçerikleri</a>
+            <a href="#" class="nav-link" data-target="oyunlar"><i class="fas fa-theater-masks"></i> Oyunlarımız</a>
+            <a href="#" class="nav-link" data-target="ekip"><i class="fas fa-users"></i> Yönetim Kurulu</a>
+            <a href="#" class="nav-link" data-target="oyuncu-havuzu"><i class="fas fa-user-friends"></i> Oyuncu Havuzu</a>
+            <a href="#" class="nav-link" data-target="arsiv"><i class="fas fa-archive"></i> Arşiv Yönetimi</a>
+            <a href="#" class="nav-link" data-target="iletisim"><i class="fas fa-address-book"></i> İletişim Bilgileri</a>
+            <a href="index.html" target="_blank" class="nav-link external"><i class="fas fa-external-link-alt"></i> Siteyi Görüntüle</a>
+        </nav>
+    </aside>
+
+    <!-- ANA İÇERİK ALANI -->
+    <main class="main-content">
+        <!-- Her bir bölüm, menüden seçildiğinde görünecek -->
+        
+        <!-- 1. GENEL BAKIŞ BÖLÜMÜ (ÖZET KARTLARI) -->
+        <section id="overview" class="content-section active">
+            <h2>Genel Bakış</h2>
+            <div class="overview-cards">
+                <div class="card">
+                    <i class="fas fa-theater-masks"></i>
+                    <div class="card-info">
+                        <span id="oyun-sayisi">0</span>
+                        <p>Oyun</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fas fa-users"></i>
+                    <div class="card-info">
+                        <span id="ekip-sayisi">0</span>
+                        <p>Kurul Üyesi</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fas fa-user-friends"></i>
+                    <div class="card-info">
+                        <span id="oyuncu-havuzu-sayisi">0</span>
+                        <p>Kayıtlı Oyuncu</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <i class="fas fa-archive"></i>
+                    <div class="card-info">
+                        <span id="arsiv-sayisi">0</span>
+                        <p>Arşivlenmiş Sezon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ANA SAYFA İÇERİKLERİ BÖLÜMÜ -->
+        <section id="hero-hakkimizda" class="content-section" style="display: none;">
+            <h2>Ana Sayfa İçerikleri</h2>
+            <div class="content-block" id="hero-block">
+                <h3>Ana Başlık Bölümü (Hero)</h3>
+                <form id="hero-form">
+                    <label for="hero-title">Ana Başlık:</label>
+                    <input type="text" id="hero-title">
+                    <label for="hero-subtitle">Alt Başlık:</label>
+                    <input type="text" id="hero-subtitle">
+                    <button type="submit">Kaydet</button>
+                </form>
+            </div>
+            <div class="content-block" id="hakkimizda-block">
+                <h3>KUTİY Nedir?</h3>
+                <form id="hakkimizda-form">
+                    <textarea id="hakkimizda-text" rows="8"></textarea>
+                    <button type="submit">Kaydet</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. OYUNLAR BÖLÜMÜ -->
+        <section id="oyunlar" class="content-section" style="display: none;">
+            <h2>Oyunlarımız
+            </h2>
+            <div class="content-block">
+                <div id="oyunlar-list"></div>
+                <button id="add-oyun-button">Yeni Oyun Ekle</button>
+            </div>
+        </section>
+
+        <!-- 4. YÖNETİM KURULU BÖLÜMÜ -->
+        <section id="ekip" class="content-section" style="display: none;">
+            <h2>Yönetim Kurulu</h2>
+            <p style="color: #666; margin-bottom: 20px;">Ana sayfada görünecek yönetim kurulu üyeleri (otomatik olarak oyuncu havuzuna da eklenir)</p>
+            <div class="content-block">
+                <div id="ekip-list"></div>
+                <button id="add-ekip-button">Yeni Kurul Üyesi Ekle</button>
+            </div>
+        </section>
+
+        <!-- 5. OYUNCU HAVUZU BÖLÜMÜ -->
+        <section id="oyuncu-havuzu" class="content-section" style="display: none;">
+            <h2>Oyuncu Havuzu</h2>
+            <p style="color: #666; margin-bottom: 20px;">Kulüp üyeleri ve oyuncu adayları. Bu liste ana sayfada görünmez, sadece oyun oluştururken kullanılır.</p>
+            <div class="content-block">
+                <div class="oyuncu-filtreleri" style="margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
+                    <select id="durum-filtre" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="tumu">Tüm Durumlar</option>
+                        <option value="aktif">Aktif</option>
+                        <option value="pasif">Pasif</option>
+                        <option value="mezun">Mezun</option>
+                    </select>
+                    <input type="text" id="oyuncu-arama" placeholder="Oyuncu ara..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 200px;">
+                </div>
+                <div id="oyuncu-havuzu-list"></div>
+                <button id="add-oyuncu-button">Yeni Oyuncu Ekle</button>
+            </div>
+        </section>
+        
+        <!-- 6. ARŞİV BÖLÜMÜ -->
+        <section id="arsiv" class="content-section" style="display: none;">
+            <h2>Arşiv Yönetimi</h2>
+            <div class="content-block">
+                <div id="arsiv-list"></div>
+                <button id="add-sezon-button">Yeni Sezon Ekle</button>
+            </div>
+        </section>
+
+        <!-- 7. İLETİŞİM BÖLÜMÜ -->
+        <section id="iletisim" class="content-section" style="display: none;">
+             <h2>İletişim & Sosyal Medya</h2>
+            <div class="content-block">
+                <form id="iletisim-form">
+                    <label for="iletisim-instagram">Instagram Linki:</label>
+                    <input type="text" id="iletisim-instagram">
+                    <label for="iletisim-twitter">Twitter Linki:</label>
+                    <input type="text" id="iletisim-twitter">
+                    <label for="iletisim-youtube">Youtube Linki:</label>
+                    <input type="text" id="iletisim-youtube">
+                    <label for="iletisim-adres">Adres:</label>
+                    <textarea id="iletisim-adres" rows="3"></textarea>
+                    <label for="iletisim-email">Genel İletişim E-postası:</label>
+                    <input type="email" id="iletisim-email">
+                    <button type="submit">İletişim Bilgilerini Kaydet</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Modal ve Bildirim Alanları Eskisi Gibi Kalıyor -->
+<div id="edit-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h3 id="modal-title">Öğeyi Düzenle</h3>
+        <form id="modal-form">
+            <div id="modal-fields"></div>
+            <div class="modal-actions">
+                <button type="submit">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="notification-container"></div>
+
+<script src="mobile.js"></script>
+<script src="panel.js"></script>
+</body>
+</html> 
