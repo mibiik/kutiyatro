@@ -6,13 +6,13 @@ const multer = require('multer');
 const { google } = require('googleapis');
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = 3001;
 const CONTENT_PATH = path.join(__dirname, 'content.json');
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname)));
 
 // --- Multer (Dosya Yükleme) Ayarları ---
 const storage = multer.diskStorage({

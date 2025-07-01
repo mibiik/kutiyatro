@@ -204,7 +204,7 @@
       "id": 1,
       "ad": "Selen Sıla Gürdal",
       "rol": "Eş Başkan",
-      "img": "assets/1751326336794-1751302828394-DSCF5618.JPG",
+      "img": "assets/1751388449622-pngegg.png",
       "email": "",
       "telefon": "",
       "sinif": "1. Sınıf",
@@ -304,21 +304,21 @@
     {
       "id": 1,
       "ad": "Selen Sıla Gürdal",
-      "rol": "Eş Başkan",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "baskan",
-        "oyuncu",
-        "aktif_uye"
-      ],
-      "durum": "aktif",
+      "img": "assets/1751388449622-pngegg.png",
       "telefon": "",
       "email": "",
       "sinif": "1. Sınıf",
-      "bolum": "",
-      "katilim_tarihi": "",
+      "bolum": "Belirtilmemiş",
+      "ozellikler": [
+        "Eş Başkan"
+      ],
+      "katilim_tarihi": "2025-07-01",
+      "durum": "aktif",
       "tip": "baskan",
-      "ozellikler": []
+      "kurul_uyesi": true,
+      "roller": [
+        "baskan"
+      ]
     },
     {
       "id": 2,
@@ -483,6 +483,12 @@
     }
   ],
   "arsiv": [
+    {
+      "id": "sezon_1751388469790",
+      "sezon": "34TY",
+      "aciklama": "",
+      "icerikler": []
+    },
     {
       "sezon": "2023-2024",
       "oyunlar": [],
