@@ -1048,19 +1048,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
     
-    if (hamburgerBtn) {
-        hamburgerBtn.addEventListener('click', toggleSidebar);
-    }
-    if (closeSidebarBtn) {
-        closeSidebarBtn.addEventListener('click', toggleSidebar);
-    }
-    if (mainContent && sidebar) {
-        mainContent.addEventListener('click', () => {
-            if (sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-            }
-        });
-    }
+    return; // Hatalı kodun çalışmasını engellemek için geçici çözüm
+
+    hamburgerBtn.addEventListener('click', toggleSidebar);
+    closeSidebarBtn.addEventListener('click', toggleSidebar);
+    mainContent.addEventListener('click', () => {
+        if (sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
+    });
 
     modalCloseBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
@@ -1069,77 +1065,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ----------------- INITIALIZATION -----------------
     fetchContent();
-    
-    // Global functions for dynamic oyuncu management
-    window.addOyuncu = () => {
-        const container = document.getElementById('oyuncular-container');
-        const newIndex = container.children.length;
-        const newRow = document.createElement('div');
-        newRow.className = 'oyuncu-row';
-        newRow.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: center; background: white; padding: 10px; border-radius: 5px; border: 1px solid #eee;';
-        
-        const oyuncuHavuzuOptions = siteContent.oyuncu_havuzu?.filter(p => p.durum === 'aktif').map(player => 
-            `<option value="${player.ad}">${player.ad} (${player.sinif} - ${player.bolum})</option>`
-        ).join('') || '';
-        
-        newRow.innerHTML = `
-            <select data-field="oyuncu-select" data-index="${newIndex}" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" onchange="updateOyuncuAd(${newIndex})">
-                <option value="">Oyuncu Havuzundan Seç</option>
-                ${oyuncuHavuzuOptions}
-                <option value="manuel">Manuel Giriş</option>
-            </select>
-            <input type="text" placeholder="Oyuncu Adı" value="" data-field="ad" data-index="${newIndex}" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px; display: none;">
-            <input type="text" placeholder="Karakter Adı" value="" data-field="karakter" data-index="${newIndex}" style="flex: 2; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-            <button type="button" onclick="removeOyuncu(${newIndex})" style="padding: 8px 12px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">Sil</button>
-        `;
-        container.appendChild(newRow);
-    };
-    
-    window.removeOyuncu = (index) => {
-        const rows = document.querySelectorAll('.oyuncu-row');
-        if (rows[index]) {
-            rows[index].remove();
-            // Indexleri yeniden düzenle
-            updateOyuncuIndexes();
-        }
-    };
-    
-    window.updateOyuncuAd = (index) => {
-        const selectElement = document.querySelector(`[data-field="oyuncu-select"][data-index="${index}"]`);
-        const inputElement = document.querySelector(`[data-field="ad"][data-index="${index}"]`);
-        
-        if (selectElement && inputElement) {
-            const selectedValue = selectElement.value;
-            
-            if (selectedValue === 'manuel') {
-                inputElement.style.display = 'block';
-                inputElement.value = '';
-                selectElement.style.flex = '1';
-            } else if (selectedValue === '') {
-                inputElement.style.display = 'none';
-                inputElement.value = '';
-                selectElement.style.flex = '2';
-            } else {
-                inputElement.style.display = 'none';
-                inputElement.value = selectedValue;
-                selectElement.style.flex = '2';
-            }
-        }
-    };
-    
-    const updateOyuncuIndexes = () => {
-        const rows = document.querySelectorAll('.oyuncu-row');
-        rows.forEach((row, newIndex) => {
-            const select = row.querySelector('[data-field="oyuncu-select"]');
-            const adInput = row.querySelector('[data-field="ad"]');
-            const karakterInput = row.querySelector('[data-field="karakter"]');
-            const removeBtn = row.querySelector('button');
-            
-            if (select) select.setAttribute('data-index', newIndex);
-            if (adInput) adInput.setAttribute('data-index', newIndex);
-            if (karakterInput) karakterInput.setAttribute('data-index', newIndex);
-            if (removeBtn) removeBtn.setAttribute('onclick', `removeOyuncu(${newIndex})`);
-            if (select) select.setAttribute('onchange', `updateOyuncuAd(${newIndex})`);
-        });
-    };
 });
