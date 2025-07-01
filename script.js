@@ -167,16 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
         gosterilecekOyunlar.forEach(oyun => {
             const oyunId = oyun.id || oyunlar.indexOf(oyun); // ID yoksa geçici index kullan
             const oyunKartHTML = `
-                <div class="oyun-karti-modern" onclick="showOyunModal('${oyunId}')">
-                    <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="oyun-karti-modern-banner">
-                    <div class="oyun-karti-modern-bilgi">
-                        <h3 class="oyun-karti-modern-baslik">${oyun.ad}</h3>
-                        <p class="oyun-karti-modern-detay">Yazar: ${oyun.yazar || 'Bilinmiyor'}</p>
-                        <p class="oyun-karti-modern-detay">Yönetmen: ${oyun.yonetmen || 'Bilinmiyor'}</p>
-                        <div class="oyun-karti-modern-ek-bilgi">
-                             <p class="oyun-karti-modern-detay">${oyun.tarih || ''}</p>
-                             <p class="oyun-karti-modern-detay">${oyun.konum || ''}</p>
-                        </div>
+                <div class="oyun-kart-yeni" onclick="oyunDetayAc(${oyunId})">
+                    <div class="oyun-kart-yeni-arkaplan" style="background-image: url('${oyun.afis}')"></div>
+                    <div class="oyun-kart-yeni-gradient"></div>
+                    <div class="oyun-kart-yeni-icerik">
+                        <h3 class="oyun-kart-yeni-baslik">${oyun.ad}</h3>
+                        <p class="oyun-kart-yeni-yonetmen">Yönetmen: ${oyun.yonetmen}</p>
+                        <span class="oyun-kart-yeni-detay-btn">Detayları Gör</span>
                     </div>
                 </div>
             `;

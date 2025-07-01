@@ -1642,3 +1642,120 @@ main {
         font-size: 2.3rem;
     }
 }
+
+.oyunlar-grid.buyuk-kartlar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Önceki .oyun-kart-buyuk stillerini kaldırıyoruz. */
+.oyun-kart-buyuk, 
+.oyun-kart-buyuk-img, 
+.oyun-kart-buyuk-overlay, 
+.oyun-kart-buyuk-baslik, 
+.oyun-kart-buyuk-yonetmen, 
+.oyun-kart-buyuk-detay-btn {
+    /* Eski stilleri temizlemek için boş bırakılabilir veya display: none; eklenebilir. */
+    /* Bu örnekte eski sınıfları JS'den kaldırdığımız için boş bırakmak yeterli. */
+}
+
+
+/* YENİ ÖNE ÇIKAN OYUN KARTI TASARIMI */
+.oyun-kart-yeni {
+    position: relative;
+    height: 450px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background-color: #222; /* Resim yüklenemezse arka plan */
+}
+
+.oyun-kart-yeni:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+}
+
+.oyun-kart-yeni-arkaplan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s ease;
+}
+
+.oyun-kart-yeni:hover .oyun-kart-yeni-arkaplan {
+    transform: scale(1.1);
+}
+
+.oyun-kart-yeni-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 80%;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent);
+    transition: opacity 0.3s ease;
+}
+
+.oyun-kart-yeni-icerik {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px;
+    color: white;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.oyun-kart-yeni-baslik {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin: 0 0 5px 0;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+.oyun-kart-yeni-yonetmen {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    margin: 0 0 20px 0;
+    transition: all 0.3s ease;
+}
+
+.oyun-kart-yeni-detay-btn {
+    background: var(--bordo);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    align-self: flex-start;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.4s ease 0.1s;
+}
+
+.oyun-kart-yeni:hover .oyun-kart-yeni-yonetmen {
+    color: rgba(255,255,255,1);
+}
+
+.oyun-kart-yeni:hover .oyun-kart-yeni-detay-btn {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Diğer Bölümler */
+#ekip {
+    padding: 100px 0;
+}
