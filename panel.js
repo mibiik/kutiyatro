@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mobile Navigation
     const hamburgerBtn = document.getElementById('hamburger-menu');
-    const closeSidebarBtn = document.querySelector('.sidebar .close-sidebar');
+    const closeSidebarBtn = document.querySelector('.close-sidebar');
 
     // Overview Cards
     const oyunSayisiEl = document.getElementById('oyun-sayisi');
@@ -1048,13 +1048,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
     
-    hamburgerBtn.addEventListener('click', toggleSidebar);
-    closeSidebarBtn.addEventListener('click', toggleSidebar);
-    mainContent.addEventListener('click', () => {
-        if (sidebar.classList.contains('open')) {
-            sidebar.classList.remove('open');
-        }
-    });
+    if (hamburgerBtn) {
+        hamburgerBtn.addEventListener('click', toggleSidebar);
+    }
+    if (closeSidebarBtn) {
+        closeSidebarBtn.addEventListener('click', toggleSidebar);
+    }
+    if (mainContent && sidebar) {
+        mainContent.addEventListener('click', () => {
+            if (sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
 
     modalCloseBtn.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
