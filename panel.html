@@ -5,200 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUTİY - Yönetim Paneli</title>
     <link rel="stylesheet" href="panel.css">
-    <link rel="stylesheet" href="mobile.css">
-    <link rel="stylesheet" href="mobile-extras.css">
-    <!-- Font Awesome İkon Kütüphanesi -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
+    <div id="panel-container">
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/logo.png" alt="KUTİY Logo" class="logo">
+                <h2>Yönetim Paneli</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#genel" class="nav-link active" data-section="genel-section">Genel Ayarlar</a></li>
+                    <li><a href="#oyunlar" class="nav-link" data-section="oyunlar-section">Oyunlar</a></li>
+                    <li><a href="#ekip" class="nav-link" data-section="ekip-section">Ekip</a></li>
+                    <li><a href="#arsiv" class="nav-link" data-section="arsiv-section">Arşiv</a></li>
+                    <li><a href="#anasayfa" class="nav-link" data-section="anasayfa-section">Ana Sayfa İçeriği</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" target="_blank">Siteyi Görüntüle</a>
+            </div>
+        </aside>
 
-<!-- MOBİL İÇİN ÜST BAR (YENİ KONUM) -->
-<header class="mobile-header">
-    <h3>KUTİY Panel</h3>
-    <button id="hamburger-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-</header>
+        <main id="main-content">
+            <header class="main-header">
+                <h1>Bölüme Hoş Geldiniz</h1>
+                <button id="save-all-button" class="save-button">Tüm Değişiklikleri Kaydet</button>
+            </header>
 
-<div class="dashboard-container">
-    <!-- YAN NAVİGASYON MENÜSÜ -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h3>KUTİY Panel</h3>
-            <button class="close-sidebar">&times;</button> <!-- Mobil için kapatma butonu -->
-        </div>
-        <nav class="sidebar-nav">
-            <a href="#" class="nav-link active" data-target="overview"><i class="fas fa-tachometer-alt"></i> Genel Bakış</a>
-            <a href="#" class="nav-link" data-target="hero-hakkimizda"><i class="fas fa-file-alt"></i> Ana Sayfa İçerikleri</a>
-            <a href="#" class="nav-link" data-target="oyunlar"><i class="fas fa-theater-masks"></i> Oyunlarımız</a>
-            <a href="#" class="nav-link" data-target="ekip"><i class="fas fa-users"></i> Yönetim Kurulu</a>
-            <a href="#" class="nav-link" data-target="oyuncu-havuzu"><i class="fas fa-user-friends"></i> Oyuncu Havuzu</a>
-            <a href="#" class="nav-link" data-target="arsiv"><i class="fas fa-archive"></i> Arşiv Yönetimi</a>
-            <a href="#" class="nav-link" data-target="iletisim"><i class="fas fa-address-book"></i> İletişim Bilgileri</a>
-            <a href="index.html" target="_blank" class="nav-link external"><i class="fas fa-external-link-alt"></i> Siteyi Görüntüle</a>
-        </nav>
-    </aside>
-
-    <!-- ANA İÇERİK ALANI -->
-    <main class="main-content">
-        <!-- Her bir bölüm, menüden seçildiğinde görünecek -->
-        
-        <!-- 1. GENEL BAKIŞ BÖLÜMÜ (ÖZET KARTLARI) -->
-        <section id="overview" class="content-section active">
-            <h2>Genel Bakış</h2>
-            <div class="overview-cards">
+            <!-- Genel Ayarlar Bölümü -->
+            <section id="genel-section" class="content-section active">
                 <div class="card">
-                    <i class="fas fa-theater-masks"></i>
-                    <div class="card-info">
-                        <span id="oyun-sayisi">0</span>
-                        <p>Oyun</p>
+                    <h2>İletişim Bilgileri</h2>
+                    <form id="iletisim-form" class="panel-form">
+                        <label for="iletisim-instagram">Instagram URL</label>
+                        <input type="url" id="iletisim-instagram" placeholder="https://instagram.com/hesap">
+                        <label for="iletisim-twitter">Twitter (X) URL</label>
+                        <input type="url" id="iletisim-twitter" placeholder="https://twitter.com/hesap">
+                        <label for="iletisim-youtube">YouTube URL</label>
+                        <input type="url" id="iletisim-youtube" placeholder="https://youtube.com/kanal">
+                        <label for="iletisim-email">E-posta Adresi</label>
+                        <input type="email" id="iletisim-email" placeholder="iletisim@ornek.com">
+                        <label for="iletisim-adres">Adres</label>
+                        <textarea id="iletisim-adres" rows="3"></textarea>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Oyunlar Yönetim Bölümü -->
+            <section id="oyunlar-section" class="content-section">
+                 <div class="card">
+                    <h2>Yeni Oyun Ekle</h2>
+                    <form id="yeni-oyun-form" class="panel-form grid-form-2">
+                        <!-- Form alanları buraya panel.js tarafından eklenecek -->
+                    </form>
+                    <button id="add-game-button" type="button" class="add-button">Yeni Oyunu Ekle</button>
+                 </div>
+                 <div class="card">
+                     <h2>Mevcut Oyunlar</h2>
+                     <p class="helper-text">Sürükle bırak ile oyunları sıralayabilirsiniz. Bu sıralama ana sayfadaki sıralamayı etkiler.</p>
+                     <div id="oyun-listesi-yonetim" class="sortable-list">
+                         <!-- Oyunlar listesi buraya dolacak -->
+                     </div>
+                 </div>
+                 <div class="card">
+                    <h2>Ana Sayfada Görünen Oyunlar</h2>
+                    <p class="helper-text">"Ana Sayfada Öne Çıkar" olarak işaretlenen ve durumu "bitmiş" olan oyunlar burada listelenir. Sıralamayı sürükle bırak ile değiştirebilirsiniz.</p>
+                    <div id="anasayfa-oyun-listesi" class="sortable-list anasayfa-listesi">
+                        <!-- Ana sayfa oyunları buraya dolacak -->
                     </div>
                 </div>
+            </section>
+
+            <!-- Ekip Yönetim Bölümü -->
+            <section id="ekip-section" class="content-section">
                 <div class="card">
-                    <i class="fas fa-users"></i>
-                    <div class="card-info">
-                        <span id="ekip-sayisi">0</span>
-                        <p>Kurul Üyesi</p>
+                    <h2>Yeni Ekip Üyesi Ekle</h2>
+                    <form id="yeni-ekip-form" class="panel-form grid-form-2">
+                        <label for="ekip-ad">Ad Soyad</label>
+                        <input type="text" id="ekip-ad" required>
+                        <label for="ekip-rol">Görevi</label>
+                        <input type="text" id="ekip-rol">
+                        <label for="ekip-img">Fotoğraf</label>
+                        <input type="file" id="ekip-img" accept="image/*">
+                    </form>
+                    <button id="add-member-button" type="button" class="add-button">Üyeyi Ekle</button>
+                </div>
+                <div class="card">
+                    <h2>Mevcut Ekip Üyeleri</h2>
+                    <p class="helper-text">Sürükle bırak ile ekip üyelerini sıralayabilirsiniz.</p>
+                    <div id="ekip-listesi-yonetim" class="sortable-list">
+                        <!-- Ekip listesi buraya dolacak -->
                     </div>
                 </div>
+            </section>
+            
+            <!-- Arşiv Yönetim Bölümü -->
+            <section id="arsiv-section" class="content-section">
                 <div class="card">
-                    <i class="fas fa-user-friends"></i>
-                    <div class="card-info">
-                        <span id="oyuncu-havuzu-sayisi">0</span>
-                        <p>Kayıtlı Oyuncu</p>
+                    <h2>Arşiv Sezonları</h2>
+                    <p class="helper-text">Her sezonun içeriğini düzenlemek için "Sezonu Düzenle" butonuna tıklayın.</p>
+                    <div id="arsiv-listesi-yonetim">
+                        <!-- Arşiv sezonları listesi buraya dolacak -->
                     </div>
                 </div>
+            </section>
+
+            <!-- Ana Sayfa İçerik Bölümü -->
+            <section id="anasayfa-section" class="content-section">
                 <div class="card">
-                    <i class="fas fa-archive"></i>
-                    <div class="card-info">
-                        <span id="arsiv-sayisi">0</span>
-                        <p>Arşivlenmiş Sezon</p>
-                    </div>
+                    <h2>Ana Sayfa "Hero" Alanı</h2>
+                    <form id="hero-form" class="panel-form">
+                        <label for="hero-title">Ana Başlık</label>
+                        <input type="text" id="hero-title">
+                        <label for="hero-subtitle">Alt Başlık</label>
+                        <input type="text" id="hero-subtitle">
+                    </form>
                 </div>
-            </div>
-        </section>
-
-        <!-- 2. ANA SAYFA İÇERİKLERİ BÖLÜMÜ -->
-        <section id="hero-hakkimizda" class="content-section" style="display: none;">
-            <h2>Ana Sayfa İçerikleri</h2>
-            <div class="content-block" id="hero-block">
-                <h3>Ana Başlık Bölümü (Hero)</h3>
-                <form id="hero-form">
-                    <label for="hero-title">Ana Başlık:</label>
-                    <input type="text" id="hero-title">
-                    <label for="hero-subtitle">Alt Başlık:</label>
-                    <input type="text" id="hero-subtitle">
-                    <button type="submit">Kaydet</button>
-                </form>
-            </div>
-            <div class="content-block" id="hakkimizda-block">
-                <h3>KUTİY Nedir?</h3>
-                <form id="hakkimizda-form">
-                    <textarea id="hakkimizda-text" rows="8"></textarea>
-                    <button type="submit">Kaydet</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- 3. OYUNLAR BÖLÜMÜ -->
-        <section id="oyunlar" class="content-section" style="display: none;">
-            <h2>Oyunlarımız</h2>
-
-            <div class="oyun-yonetim-container">
-                <div class="oyun-list-kolon">
-                    <h3>Tüm Oyunlar</h3>
-                    <p class="liste-aciklama">Tüm oyunlarınız burada listelenir. Sıralamaları, 'Tüm Oyunlar' sayfasındaki sırayı belirler.</p>
-                    <div id="oyunlar-list"></div>
-                    <button id="add-oyun-button" class="add-new-button"><i class="fas fa-plus"></i> Yeni Oyun Ekle</button>
+                 <div class="card">
+                    <h2>"Biz Kimiz?" Bölümü</h2>
+                    <form id="hakkimizda-form" class="panel-form">
+                         <label for="hakkimizda-text">Açıklama Metni</label>
+                        <textarea id="hakkimizda-text" rows="6"></textarea>
+                    </form>
                 </div>
-                
-                <div class="oyun-list-kolon">
-                    <h3>Ana Sayfada Görüntülenenler</h3>
-                    <p class="liste-aciklama">"Öne Çıkar" olarak işaretlenen oyunlar burada görünür. Buradaki sıralama, ana sayfadaki 'Öne Çıkan Oyunlarımız' bölümünün sırasını belirler.</p>
-                    <div id="one-cikan-oyunlar-list"></div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- 4. YÖNETİM KURULU BÖLÜMÜ -->
-        <section id="ekip" class="content-section" style="display: none;">
-            <h2>Yönetim Kurulu</h2>
-            <p style="color: #666; margin-bottom: 20px;">Ana sayfada görünecek yönetim kurulu üyeleri (otomatik olarak oyuncu havuzuna da eklenir)</p>
-            <div class="content-block">
-                <div id="ekip-list"></div>
-                <button id="add-ekip-button">Yeni Kurul Üyesi Ekle</button>
-            </div>
-        </section>
-
-        <!-- 5. OYUNCU HAVUZU BÖLÜMÜ -->
-        <section id="oyuncu-havuzu" class="content-section" style="display: none;">
-            <h2>Oyuncu Havuzu</h2>
-            <p style="color: #666; margin-bottom: 20px;">Kulüp üyeleri ve oyuncu adayları. Bu liste ana sayfada görünmez, sadece oyun oluştururken kullanılır.</p>
-            <div class="content-block">
-                <div class="oyuncu-filtreleri" style="margin-bottom: 20px; display: flex; gap: 15px; flex-wrap: wrap;">
-                    <select id="durum-filtre" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                        <option value="tumu">Tüm Durumlar</option>
-                        <option value="aktif">Aktif</option>
-                        <option value="pasif">Pasif</option>
-                        <option value="mezun">Mezun</option>
-                    </select>
-                    <input type="text" id="oyuncu-arama" placeholder="Oyuncu ara..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; min-width: 200px;">
-                </div>
-                <div id="oyuncu-havuzu-list"></div>
-                <button id="add-oyuncu-button">Yeni Oyuncu Ekle</button>
-            </div>
-        </section>
-        
-        <!-- 6. ARŞİV BÖLÜMÜ -->
-        <section id="arsiv" class="content-section" style="display: none;">
-            <h2>Arşiv Yönetimi</h2>
-            <div class="content-block">
-                <div id="arsiv-list"></div>
-                <button id="add-sezon-button">Yeni Sezon Ekle</button>
-            </div>
-        </section>
-
-        <!-- 7. İLETİŞİM BÖLÜMÜ -->
-        <section id="iletisim" class="content-section" style="display: none;">
-             <h2>İletişim & Sosyal Medya</h2>
-            <div class="content-block">
-                <form id="iletisim-form">
-                    <label for="iletisim-instagram">Instagram Linki:</label>
-                    <input type="text" id="iletisim-instagram">
-                    <label for="iletisim-twitter">Twitter Linki:</label>
-                    <input type="text" id="iletisim-twitter">
-                    <label for="iletisim-youtube">Youtube Linki:</label>
-                    <input type="text" id="iletisim-youtube">
-                    <label for="iletisim-adres">Adres:</label>
-                    <textarea id="iletisim-adres" rows="3"></textarea>
-                    <label for="iletisim-email">Genel İletişim E-postası:</label>
-                    <input type="email" id="iletisim-email">
-                    <button type="submit">İletişim Bilgilerini Kaydet</button>
-                </form>
-            </div>
-        </section>
-
-    </main>
-</div>
-
-<!-- Modal ve Bildirim Alanları Eskisi Gibi Kalıyor -->
-<div id="edit-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <button class="modal-close-btn">&times;</button>
-        <h3 id="modal-title">Öğeyi Düzenle</h3>
-        <form id="modal-form">
-            <div id="modal-fields"></div>
-            <div class="modal-actions">
-                <button type="submit">Kaydet</button>
-            </div>
-        </form>
+        </main>
     </div>
-</div>
-<div id="notification-container"></div>
 
-<script src="mobile.js"></script>
-<script src="panel.js"></script>
+    <!-- Modal ve Bildirimler için yer tutucu -->
+    <div id="notification" class="notification"></div>
+    <div id="oyun-duzenle-modal" class="modal-background" style="display: none;"></div>
+
+    <script src="panel.js"></script>
 </body>
 </html> 
