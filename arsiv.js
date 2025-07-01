@@ -1,55 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    let allContent = {};
+
     async function populateArchive() {
         try {
             const response = await fetch('/api/content');
             if (!response.ok) throw new Error('İçerik yüklenemedi.');
-            const content = await response.json();
+            allContent = await response.json();
 
-            const archiveContainer = document.getElementById('archive-container');
-            archiveContainer.innerHTML = ''; // Konteyneri temizle
-
-            content.arsiv.forEach(sezon => {
-                const sezonKarti = document.createElement('div');
-                sezonKarti.className = 'sezon-kart';
-                sezonKarti.dataset.year = sezon.sezon.split(' ')[0]; // '2023-2024 Sezonu' -> '2023-2024'
-                const oyunlarHTML = sezon.oyunlar.map(oyun => `
-                    <div class="oyun-karti">
-                        <img src="${oyun.img}" alt="${oyun.ad} afişi">
-                        <strong>${oyun.ad}</strong>
-                    </div>
-                `).join('');
-
-                const fotograflarHTML = sezon.fotograflar.map(foto => `
-                    <img src="${foto}" alt="Sezon fotoğrafı">
-                `).join('');
-
-                sezonKarti.innerHTML = `
-                    <h2 class="sezon-baslik">${sezon.sezon}</h2>
-                    <p class="sezon-aciklama">${sezon.aciklama}</p>
-                    
-                    <h4>Oyunlar</h4>
-                    <div class="sezon-oyunlar">${oyunlarHTML}</div>
-                    
-                    <h4>Fotoğraflar</h4>
-                    <div class="sezon-fotograflar">${fotograflarHTML}</div>
-                `;
-                archiveContainer.appendChild(sezonKarti);
-            });
-            
-            // Footer'ı doldur
-            const sosyalMedya = document.querySelector('.sosyal-medya');
-            sosyalMedya.innerHTML = `
-                <a href="${content.iletisim.instagram}" target="_blank">Instagram</a>
-                <a href="${content.iletisim.twitter}" target="_blank">Twitter</a>
-                <a href="${content.iletisim.youtube}" target="_blank">Youtube</a>
-            `;
-            const iletisimBilgileri = document.querySelector('.iletisim-bilgileri');
-            iletisimBilgileri.innerHTML = `
-                 <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY)</p>
-                 <p>${content.iletisim.adres.replace(/<br>/g, '<br>')}</p>
-                 <p>${content.iletisim.email}</p>
-            `;
+            renderFilterButtons();
+            renderAllSeasons();
+            setupYearFilters();
+            populateFooter();
 
         } catch (error) {
             console.error('Arşiv içeriği oluşturulurken hata:', error);
@@ -57,8 +19,88 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Eski hamburger menü işlevselliği kaldırıldı - yeni navbar kullanılıyor
-    // Yeni navbar mobile.js tarafından yönetiliyor
+    function renderFilterButtons() {
+        const filterContainer = document.querySelector('.year-filter-container');
+        filterContainer.innerHTML = '<button class="year-filter-btn active" data-year="all">Tümü</button>';
+        allContent.arsiv?.forEach(sezon => {
+            const year = sezon.sezon;
+            const button = `<button class="year-filter-btn" data-year="${year}">${year}</button>`;
+            filterContainer.innerHTML += button;
+        });
+    }
+
+    function renderAllSeasons() {
+        const archiveContainer = document.getElementById('archive-container');
+        archiveContainer.innerHTML = ''; // Konteyneri temizle
+
+        allContent.arsiv?.forEach(sezon => {
+            const sezonWrapper = document.createElement('div');
+            sezonWrapper.className = 'sezon-wrapper';
+            sezonWrapper.dataset.year = sezon.sezon;
+
+            let sezonHtml = `<h2 class="sezon-baslik">${sezon.sezon} Sezonu</h2>`;
+            if (sezon.aciklama) {
+                sezonHtml += `<p class="sezon-aciklama">${sezon.aciklama}</p>`;
+            }
+
+            sezon.icerikler?.forEach(block => {
+                sezonHtml += `<div class="content-block">`;
+                if (block.baslik) {
+                    sezonHtml += `<h3 class="content-block-title">${block.baslik}</h3>`;
+                }
+
+                switch (block.tip) {
+                    case 'oyun':
+                        sezonHtml += `
+                            <div class="archive-play-card">
+                                <img src="${block.afis || 'assets/afis-placeholder.png'}" alt="${block.baslik} Afişi">
+                                <div class="archive-play-info">
+                                    <p><strong>Yönetmen:</strong> ${block.yonetmen || '-'}</p>
+                                    <p><strong>Yazar:</strong> ${block.yazar || '-'}</p>
+                                </div>
+                            </div>`;
+                        break;
+                    case 'galeri':
+                        sezonHtml += `<div class="archive-gallery">`;
+                        block.fotograflar?.forEach(foto => {
+                            sezonHtml += `<a href="${foto}" target="_blank"><img src="${foto}" alt="Galeri fotoğrafı"></a>`;
+                        });
+                        sezonHtml += `</div>`;
+                        break;
+                    case 'video':
+                        const videoId = new URL(block.videoUrl).searchParams.get('v');
+                        if (videoId) {
+                             sezonHtml += `<div class="archive-video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                        }
+                        break;
+                    case 'metin':
+                        sezonHtml += `<div class="archive-text-block">${block.metin.replace(/\n/g, '<br>')}</div>`;
+                        break;
+                }
+                sezonHtml += `</div>`;
+            });
+
+            sezonWrapper.innerHTML = sezonHtml;
+            archiveContainer.appendChild(sezonWrapper);
+        });
+    }
+
+    function populateFooter() {
+        const iletisim = allContent.iletisim;
+        if (!iletisim) return;
+        const sosyalMedya = document.querySelector('.sosyal-medya');
+        sosyalMedya.innerHTML = `
+            <a href="${iletisim.instagram}" target="_blank">Instagram</a>
+            <a href="${iletisim.twitter}" target="_blank">Twitter</a>
+            <a href="${iletisim.youtube}" target="_blank">Youtube</a>
+        `;
+        const iletisimBilgileri = document.querySelector('.iletisim-bilgileri');
+        iletisimBilgileri.innerHTML = `
+             <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY)</p>
+             <p>${iletisim.adres.replace(/<br>/g, '<br>')}</p>
+             <p>${iletisim.email}</p>
+        `;
+    }
 
     function setupYearFilters() {
         const filterContainer = document.querySelector('.year-filter-container');
@@ -68,25 +110,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         filterContainer.addEventListener('click', (e) => {
             if (e.target.classList.contains('year-filter-btn')) {
-                // Buton aktif durumunu güncelle
                 filterContainer.querySelector('.active').classList.remove('active');
                 e.target.classList.add('active');
 
                 const selectedYear = e.target.dataset.year;
-                const sezonKartlari = archiveContainer.querySelectorAll('.sezon-kart');
+                const sezonWrappers = archiveContainer.querySelectorAll('.sezon-wrapper');
 
-                sezonKartlari.forEach(kart => {
-                    if (selectedYear === 'all' || kart.dataset.year === selectedYear) {
-                        kart.style.display = 'block';
+                sezonWrappers.forEach(wrapper => {
+                    if (selectedYear === 'all' || wrapper.dataset.year === selectedYear) {
+                        wrapper.style.display = 'block';
                     } else {
-                        kart.style.display = 'none';
+                        wrapper.style.display = 'none';
                     }
                 });
             }
         });
     }
 
-    populateArchive().then(() => {
-        setupYearFilters();
-    });
+    populateArchive();
 });
