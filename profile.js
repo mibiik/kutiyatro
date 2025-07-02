@@ -1,9 +1,9 @@
 // Profil sayfası JavaScript
 
+let currentUser = null;
+
 // Kullanıcı profilini yükle
 function loadUserProfile() {
-    let currentUser;
-    
     try {
         const session = kutiyCheckSession();
         if (!session) {
@@ -25,48 +25,44 @@ function loadUserProfile() {
         document.getElementById('profile-role').textContent = currentUser.rol || 'Rol Belirtilmemiş';
         document.getElementById('profile-username').textContent = '@' + (currentUser.username || 'username');
 
+        // Profil fotoğrafı
+        if (currentUser.profilePicture && currentUser.profilePicture !== 'assets/1751453697640-organizator-1881-logo-F1F415.png') {
+            document.getElementById('profile-picture').src = currentUser.profilePicture;
+            document.getElementById('profile-picture').style.display = 'block';
+            document.getElementById('profile-avatar-icon').style.display = 'none';
+        }
+
         // Kişisel bilgileri doldur
         document.getElementById('info-name').textContent = currentUser.ad || 'Belirtilmemiş';
         document.getElementById('info-role').textContent = currentUser.rol || 'Belirtilmemiş';
         document.getElementById('info-username').textContent = currentUser.username || 'Belirtilmemiş';
-        document.getElementById('info-email').textContent = currentUser.email || 'Belirtilmemiş';
-        document.getElementById('info-phone').textContent = currentUser.telefon || 'Belirtilmemiş';
+        document.getElementById('info-department').textContent = currentUser.department || 'Belirtilmemiş';
+        document.getElementById('info-experience').textContent = currentUser.experience || 'Belirtilmemiş';
 
-        // Ek profil bilgilerini doldur (eğer varsa)
-        if (document.getElementById('info-bio')) {
-            document.getElementById('info-bio').textContent = currentUser.bio || 'Biyografi belirtilmemiş';
-        }
-        if (document.getElementById('info-department')) {
-            document.getElementById('info-department').textContent = currentUser.department || 'Bölüm belirtilmemiş';
-        }
-        if (document.getElementById('info-experience')) {
-            document.getElementById('info-experience').textContent = currentUser.experience || 'Deneyim belirtilmemiş';
-        }
-        if (document.getElementById('info-join-date')) {
-            const joinDate = currentUser.joinDate ? new Date(currentUser.joinDate).toLocaleDateString('tr-TR') : 'Belirtilmemiş';
+        // Tarih bilgileri
+        if (currentUser.joinDate) {
+            const joinDate = new Date(currentUser.joinDate).toLocaleDateString('tr-TR');
             document.getElementById('info-join-date').textContent = joinDate;
         }
-        if (document.getElementById('info-birth-date')) {
-            const birthDate = currentUser.birthDate ? new Date(currentUser.birthDate).toLocaleDateString('tr-TR') : 'Belirtilmemiş';
+        if (currentUser.birthDate) {
+            const birthDate = new Date(currentUser.birthDate).toLocaleDateString('tr-TR');
             document.getElementById('info-birth-date').textContent = birthDate;
         }
 
-        // Sosyal medya bilgileri
-        if (currentUser.socialMedia) {
-            if (document.getElementById('info-instagram')) {
-                document.getElementById('info-instagram').textContent = currentUser.socialMedia.instagram || 'Belirtilmemiş';
-            }
-            if (document.getElementById('info-linkedin')) {
-                document.getElementById('info-linkedin').textContent = currentUser.socialMedia.linkedin || 'Belirtilmemiş';
-            }
-            if (document.getElementById('info-twitter')) {
-                document.getElementById('info-twitter').textContent = currentUser.socialMedia.twitter || 'Belirtilmemiş';
-            }
+        // Biyografi
+        if (currentUser.bio && currentUser.bio.trim()) {
+            document.getElementById('info-bio').textContent = currentUser.bio;
         }
 
-        // Profil fotoğrafı
-        if (document.getElementById('profile-picture') && currentUser.profilePicture) {
-            document.getElementById('profile-picture').src = currentUser.profilePicture;
+        // İletişim bilgileri
+        document.getElementById('info-email').textContent = currentUser.email || 'Belirtilmemiş';
+        document.getElementById('info-phone').textContent = currentUser.telefon || 'Belirtilmemiş';
+
+        // Sosyal medya bilgileri
+        if (currentUser.socialMedia) {
+            document.getElementById('info-instagram').textContent = currentUser.socialMedia.instagram || 'Belirtilmemiş';
+            document.getElementById('info-linkedin').textContent = currentUser.socialMedia.linkedin || 'Belirtilmemiş';
+            document.getElementById('info-twitter').textContent = currentUser.socialMedia.twitter || 'Belirtilmemiş';
         }
 
         // Oturum bilgilerini doldur
@@ -86,7 +82,6 @@ function loadUserProfile() {
         
     } catch (error) {
         console.error('Profil yüklenirken hata:', error);
-        console.log('Kullanıcı verisi:', currentUser);
         window.location.href = 'login.html';
         return;
     }
@@ -133,169 +128,425 @@ function loadUserPermissions(user) {
             <div class="permission-icon">
                 <i class="${permission.icon}"></i>
             </div>
-            <h4>${permission.name}</h4>
-            <p style="margin: 5px 0 0 0; font-size: 0.9rem;">
-                ${hasPermission ? 'Aktif' : 'Pasif'}
-            </p>
+            <div class="permission-title">${permission.name}</div>
+            <div class="permission-status">${hasPermission ? 'Aktif' : 'Pasif'}</div>
         `;
         
         permissionsGrid.appendChild(card);
     });
 }
 
-// Profil düzenleme modal'ını aç
+// Kişisel bilgileri düzenle
+function editPersonalInfo() {
+    const modal = createModal('Kişisel Bilgileri Düzenle', `
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="edit-name">Ad Soyad</label>
+                <input type="text" id="edit-name" value="${currentUser.ad || ''}" placeholder="Ad Soyad">
+            </div>
+            <div class="form-group">
+                <label for="edit-department">Bölüm</label>
+                <input type="text" id="edit-department" value="${currentUser.department || ''}" placeholder="Üniversite Bölümü">
+            </div>
+            <div class="form-group">
+                <label for="edit-birth-date">Doğum Tarihi</label>
+                <input type="date" id="edit-birth-date" value="${currentUser.birthDate || ''}">
+            </div>
+            <div class="form-group">
+                <label for="edit-join-date">Katılım Tarihi</label>
+                <input type="date" id="edit-join-date" value="${currentUser.joinDate || ''}">
+            </div>
+            <div class="form-group">
+                <label for="edit-experience">Deneyim</label>
+                <input type="text" id="edit-experience" value="${currentUser.experience || ''}" placeholder="Tiyatro deneyimi">
+            </div>
+            <div class="form-group full-width">
+                <label for="edit-bio">Hakkımda</label>
+                <textarea id="edit-bio" placeholder="Kendiniz hakkında kısa bilgi...">${currentUser.bio || ''}</textarea>
+            </div>
+        </div>
+    `);
+
+    modal.querySelector('.btn-save').onclick = () => savePersonalInfo(modal);
+}
+
+// İletişim bilgilerini düzenle
+function editContactInfo() {
+    const modal = createModal('İletişim Bilgilerini Düzenle', `
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="edit-email">E-posta</label>
+                <input type="email" id="edit-email" value="${currentUser.email || ''}" placeholder="ornek@ku.edu.tr">
+            </div>
+            <div class="form-group">
+                <label for="edit-phone">Telefon</label>
+                <input type="tel" id="edit-phone" value="${currentUser.telefon || ''}" placeholder="+90 555 123 4567">
+            </div>
+        </div>
+    `);
+
+    modal.querySelector('.btn-save').onclick = () => saveContactInfo(modal);
+}
+
+// Sosyal medya bilgilerini düzenle
+function editSocialMedia() {
+    const socialMedia = currentUser.socialMedia || {};
+    const modal = createModal('Sosyal Medya Hesaplarını Düzenle', `
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="edit-instagram">Instagram</label>
+                <input type="text" id="edit-instagram" value="${socialMedia.instagram || ''}" placeholder="@kullanici_adi">
+            </div>
+            <div class="form-group">
+                <label for="edit-linkedin">LinkedIn</label>
+                <input type="text" id="edit-linkedin" value="${socialMedia.linkedin || ''}" placeholder="linkedin.com/in/kullanici">
+            </div>
+            <div class="form-group">
+                <label for="edit-twitter">Twitter</label>
+                <input type="text" id="edit-twitter" value="${socialMedia.twitter || ''}" placeholder="@kullanici_adi">
+            </div>
+        </div>
+    `);
+
+    modal.querySelector('.btn-save').onclick = () => saveSocialMedia(modal);
+}
+
+// Tüm profili düzenle
 function editProfile() {
-    const session = kutiyCheckSession();
-    if (!session) return;
+    const socialMedia = currentUser.socialMedia || {};
+    const modal = createModal('Profili Düzenle', `
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="edit-name-full">Ad Soyad</label>
+                <input type="text" id="edit-name-full" value="${currentUser.ad || ''}" placeholder="Ad Soyad">
+            </div>
+            <div class="form-group">
+                <label for="edit-department-full">Bölüm</label>
+                <input type="text" id="edit-department-full" value="${currentUser.department || ''}" placeholder="Üniversite Bölümü">
+            </div>
+            <div class="form-group">
+                <label for="edit-email-full">E-posta</label>
+                <input type="email" id="edit-email-full" value="${currentUser.email || ''}" placeholder="ornek@ku.edu.tr">
+            </div>
+            <div class="form-group">
+                <label for="edit-phone-full">Telefon</label>
+                <input type="tel" id="edit-phone-full" value="${currentUser.telefon || ''}" placeholder="+90 555 123 4567">
+            </div>
+            <div class="form-group">
+                <label for="edit-birth-date-full">Doğum Tarihi</label>
+                <input type="date" id="edit-birth-date-full" value="${currentUser.birthDate || ''}">
+            </div>
+            <div class="form-group">
+                <label for="edit-join-date-full">Katılım Tarihi</label>
+                <input type="date" id="edit-join-date-full" value="${currentUser.joinDate || ''}">
+            </div>
+            <div class="form-group">
+                <label for="edit-experience-full">Deneyim</label>
+                <input type="text" id="edit-experience-full" value="${currentUser.experience || ''}" placeholder="Tiyatro deneyimi">
+            </div>
+            <div class="form-group">
+                <label for="edit-instagram-full">Instagram</label>
+                <input type="text" id="edit-instagram-full" value="${socialMedia.instagram || ''}" placeholder="@kullanici_adi">
+            </div>
+            <div class="form-group">
+                <label for="edit-linkedin-full">LinkedIn</label>
+                <input type="text" id="edit-linkedin-full" value="${socialMedia.linkedin || ''}" placeholder="linkedin.com/in/kullanici">
+            </div>
+            <div class="form-group">
+                <label for="edit-twitter-full">Twitter</label>
+                <input type="text" id="edit-twitter-full" value="${socialMedia.twitter || ''}" placeholder="@kullanici_adi">
+            </div>
+            <div class="form-group full-width">
+                <label for="edit-bio-full">Hakkımda</label>
+                <textarea id="edit-bio-full" placeholder="Kendiniz hakkında kısa bilgi...">${currentUser.bio || ''}</textarea>
+            </div>
+        </div>
+    `);
 
-    const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
-    const currentUser = users.find(u => u.username === session.username);
-    
-    if (!currentUser) return;
-
-    // Mevcut bilgileri forma doldur
-    document.getElementById('edit-email').value = currentUser.email || '';
-    document.getElementById('edit-phone').value = currentUser.telefon || '';
-    document.getElementById('edit-bio').value = currentUser.bio || '';
-
-    document.getElementById('profile-edit-modal').style.display = 'flex';
+    modal.querySelector('.btn-save').onclick = () => saveFullProfile(modal);
 }
 
-// Profil düzenleme modal'ını kapat
-function closeEditModal() {
-    document.getElementById('profile-edit-modal').style.display = 'none';
-}
-
-// Şifre değiştirme modal'ını aç
+// Şifre değiştir
 function changePassword() {
-    document.getElementById('password-change-modal').style.display = 'flex';
-    document.getElementById('password-change-form').reset();
-    document.getElementById('password-error').style.display = 'none';
+    const modal = createModal('Şifre Değiştir', `
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="current-password">Mevcut Şifre</label>
+                <input type="password" id="current-password" required>
+            </div>
+            <div class="form-group">
+                <label for="new-password">Yeni Şifre</label>
+                <input type="password" id="new-password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Yeni Şifre (Tekrar)</label>
+                <input type="password" id="confirm-password" required minlength="6">
+            </div>
+        </div>
+        <div id="password-error" class="error-message"></div>
+    `);
+
+    modal.querySelector('.btn-save').onclick = () => savePassword(modal);
 }
 
-// Şifre değiştirme modal'ını kapat
-function closePasswordModal() {
-    document.getElementById('password-change-modal').style.display = 'none';
-}
-
-// Profil düzenleme form submit
-document.addEventListener('DOMContentLoaded', function() {
-    const profileEditForm = document.getElementById('profile-edit-form');
-    const passwordChangeForm = document.getElementById('password-change-form');
-
-    if (profileEditForm) {
-        profileEditForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const session = kutiyCheckSession();
-            if (!session) return;
-
-            const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
-            const userIndex = users.findIndex(u => u.username === session.username);
-            
-            if (userIndex === -1) return;
-
-            // Form verilerini al
-            const formData = new FormData(profileEditForm);
-            
-            // Kullanıcı bilgilerini güncelle
-            users[userIndex].email = formData.get('email');
-            users[userIndex].telefon = formData.get('phone');
-            users[userIndex].bio = formData.get('bio');
-
-            // Kaydet
-            localStorage.setItem('kutiy_users', JSON.stringify(users));
-            
-            // Sayfayı yenile
-            loadUserProfile();
-            closeEditModal();
-            
-            // Başarı mesajı
-            showMiniNotification('Profil güncellendi!', 'success');
-        });
+// Modal oluştur
+function createModal(title, content) {
+    // Varolan modalı kaldır
+    const existingModal = document.querySelector('.modal-overlay');
+    if (existingModal) {
+        existingModal.remove();
     }
 
-    if (passwordChangeForm) {
-        passwordChangeForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const session = kutiyCheckSession();
-            if (!session) return;
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.display = 'flex';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal()">&times;</button>
+            <h2 class="modal-title">${title}</h2>
+            ${content}
+            <div class="modal-buttons">
+                <button class="modal-btn btn-save">Kaydet</button>
+                <button class="modal-btn btn-cancel" onclick="closeModal()">İptal</button>
+            </div>
+        </div>
+    `;
 
-            const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
-            const userIndex = users.findIndex(u => u.username === session.username);
-            
-            if (userIndex === -1) return;
+    document.body.appendChild(modal);
+    return modal;
+}
 
-            const currentPassword = document.getElementById('current-password').value;
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            
-            const errorDiv = document.getElementById('password-error');
+// Modal kapat
+function closeModal() {
+    const modal = document.querySelector('.modal-overlay');
+    if (modal) {
+        modal.remove();
+    }
+}
 
-            // Mevcut şifre kontrolü
-            if (users[userIndex].password !== btoa(currentPassword)) {
-                errorDiv.textContent = 'Mevcut şifre hatalı!';
-                errorDiv.style.display = 'block';
-                return;
+// Kişisel bilgileri kaydet
+function savePersonalInfo(modal) {
+    try {
+        const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+
+        if (userIndex !== -1) {
+            users[userIndex].ad = modal.querySelector('#edit-name').value;
+            users[userIndex].department = modal.querySelector('#edit-department').value;
+            users[userIndex].birthDate = modal.querySelector('#edit-birth-date').value;
+            users[userIndex].joinDate = modal.querySelector('#edit-join-date').value;
+            users[userIndex].experience = modal.querySelector('#edit-experience').value;
+            users[userIndex].bio = modal.querySelector('#edit-bio').value;
+
+            localStorage.setItem('kutiy_users', JSON.stringify(users));
+            showSuccess('Kişisel bilgiler güncellendi!');
+            closeModal();
+            loadUserProfile();
+        }
+    } catch (error) {
+        console.error('Kaydetme hatası:', error);
+        showError('Bilgiler kaydedilemedi!');
+    }
+}
+
+// İletişim bilgilerini kaydet
+function saveContactInfo(modal) {
+    try {
+        const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+
+        if (userIndex !== -1) {
+            users[userIndex].email = modal.querySelector('#edit-email').value;
+            users[userIndex].telefon = modal.querySelector('#edit-phone').value;
+
+            localStorage.setItem('kutiy_users', JSON.stringify(users));
+            showSuccess('İletişim bilgileri güncellendi!');
+            closeModal();
+            loadUserProfile();
+        }
+    } catch (error) {
+        console.error('Kaydetme hatası:', error);
+        showError('Bilgiler kaydedilemedi!');
+    }
+}
+
+// Sosyal medya bilgilerini kaydet
+function saveSocialMedia(modal) {
+    try {
+        const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+
+        if (userIndex !== -1) {
+            if (!users[userIndex].socialMedia) {
+                users[userIndex].socialMedia = {};
             }
+            
+            users[userIndex].socialMedia.instagram = modal.querySelector('#edit-instagram').value;
+            users[userIndex].socialMedia.linkedin = modal.querySelector('#edit-linkedin').value;
+            users[userIndex].socialMedia.twitter = modal.querySelector('#edit-twitter').value;
 
-            // Yeni şifre kontrolü
-            if (newPassword.length < 6) {
-                errorDiv.textContent = 'Yeni şifre en az 6 karakter olmalıdır!';
-                errorDiv.style.display = 'block';
-                return;
+            localStorage.setItem('kutiy_users', JSON.stringify(users));
+            showSuccess('Sosyal medya hesapları güncellendi!');
+            closeModal();
+            loadUserProfile();
+        }
+    } catch (error) {
+        console.error('Kaydetme hatası:', error);
+        showError('Bilgiler kaydedilemedi!');
+    }
+}
+
+// Tüm profili kaydet
+function saveFullProfile(modal) {
+    try {
+        const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+
+        if (userIndex !== -1) {
+            // Kişisel bilgiler
+            users[userIndex].ad = modal.querySelector('#edit-name-full').value;
+            users[userIndex].department = modal.querySelector('#edit-department-full').value;
+            users[userIndex].email = modal.querySelector('#edit-email-full').value;
+            users[userIndex].telefon = modal.querySelector('#edit-phone-full').value;
+            users[userIndex].birthDate = modal.querySelector('#edit-birth-date-full').value;
+            users[userIndex].joinDate = modal.querySelector('#edit-join-date-full').value;
+            users[userIndex].experience = modal.querySelector('#edit-experience-full').value;
+            users[userIndex].bio = modal.querySelector('#edit-bio-full').value;
+
+            // Sosyal medya
+            if (!users[userIndex].socialMedia) {
+                users[userIndex].socialMedia = {};
             }
+            users[userIndex].socialMedia.instagram = modal.querySelector('#edit-instagram-full').value;
+            users[userIndex].socialMedia.linkedin = modal.querySelector('#edit-linkedin-full').value;
+            users[userIndex].socialMedia.twitter = modal.querySelector('#edit-twitter-full').value;
 
-            if (newPassword !== confirmPassword) {
-                errorDiv.textContent = 'Yeni şifreler eşleşmiyor!';
-                errorDiv.style.display = 'block';
-                return;
-            }
+            localStorage.setItem('kutiy_users', JSON.stringify(users));
+            showSuccess('Profil tamamen güncellendi!');
+            closeModal();
+            loadUserProfile();
+        }
+    } catch (error) {
+        console.error('Kaydetme hatası:', error);
+        showError('Profil kaydedilemedi!');
+    }
+}
 
-            // Şifreyi güncelle
+// Şifre kaydet
+function savePassword(modal) {
+    try {
+        const currentPassword = modal.querySelector('#current-password').value;
+        const newPassword = modal.querySelector('#new-password').value;
+        const confirmPassword = modal.querySelector('#confirm-password').value;
+        const errorDiv = modal.querySelector('#password-error');
+
+        // Validasyonlar
+        if (currentUser.password !== btoa(currentPassword)) {
+            errorDiv.textContent = 'Mevcut şifre hatalı!';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        if (newPassword.length < 6) {
+            errorDiv.textContent = 'Yeni şifre en az 6 karakter olmalıdır!';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            errorDiv.textContent = 'Yeni şifreler eşleşmiyor!';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // Şifre güncelle
+        const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
+        const userIndex = users.findIndex(u => u.username === currentUser.username);
+
+        if (userIndex !== -1) {
             users[userIndex].password = btoa(newPassword);
             users[userIndex].mustChangePassword = false;
-
-            // Kaydet
             localStorage.setItem('kutiy_users', JSON.stringify(users));
             
-            // Modal'ı kapat
-            closePasswordModal();
-            
-            // Sayfayı yenile
+            showSuccess('Şifre başarıyla değiştirildi!');
+            closeModal();
             loadUserProfile();
-            
-            // Başarı mesajı
-            showMiniNotification('Şifre başarıyla değiştirildi!', 'success');
-        });
+        }
+    } catch (error) {
+        console.error('Şifre kaydetme hatası:', error);
+        showError('Şifre değiştirilemedi!');
     }
-});
+}
 
-// Mini bildirim göster
-function showMiniNotification(message, type = 'success') {
+// Profil fotoğrafını düzenle
+function editProfilePicture() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                // Burada normalde dosyayı sunucuya yüklersiniz
+                // Şimdilik base64 olarak kaydediyoruz (gerçek projede önerilmez)
+                const imageData = e.target.result;
+                
+                try {
+                    const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
+                    const userIndex = users.findIndex(u => u.username === currentUser.username);
+
+                    if (userIndex !== -1) {
+                        users[userIndex].profilePicture = imageData;
+                        localStorage.setItem('kutiy_users', JSON.stringify(users));
+                        showSuccess('Profil fotoğrafı güncellendi!');
+                        loadUserProfile();
+                    }
+                } catch (error) {
+                    console.error('Profil fotoğrafı kaydetme hatası:', error);
+                    showError('Profil fotoğrafı kaydedilemedi!');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+    input.click();
+}
+
+// Başarı mesajı göster
+function showSuccess(message) {
+    showNotification(message, 'success');
+}
+
+// Hata mesajı göster
+function showError(message) {
+    showNotification(message, 'error');
+}
+
+// Bildirim göster
+function showNotification(message, type = 'success') {
     // Varolan bildirimi kaldır
-    const existing = document.querySelector('.mini-notification');
+    const existing = document.querySelector('.notification');
     if (existing) {
         existing.remove();
     }
 
     const notification = document.createElement('div');
-    notification.className = 'mini-notification';
+    notification.className = 'notification';
     notification.style.cssText = `
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#28a745' : '#dc3545'};
+        padding: 15px 25px;
+        border-radius: 10px;
         color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-size: 0.9rem;
         font-weight: 500;
         z-index: 10000;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         transform: translateX(100%);
         transition: transform 0.3s ease;
+        background: ${type === 'success' ? '#28a745' : '#dc3545'};
     `;
     
     notification.textContent = message;
