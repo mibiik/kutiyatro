@@ -239,9 +239,9 @@ function getDurumText(durum) {
 }
 
 function getKategoriText(kategori) {
-    if (kategori === 'ana') return 'Ana Sahne';
-    if (kategori === 'oda') return 'Oda Tiyatrosu';
-    return 'Diğer';
+    if (kategori === 'ana') return '<i class="fas fa-theater-masks"></i> Ana Sahne';
+    if (kategori === 'oda') return '<i class="fas fa-home"></i> Oda Tiyatrosu';
+    return '<i class="fas fa-masks-theater"></i> Diğer';
 }
 
 // Global erişim için tumOyunlar'ı dışarıda bırak

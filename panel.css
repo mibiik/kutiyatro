@@ -388,6 +388,10 @@ button:disabled {
     border: 1px solid transparent;
 }
 
+.kategori-badge i {
+    margin-right: 4px;
+}
+
 .kategori-ana {
     background: linear-gradient(135deg, #5D001E, #800020);
     color: white;

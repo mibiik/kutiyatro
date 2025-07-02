@@ -481,12 +481,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Kategori rozeti için oyun türünde özel işlem
         let kategoriBadge = '';
-        if (type === 'oyun' && item.kategori) {
-            const kategoriText = item.kategori === 'ana' ? '🎭 Ana Sahne' : 
-                                 item.kategori === 'oda' ? '🏠 Oda Tiyatrosu' : 
-                                 '🎪 Diğer';
-            kategoriBadge = `<span class="kategori-badge kategori-${item.kategori}">${kategoriText}</span>`;
-        }
+                 if (type === 'oyun' && item.kategori) {
+             const kategoriText = item.kategori === 'ana' ? '<i class="fas fa-theater-masks"></i> Ana Sahne' : 
+                                  item.kategori === 'oda' ? '<i class="fas fa-home"></i> Oda Tiyatrosu' : 
+                                  '<i class="fas fa-masks-theater"></i> Diğer';
+             kategoriBadge = `<span class="kategori-badge kategori-${item.kategori}">${kategoriText}</span>`;
+         }
         
         itemDiv.innerHTML = `
             <div class="list-item-content">
@@ -769,8 +769,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <label for="modal-kategori">Kategori:</label>
                     <select id="modal-kategori" required>
                         <option value="">Kategori Seçiniz</option>
-                        <option value="ana" ${item.kategori === 'ana' ? 'selected' : ''}>🎭 Ana Sahne Oyunu</option>
-                        <option value="oda" ${item.kategori === 'oda' ? 'selected' : ''}>🏠 Oda Tiyatrosu</option>
+                        <option value="ana" ${item.kategori === 'ana' ? 'selected' : ''}><i class="fas fa-theater-masks"></i> Ana Sahne Oyunu</option>
+                        <option value="oda" ${item.kategori === 'oda' ? 'selected' : ''}><i class="fas fa-home"></i> Oda Tiyatrosu</option>
                     </select>
                     <label for="modal-yonetmen">Yönetmen:</label>
                     <input type="text" id="modal-yonetmen" value="${item.yonetmen || ''}">
