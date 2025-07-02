@@ -27,15 +27,15 @@ function oyunlariGoster() {
     const grid = document.getElementById('oyunlar-grid');
     const bosDurum = document.getElementById('bos-durum');
 
-    if (!grid) return;
+        if (!grid) return;
     
     if (filtrelenmisOyunlar.length === 0) {
         grid.innerHTML = '';
-        if(bosDurum) bosDurum.style.display = 'block';
+            if(bosDurum) bosDurum.style.display = 'block';
         return;
     }
     
-    if(bosDurum) bosDurum.style.display = 'none';
+        if(bosDurum) bosDurum.style.display = 'none';
     
     grid.innerHTML = filtrelenmisOyunlar.map(oyun => {
         return `
@@ -55,7 +55,7 @@ function oyunlariGoster() {
                             ${getDurumText(oyun.durum, oyun.kategori)}
                         </span>
                         <span class="kategori-badge kategori-${oyun.kategori}">
-                            ${getKategoriText(oyun.kategori)}
+                        ${getKategoriText(oyun.kategori)}
                         </span>
                     </div>
                 </div>
@@ -74,7 +74,7 @@ function oyunlariGoster() {
                                 <div class="meta-item">
                                     <i class="fas fa-video"></i>
                                     <span>${oyun.yonetmen}</span>
-                                </div>
+                        </div>
                             ` : ''}
                         </div>
                     </div>
@@ -97,7 +97,7 @@ function oyunlariGoster() {
                     </div>
                     
                     <div class="kart-footer">
-                        ${oyun.bilet ? 
+                            ${oyun.bilet ? 
                             `<a href="${oyun.bilet}" target="_blank" class="bilet-btn bilet-aktif" onclick="event.stopPropagation();">
                                 <i class="fas fa-ticket-alt"></i>
                                 <span>Bilet Al</span>

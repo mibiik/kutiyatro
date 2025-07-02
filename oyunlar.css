@@ -997,7 +997,7 @@ main {
 
 .oyunlar-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -1827,7 +1827,7 @@ main {
     }
 
     .tam-ekran-yazar {
-        font-size: 0.9rem;
+    font-size: 0.9rem;
     }
 }
 
@@ -2077,7 +2077,7 @@ main {
     .oyun-modal-afis-container {
         flex: 0 0 auto;
         max-height: 300px;
-        width: 100%;
+    width: 100%;
         border-radius: 20px 20px 0 0;
     }
 
@@ -2440,7 +2440,7 @@ main {
 }
 
 .durum-badge, .kategori-badge {
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
@@ -2449,6 +2449,8 @@ main {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     text-align: center;
+    min-width: 120px;
+    white-space: nowrap;
 }
 
 .durum-badge i, .kategori-badge i {
@@ -2643,7 +2645,8 @@ main {
     }
     
     .durum-badge, .kategori-badge {
-        padding: 4px 8px;
+        padding: 6px 12px;
         font-size: 0.65rem;
+        min-width: 100px;
     }
 }
