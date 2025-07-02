@@ -629,14 +629,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (!itemData.roller.includes(input.value)) {
                             itemData.roller.push(input.value);
                         }
-                    } else {
+        } else {
                         if (itemData.roller) {
                             itemData.roller = itemData.roller.filter(r => r !== input.value);
                         }
                     }
                 } else {
                     // Diğer checkbox'lar
-                    itemData[key] = input.checked;
+                     itemData[key] = input.checked;
                 }
             } else if (input.type === 'file') {
                 if (input.files && input.files[0]) {
@@ -684,7 +684,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Çift yönlü senkronizasyon
         if (type === 'ekip') {
-            syncEkipToOyuncuHavuzu(itemData);
+             syncEkipToOyuncuHavuzu(itemData);
         } else if (type === 'oyuncu') {
             syncOyuncuHavuzuToEkip(itemData);
         }
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <textarea id="modal-aciklama" rows="4">${item.aciklama || ''}</textarea>
                     <label for="modal-tarih">Tarih:</label>
                     <input type="date" id="modal-tarih" value="${item.tarih || ''}">
-                    <label for="modal-saat">Saat:</label>
+                     <label for="modal-saat">Saat:</label>
                     <input type="time" id="modal-saat" value="${item.saat || ''}">
                     <label for="modal-konum">Konum:</label>
                     <input type="text" id="modal-konum" value="${item.konum || ''}" placeholder="Örn: Koç Üniversitesi Sevgi Gönül Oditoryumu">
@@ -986,53 +986,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let draggedItem = null;
     const addDragAndDropListeners = (list, type) => {
         let draggedItem = null;
-        let touchStartY = 0;
-        let touchCurrentY = 0;
-        let touchItem = null;
-        let placeholder = null;
 
-        // Touch drag temizleme fonksiyonu
-        const cleanupTouchDrag = () => {
-            // Timer'ları temizle
-            if (touchItem && touchItem.touchTimer) {
-                clearTimeout(touchItem.touchTimer);
-            }
+        // Mobile-specific fonksiyon: touch koordinatına göre hangi elementin arkasına geleceğini belirle
+        function getMobileAfterElement(container, y, currentDraggedItem) {
+            const draggableElements = [...container.querySelectorAll('.list-item')].filter(item => 
+                item !== currentDraggedItem // Sürüklenen item'ı hariç tut
+            );
             
-            // Drag item'ı temizle
-            if (draggedItem) {
-                draggedItem.classList.remove('dragging');
-                draggedItem.style.position = '';
-                draggedItem.style.zIndex = '';
-                draggedItem.style.opacity = '';
-                draggedItem.style.transform = '';
-                draggedItem.style.pointerEvents = '';
-                draggedItem.style.top = '';
-                draggedItem.style.left = '';
-                draggedItem.style.right = '';
-                draggedItem.style.width = '';
-                draggedItem.style.webkitUserSelect = '';
-                draggedItem.style.userSelect = '';
-                draggedItem.style.webkitTouchCallout = '';
-            }
-            
-            // Placeholder'ları temizle
-            if (placeholder && placeholder.parentNode) {
-                placeholder.remove();
-            }
-            
-            // Tüm eski placeholder'ları da temizle
-            const allPlaceholders = list.querySelectorAll('.drag-placeholder');
-            allPlaceholders.forEach(p => p.remove());
-            
-            // Değişkenleri sıfırla
-            draggedItem = null;
-            touchItem = null;
-            placeholder = null;
-            touchStartY = 0;
-            touchCurrentY = 0;
-        };
-
-        // Mouse/Desktop drag events
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+        
+        // WEB/DESKTOP DRAG EVENTS (Mevcut ve çalışan)
         list.addEventListener('dragstart', e => {
             if (e.target.classList.contains('draggable')) {
                 draggedItem = e.target;
@@ -1068,125 +1040,99 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Touch/Mobile drag events
+        // MOBILE TOUCH EVENTS (Tamamen basitleştirilmiş)
+        let touchStartY = 0;
+        let touchItem = null;
+        let isDragging = false;
+        let longPressTimer = null;
+        
+        // Touch başlangıcı
         list.addEventListener('touchstart', e => {
-            if (e.target.closest('.draggable')) {
-                // Eğer zaten bir drag işlemi varsa, önce onu temizle
-                if (touchItem || draggedItem || placeholder) {
-                    cleanupTouchDrag();
-                }
-                
-                // Tüm varsayılan davranışları engelle
-                e.preventDefault();
-                e.stopPropagation();
-                
-                touchItem = e.target.closest('.draggable');
-                touchStartY = e.touches[0].clientY;
-                
-                // Context menu ve selection'ı engelle
-                touchItem.style.webkitUserSelect = 'none';
-                touchItem.style.userSelect = 'none';
-                touchItem.style.webkitTouchCallout = 'none';
-                
-                // Önceki placeholder'ları temizle
-                const existingPlaceholders = list.querySelectorAll('.drag-placeholder');
-                existingPlaceholders.forEach(p => p.remove());
-                
-                // Yeni placeholder oluştur
-                placeholder = document.createElement('div');
-                placeholder.className = 'drag-placeholder';
-                placeholder.style.cssText = `
-                    height: ${touchItem.offsetHeight}px;
-                    background: rgba(128, 0, 32, 0.1);
-                    border: 2px dashed var(--bordo);
-                    border-radius: 8px;
-                    margin: 5px 0;
-                    opacity: 0;
-                    transition: opacity 0.2s ease;
-                `;
-                
-                // Long press algılama için timer (daha kısa süre)
-                touchItem.touchTimer = setTimeout(() => {
-                    // Touch item'ı dragging durumuna al
-                    touchItem.classList.add('dragging');
-                    touchItem.style.position = 'fixed';
-                    touchItem.style.zIndex = '1000';
-                    touchItem.style.opacity = '0.8';
-                    touchItem.style.transform = 'rotate(3deg)';
-                    touchItem.style.pointerEvents = 'none';
-                    touchItem.style.width = (touchItem.offsetWidth - 20) + 'px'; // Biraz daralt
-                    
-                    // Placeholder'ı göster
-                    if (placeholder && !placeholder.parentNode) {
-                        list.insertBefore(placeholder, touchItem);
-                        placeholder.style.opacity = '1';
-                    }
-                    
+            const draggableElement = e.target.closest('.draggable');
+            if (!draggableElement) return;
+            
+            // Temizlik
+            if (longPressTimer) clearTimeout(longPressTimer);
+            if (isDragging) return;
+            
+            touchItem = draggableElement;
+            touchStartY = e.touches[0].clientY;
+            
+            // Long press timer
+            longPressTimer = setTimeout(() => {
+                if (touchItem) {
+                    isDragging = true;
                     draggedItem = touchItem;
                     
-                    // Haptic feedback (varsa)
+                    // Visual feedback
+                    touchItem.style.opacity = '0.7';
+                    touchItem.style.transform = 'scale(1.05) rotate(2deg)';
+                    touchItem.style.zIndex = '1000';
+                    
+                    // Haptic feedback
                     if (navigator.vibrate) {
-                        navigator.vibrate(50);
+                        navigator.vibrate(30);
                     }
-                }, 300); // 300ms long press (daha hızlı)
-            }
-        }, { passive: false });
-
+                }
+            }, 300);
+            
+        }, { passive: true });
+        
+        // Touch hareket
         list.addEventListener('touchmove', e => {
-            // Dragging modunda değilse normal scroll'a izin ver
-            if (!draggedItem) {
+            if (!isDragging || !draggedItem) {
+                // Long press iptal et eğer çok hareket varsa
+                const currentY = e.touches[0].clientY;
+                if (Math.abs(currentY - touchStartY) > 10) {
+                    clearTimeout(longPressTimer);
+                }
                 return;
             }
             
-            if (draggedItem && touchItem) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                touchCurrentY = e.touches[0].clientY;
-                
-                // Touch item'ı parmağı takip ettir - daha smooth
-                const rect = list.getBoundingClientRect();
-                draggedItem.style.top = (touchCurrentY - 40) + 'px';
-                draggedItem.style.left = (rect.left + 5) + 'px';
-                draggedItem.style.right = 'auto';
-                
-                // Placeholder'ın konumunu güncelle (sadece mevcut placeholder varsa)
-                if (placeholder && placeholder.parentNode) {
-                    const afterElement = getDragAfterElement(list, touchCurrentY);
-                    if (afterElement == null) {
-                        list.appendChild(placeholder);
-                    } else {
-                        list.insertBefore(placeholder, afterElement);
-                    }
+            e.preventDefault();
+            
+            const touchY = e.touches[0].clientY;
+            const afterElement = getMobileAfterElement(list, touchY, draggedItem);
+            
+            // Basit placement mantığı
+            if (afterElement == null) {
+                // En sona koy
+                if (list.lastElementChild !== draggedItem) {
+                    list.appendChild(draggedItem);
+                }
+            } else {
+                // Belirli elementin önüne koy
+                if (afterElement.previousElementSibling !== draggedItem) {
+                    list.insertBefore(draggedItem, afterElement);
                 }
             }
         }, { passive: false });
-
+        
+        // Touch bitiş
         list.addEventListener('touchend', e => {
-            if (touchItem) {
-                e.preventDefault();
-                e.stopPropagation();
+            clearTimeout(longPressTimer);
+            
+            if (isDragging && draggedItem) {
+                // Visual cleanup
+                draggedItem.style.opacity = '';
+                draggedItem.style.transform = '';
+                draggedItem.style.zIndex = '';
                 
-                clearTimeout(touchItem.touchTimer);
-                
-                if (draggedItem) {
-                    // Placeholder'ın yerine gerçek item'ı koy
-                    if (placeholder && placeholder.parentNode) {
-                        placeholder.parentNode.insertBefore(draggedItem, placeholder);
-                    }
-                    
-                    // Sıralamayı güncelle
-                    updateOrder(list, type);
-                }
-                
-                // Her durumda temizle
-                cleanupTouchDrag();
+                // Sıralamayı kaydet
+                updateOrder(list, type);
             }
+            
+            // Reset
+            isDragging = false;
+            draggedItem = null;
+            touchItem = null;
         });
     };
 
     const getDragAfterElement = (container, y) => {
+        // Web drag için - dragging class'ı olanları hariç tut
         const draggableElements = [...container.querySelectorAll('.list-item:not(.dragging)')];
+        
         return draggableElements.reduce((closest, child) => {
             const box = child.getBoundingClientRect();
             const offset = y - box.top - box.height / 2;
@@ -1203,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!siteContent[arrayKey]) return;
 
         const newOrderedIds = Array.from(list.querySelectorAll('.list-item')).map(item => item.dataset.id);
-        
+
         console.log('Yeni sıralama:', newOrderedIds);
 
         if (arrayKey === 'oyunlar') {
@@ -1226,7 +1172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-        } else {
+        } else { 
             // Diğer listeler için (ekip, oyuncu havuzu) - mevcut sistem
             const newArray = newOrderedIds.map(id =>
                 siteContent[arrayKey].find(item => item.id === id || item.id == id)
@@ -1242,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Drag & drop için minimal feedback
         clearTimeout(window.dragNotificationTimeout);
-        
+
         saveContent().then(() => {
             // Değişiklikten sonra oyun listelerini yeniden render et
             if (arrayKey === 'oyunlar') {

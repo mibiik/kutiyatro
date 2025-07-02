@@ -91,6 +91,12 @@ const defaultUsers = {
         role: 'Kurul Üyesi',
         defaultPassword: 'kutiy2025',
         needsPasswordChange: true
+    },
+    'admin_kutiy': {
+        name: 'Sistem Yöneticisi',
+        role: 'Sistem Yöneticisi',
+        defaultPassword: 'kutiy2025',
+        needsPasswordChange: true
     }
 };
 
@@ -244,12 +250,22 @@ function getDetailedProfileData(username, userData) {
 
 // Role göre varsayılan izinleri belirle
 function getDefaultPermissions(role) {
-    const adminRoles = ['Eş Başkan', 'Genel Sekreter'];
+    // ŞU ANLIK HERKESE TAM ADMIN İZİNLERİ VERİLİYOR
+    // Tüm roller için tam izinler
+    return [
+        'read_plays', 'edit_plays', 'delete_plays', 
+        'manage_actors', 'manage_board', 'upload_media', 
+        'view_analytics', 'manage_users', 'system_settings'
+    ];
+    
+    // ESKI İZİN SİSTEMİ (KAPALI)
+    /*
+    const adminRoles = ['Eş Başkan', 'Genel Sekreter', 'Sistem Yöneticisi'];
     const editorRoles = ['Festival Sorumlusu', 'Mali Koordinatör ve Lojistik Sorumlusu', 'Organizasyon Sorumlusu', 'Sosyal Medya Sorumlusu'];
     const managerRoles = ['Tasarım Sorumlusu', 'Teknik Sorumlusu', 'Turne Sorumlusu', 'Oda Tiyatrosu Sorumlusu'];
     
     if (adminRoles.includes(role)) {
-        // Eş başkanlar ve genel sekreter - tüm izinler
+        // Eş başkanlar, genel sekreter ve sistem yöneticisi - tüm izinler
         return [
             'read_plays', 'edit_plays', 'delete_plays', 
             'manage_actors', 'manage_board', 'upload_media', 
@@ -271,6 +287,7 @@ function getDefaultPermissions(role) {
         // Diğer kurul üyeleri - temel izinler
         return ['read_plays', 'manage_actors', 'upload_media'];
     }
+    */
 }
 
 // Kullanıcı verilerini localStorage'a kaydet
@@ -305,8 +322,8 @@ function checkSession() {
         }
         
         const timeDiff = Date.now() - session.loginTime;
-        // 8 saat = 8 * 60 * 60 * 1000
-        if (timeDiff < 8 * 60 * 60 * 1000) {
+        // 30 gün = 30 * 24 * 60 * 60 * 1000
+        if (timeDiff < 30 * 24 * 60 * 60 * 1000) {
             return session;
         } else {
             // Session süresi dolmuş
