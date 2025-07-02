@@ -103,6 +103,12 @@ function loadUserData() {
             
             // Eğer zaten array formatında ise, direkt döndür
             if (Array.isArray(users) && users.length > 0 && users[0].username) {
+                // Eksik profil bilgilerini tamamla
+                const updatedUsers = updateProfilesIfNeeded(users);
+                if (updatedUsers !== users) {
+                    saveUserData(updatedUsers);
+                    return updatedUsers;
+                }
                 return users;
             }
             
@@ -123,6 +129,36 @@ function loadUserData() {
     const newUsers = convertToNewFormat(defaultUsers);
     saveUserData(newUsers);
     return newUsers;
+}
+
+// Mevcut kullanıcılara eksik profil bilgilerini ekle
+function updateProfilesIfNeeded(users) {
+    let updated = false;
+    
+    const updatedUsers = users.map(user => {
+        // Eğer kullanıcının detaylı profil bilgileri eksikse, ekle
+        if (!user.bio || !user.department || !user.experience) {
+            updated = true;
+            const profileData = getDetailedProfileData(user.username, {
+                name: user.ad,
+                role: user.rol
+            });
+            
+            return {
+                ...user,
+                bio: user.bio || profileData.bio,
+                department: user.department || profileData.department,
+                experience: user.experience || profileData.experience,
+                birthDate: user.birthDate || profileData.birthDate,
+                joinDate: user.joinDate || profileData.joinDate,
+                socialMedia: user.socialMedia || profileData.socialMedia,
+                profilePicture: user.profilePicture || profileData.profilePicture
+            };
+        }
+        return user;
+    });
+    
+    return updated ? updatedUsers : users;
 }
 
 // Eski formatı yeni formata dönüştür

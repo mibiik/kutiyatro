@@ -2,6 +2,8 @@
 
 // Kullanıcı profilini yükle
 function loadUserProfile() {
+    let currentUser;
+    
     try {
         const session = kutiyCheckSession();
         if (!session) {
@@ -10,43 +12,84 @@ function loadUserProfile() {
         }
 
         const users = JSON.parse(localStorage.getItem('kutiy_users') || '[]');
-        const currentUser = users.find(u => u.username === session.username);
+        currentUser = users.find(u => u.username === session.username);
         
         if (!currentUser) {
             alert('Kullanıcı bulunamadı!');
             window.location.href = 'login.html';
             return;
         }
+
+        // Header bilgilerini doldur
+        document.getElementById('profile-name').textContent = currentUser.ad || 'Kullanıcı';
+        document.getElementById('profile-role').textContent = currentUser.rol || 'Rol Belirtilmemiş';
+        document.getElementById('profile-username').textContent = '@' + (currentUser.username || 'username');
+
+        // Kişisel bilgileri doldur
+        document.getElementById('info-name').textContent = currentUser.ad || 'Belirtilmemiş';
+        document.getElementById('info-role').textContent = currentUser.rol || 'Belirtilmemiş';
+        document.getElementById('info-username').textContent = currentUser.username || 'Belirtilmemiş';
+        document.getElementById('info-email').textContent = currentUser.email || 'Belirtilmemiş';
+        document.getElementById('info-phone').textContent = currentUser.telefon || 'Belirtilmemiş';
+
+        // Ek profil bilgilerini doldur (eğer varsa)
+        if (document.getElementById('info-bio')) {
+            document.getElementById('info-bio').textContent = currentUser.bio || 'Biyografi belirtilmemiş';
+        }
+        if (document.getElementById('info-department')) {
+            document.getElementById('info-department').textContent = currentUser.department || 'Bölüm belirtilmemiş';
+        }
+        if (document.getElementById('info-experience')) {
+            document.getElementById('info-experience').textContent = currentUser.experience || 'Deneyim belirtilmemiş';
+        }
+        if (document.getElementById('info-join-date')) {
+            const joinDate = currentUser.joinDate ? new Date(currentUser.joinDate).toLocaleDateString('tr-TR') : 'Belirtilmemiş';
+            document.getElementById('info-join-date').textContent = joinDate;
+        }
+        if (document.getElementById('info-birth-date')) {
+            const birthDate = currentUser.birthDate ? new Date(currentUser.birthDate).toLocaleDateString('tr-TR') : 'Belirtilmemiş';
+            document.getElementById('info-birth-date').textContent = birthDate;
+        }
+
+        // Sosyal medya bilgileri
+        if (currentUser.socialMedia) {
+            if (document.getElementById('info-instagram')) {
+                document.getElementById('info-instagram').textContent = currentUser.socialMedia.instagram || 'Belirtilmemiş';
+            }
+            if (document.getElementById('info-linkedin')) {
+                document.getElementById('info-linkedin').textContent = currentUser.socialMedia.linkedin || 'Belirtilmemiş';
+            }
+            if (document.getElementById('info-twitter')) {
+                document.getElementById('info-twitter').textContent = currentUser.socialMedia.twitter || 'Belirtilmemiş';
+            }
+        }
+
+        // Profil fotoğrafı
+        if (document.getElementById('profile-picture') && currentUser.profilePicture) {
+            document.getElementById('profile-picture').src = currentUser.profilePicture;
+        }
+
+        // Oturum bilgilerini doldur
+        const loginTime = new Date(session.loginTime);
+        document.getElementById('info-login-time').textContent = loginTime.toLocaleString('tr-TR');
+        
+        const activeTime = calculateActiveTime(session.loginTime);
+        document.getElementById('info-active-time').textContent = activeTime;
+        
+        const passwordStatus = currentUser.mustChangePassword ? 'Değiştirilmeli' : 'Güncel';
+        document.getElementById('info-password-status').textContent = passwordStatus;
+
+        // İzinleri yükle
+        loadUserPermissions(currentUser);
+
+        console.log('Profil yüklendi:', currentUser);
+        
     } catch (error) {
         console.error('Profil yüklenirken hata:', error);
+        console.log('Kullanıcı verisi:', currentUser);
         window.location.href = 'login.html';
         return;
     }
-
-    // Header bilgilerini doldur
-    document.getElementById('profile-name').textContent = currentUser.ad;
-    document.getElementById('profile-role').textContent = currentUser.rol;
-    document.getElementById('profile-username').textContent = '@' + currentUser.username;
-
-    // Kişisel bilgileri doldur
-    document.getElementById('info-name').textContent = currentUser.ad;
-    document.getElementById('info-role').textContent = currentUser.rol;
-    document.getElementById('info-username').textContent = currentUser.username;
-    document.getElementById('info-email').textContent = currentUser.email || 'Belirtilmemiş';
-    document.getElementById('info-phone').textContent = currentUser.telefon || 'Belirtilmemiş';
-
-    // Oturum bilgilerini doldur
-    const loginTime = new Date(session.loginTime);
-    document.getElementById('info-login-time').textContent = loginTime.toLocaleString('tr-TR');
-    
-    const activeTime = calculateActiveTime(session.loginTime);
-    document.getElementById('info-active-time').textContent = activeTime;
-    
-    const passwordStatus = currentUser.mustChangePassword ? 'Değiştirilmeli' : 'Güncel';
-    document.getElementById('info-password-status').textContent = passwordStatus;
-
-    // İzinleri yükle
-    loadUserPermissions(currentUser);
 }
 
 // Aktif süreyi hesapla

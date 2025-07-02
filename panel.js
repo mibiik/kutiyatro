@@ -4,6 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let siteContent = {};
     let currentEdit = { type: null, index: -1 };
 
+    // API Base URL - Environment'a göre ayarla
+    const getApiBaseUrl = () => {
+        // Production (Vercel) ortamı için kontrol
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+            return window.location.origin; // Vercel URL'i kullan
+        }
+        // Development ortamı
+        return '';
+    };
+
+    const API_BASE_URL = getApiBaseUrl();
+
     // ----------------- ELEMENT SELECTORS -----------------
     // Main Layout
     const sidebar = document.querySelector('.sidebar');
@@ -67,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------- API CALLS -----------------
     const fetchContent = async () => {
         try {
-            const response = await fetch('/api/content');
+            const response = await fetch(`${API_BASE_URL}/api/content`);
             if (!response.ok) throw new Error('İçerik sunucudan alınamadı.');
             siteContent = await response.json();
             
@@ -139,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveContent = async () => {
         try {
-            const response = await fetch('/api/content', {
+            const response = await fetch(`${API_BASE_URL}/api/content`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(siteContent, null, 2)
@@ -157,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await fetch('/api/upload', {
+            const response = await fetch(`${API_BASE_URL}/api/upload`, {
                 method: 'POST',
                 body: formData
             });

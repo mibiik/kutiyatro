@@ -1,16 +1,22 @@
 {
   "name": "kutiy",
   "version": "1.0.0",
-  "description": "",
+  "description": "KUTİY Theatre Club Website",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "echo \"Build complete\"",
+    "vercel-build": "echo \"Vercel build complete\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["theatre", "university", "kutiy"],
+  "author": "KUTİY",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "dotenv": "^17.0.0",
     "express": "^4.19.2",
