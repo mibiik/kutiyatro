@@ -111,6 +111,80 @@ function filtreleriBaslat() {
                 }
             });
         });
+
+        // Arama input'u için event listener
+        const aramaInput = document.getElementById('arama-input');
+        if (aramaInput) {
+            aramaInput.addEventListener('input', (e) => {
+                aramaYap(e.target.value);
+            });
+        }
+
+        // Kategori ve durum select'leri için event listener
+        const kategoriFiltre = document.getElementById('kategori-filtre');
+        const durumFiltre = document.getElementById('durum-filtre');
+        
+        if (kategoriFiltre) {
+            kategoriFiltre.addEventListener('change', () => {
+                filtreleriUygula();
+            });
+        }
+        
+        if (durumFiltre) {
+            durumFiltre.addEventListener('change', () => {
+                filtreleriUygula();
+            });
+        }
+    }
+
+    function aramaYap(aramaMetni) {
+        const aramaKelime = aramaMetni.toLowerCase().trim();
+        
+        if (!aramaKelime) {
+            filtrelenmisOyunlar = [...tumOyunlar];
+        } else {
+            filtrelenmisOyunlar = tumOyunlar.filter(oyun => {
+                return oyun.ad.toLowerCase().includes(aramaKelime) ||
+                       oyun.yazar.toLowerCase().includes(aramaKelime) ||
+                       oyun.yonetmen.toLowerCase().includes(aramaKelime) ||
+                       oyun.aciklama.toLowerCase().includes(aramaKelime);
+            });
+        }
+        
+        // Diğer filtreleri de uygula
+        filtreleriUygula();
+    }
+
+    function filtreleriUygula() {
+        const kategoriFiltre = document.getElementById('kategori-filtre');
+        const durumFiltre = document.getElementById('durum-filtre');
+        const aramaInput = document.getElementById('arama-input');
+        
+        let sonuc = [...tumOyunlar];
+        
+        // Arama filtresi
+        if (aramaInput && aramaInput.value.trim()) {
+            const aramaKelime = aramaInput.value.toLowerCase().trim();
+            sonuc = sonuc.filter(oyun => {
+                return oyun.ad.toLowerCase().includes(aramaKelime) ||
+                       oyun.yazar.toLowerCase().includes(aramaKelime) ||
+                       oyun.yonetmen.toLowerCase().includes(aramaKelime) ||
+                       oyun.aciklama.toLowerCase().includes(aramaKelime);
+            });
+        }
+        
+        // Kategori filtresi
+        if (kategoriFiltre && kategoriFiltre.value !== 'tumu') {
+            sonuc = sonuc.filter(oyun => oyun.kategori === kategoriFiltre.value);
+        }
+        
+        // Durum filtresi (gelecekte kullanım için)
+        if (durumFiltre && durumFiltre.value !== 'tumu') {
+            sonuc = sonuc.filter(oyun => oyun.durum === durumFiltre.value);
+        }
+        
+        filtrelenmisOyunlar = sonuc;
+        oyunlariGoster();
     }
     
     // Oyun detay sayfası için yönlendirme fonksiyonu

@@ -355,7 +355,6 @@ section.is-visible {
     text-transform: uppercase;
     -webkit-text-stroke: initial;
     z-index: 1;
-    animation: theatrical-flicker-once 3s ease-out 1 forwards;
     transform: translateY(-5vh) translateX(2vw);
     letter-spacing: 27px;
 }
@@ -410,50 +409,7 @@ section.is-visible {
     }
 }
 
-@keyframes theatrical-flicker-once {
-  0% {
-    color: #fff;
-    text-shadow: none;
-  }
-  10% {
-    color: #fff;
-    text-shadow:
-      0 0 7px #fff,
-      0 0 20px var(--bordo),
-      0 0 42px var(--bordo),
-      0 0 82px var(--bordo),
-      0 0 92px var(--bordo);
-  }
-  20% {
-    color: #fff;
-    text-shadow: none;
-  }
-  30% {
-    color: #fff;
-    text-shadow:
-      0 0 10px #fff,
-      0 0 25px var(--bordo),
-      0 0 50px var(--bordo),
-      0 0 90px var(--bordo);
-  }
-  40% {
-    color: #fff;
-    text-shadow: none;
-  }
-  50% {
-    color: #fff;
-    text-shadow:
-      0 0 15px #fff,
-      0 0 30px var(--bordo),
-      0 0 60px var(--bordo),
-      0 0 100px var(--bordo),
-      0 0 120px var(--bordo);
-  }
-  60%, 100% {
-    color: #fff;
-    text-shadow: none;
-  }
-}
+
 
 @keyframes afisMove {
   0% { transform: translate(0,0); }

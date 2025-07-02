@@ -430,30 +430,7 @@
     color: #aaa;
   }
   
-  /* BUTTONS - Touch friendly */
-  .tumunu-gor-btn {
-    display: inline-block;
-    background: linear-gradient(45deg, #800020, #a11438);
-    margin-top: 30px;
-    padding: 15px 30px;
-    color: #fff;
-    border-radius: 25px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    min-height: 48px;
-    min-width: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .tumunu-gor-btn:hover,
-  .tumunu-gor-btn:active {
-    background: #a0001a;
-    transform: scale(0.98);
-  }
+
   
   /* HAKKIMIZDA - Clean text */
   .hakkimizda-icerik {
@@ -1211,29 +1188,7 @@ section h2 {
 }
 
 /* BUTTONS - Touch friendly */
-.tumunu-gor-btn {
-  display: inline-block;
-  background: linear-gradient(45deg, #800020, #a11438);
-  margin-top: 30px;
-  padding: 15px 30px;
-  color: #fff;
-  border-radius: 25px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  min-height: 48px;
-  min-width: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
 
-.tumunu-gor-btn:hover,
-.tumunu-gor-btn:active {
-  background: #a0001a;
-  transform: scale(0.98);
-}
 
 /* HAKKIMIZDA - Clean text */
 .hakkimizda-icerik {

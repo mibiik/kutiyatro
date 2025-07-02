@@ -360,7 +360,84 @@
       "sure": "Belirtilmemiş",
       "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
       "aciklama": "George Orwell'ın dünyaca ünlü alegorik romanından uyarlanan bu oyun, bir çiftlikteki hayvanların isyan edip insan sahiplerini kovarak kendi yönetimlerini kurmalarını konu alır. Ancak zamanla devrimin idealist ilkeleri yozlaşır ve domuzlar, diğer hayvanlar üzerinde giderek daha baskıcı bir diktatörlük kurar. Oyun, totaliter rejimlerin yükselişini, gücün yozlaştırıcı etkisini ve propaganda mekanizmalarını eleştirel bir dille gözler önüne serer.",
-      "oyuncular": [],
+      "oyuncular": [
+        {
+          "ad": "Arda Ayça",
+          "karakter": ""
+        },
+        {
+          "ad": "Asena Ergül",
+          "karakter": ""
+        },
+        {
+          "ad": "Aslı Naz Oymak",
+          "karakter": ""
+        },
+        {
+          "ad": "Cemre Yavuz",
+          "karakter": ""
+        },
+        {
+          "ad": "Ece Gülüm",
+          "karakter": ""
+        },
+        {
+          "ad": "Ecem Naz Kaynar",
+          "karakter": ""
+        },
+        {
+          "ad": "Elçin Ay",
+          "karakter": ""
+        },
+        {
+          "ad": "Emre Eroğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Eren Özden",
+          "karakter": ""
+        },
+        {
+          "ad": "E. Gülsin Yılmaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Faruk Emre Tekin",
+          "karakter": ""
+        },
+        {
+          "ad": "İbrahim Şahbaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Mehmet Güray Usta",
+          "karakter": ""
+        },
+        {
+          "ad": "Melike Aksoy",
+          "karakter": ""
+        },
+        {
+          "ad": "Reşit Özbek",
+          "karakter": ""
+        },
+        {
+          "ad": "Rüzgar Altuncı",
+          "karakter": ""
+        },
+        {
+          "ad": "Selen Eliri",
+          "karakter": ""
+        },
+        {
+          "ad": "Selen Gürdal",
+          "karakter": ""
+        },
+        {
+          "ad": "Uğur Bayrak",
+          "karakter": ""
+        }
+      ],
       "diger_roller": [
         "Dekor / Kostüm: Cansu Akdeniz",
         "Müzik: A. Samed Meraklı",
