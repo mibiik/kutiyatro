@@ -9,6 +9,53 @@
     <link rel="stylesheet" href="mobile-extras.css">
     <!-- Font Awesome İkon Kütüphanesi -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="login.js"></script>
+    <script>
+        // Sayfa yüklenmeden önce giriş kontrolü
+        document.addEventListener('DOMContentLoaded', function() {
+            // Panel sayfasına erişim kontrolü
+            if (!window.location.pathname.includes('panel.html')) {
+                return;
+            }
+            
+            try {
+                const session = kutiyCheckSession();
+                console.log('Session kontrolü:', session);
+                
+                if (!session) {
+                    console.log('Geçerli session bulunamadı, login\'e yönlendiriliyor');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Kullanıcı bilgilerini göster
+                const user = kutiyGetCurrentUser();
+                console.log('Kullanıcı bilgileri:', user);
+                
+                if (!user) {
+                    console.error('Kullanıcı bulunamadı, login sayfasına yönlendiriliyor');
+                    sessionStorage.removeItem('kutiy_session');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                console.log('Panel erişimi:', user.ad, '-', user.rol);
+                
+                // Admin olmayan kullanıcıların kullanıcı yönetimi linkini gizle
+                if (!user.permissions || !user.permissions.includes('manage_users')) {
+                    const adminOnlyElements = document.querySelectorAll('.admin-only');
+                    adminOnlyElements.forEach(element => {
+                        element.style.display = 'none';
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Panel yüklenirken hata:', error);
+                sessionStorage.removeItem('kutiy_session');
+                window.location.href = 'login.html';
+            }
+        });
+    </script>
 </head>
 <body>
 
@@ -37,7 +84,16 @@
             <a href="#" class="nav-link" data-target="oyuncu-havuzu"><i class="fas fa-user-friends"></i> Oyuncu Havuzu</a>
             <a href="#" class="nav-link" data-target="arsiv"><i class="fas fa-archive"></i> Arşiv Yönetimi</a>
             <a href="#" class="nav-link" data-target="iletisim"><i class="fas fa-address-book"></i> İletişim Bilgileri</a>
+            
+            <div class="nav-divider"></div>
+            
+            <a href="profile.html" class="nav-link external"><i class="fas fa-user-circle"></i> Profilim</a>
+            <a href="user-management.html" class="nav-link external admin-only"><i class="fas fa-users-cog"></i> Kullanıcı Yönetimi</a>
+            
+            <div class="nav-divider"></div>
+            
             <a href="index.html" target="_blank" class="nav-link external"><i class="fas fa-external-link-alt"></i> Siteyi Görüntüle</a>
+            <a href="#" onclick="kutiyLogout()" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
         </nav>
     </aside>
 

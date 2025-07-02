@@ -12,6 +12,8 @@ const CONTENT_PATH = path.join(__dirname, 'content.json');
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+// Panel koruma middleware'i artık browser tarafında yapılıyor
+// Server tarafında koruma kaldırıldı
 app.use(express.static(path.join(__dirname)));
 
 // --- Multer (Dosya Yükleme) Ayarları ---
@@ -69,5 +71,5 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
 // Sunucuyu başlat
 app.listen(PORT, () => {
     console.log(`Sunucu http://localhost:${PORT} adresinde çalışıyor.`);
-    console.log(`Yönetim paneline http://localhost:${PORT}/panel.html adresinden ulaşabilirsiniz.`);
+    console.log(`Yönetim paneli girişi: http://localhost:${PORT}/login.html`);
 }); 

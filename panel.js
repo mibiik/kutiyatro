@@ -452,9 +452,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ----------------- EVENT HANDLERS -----------------
     const handleNavLinkClick = (e) => {
-        e.preventDefault();
         const link = e.currentTarget;
-        if (link.classList.contains('external')) return;
+        
+        // External linkler için özel işlem
+        if (link.classList.contains('external')) {
+            // Mobil sidebar'ı kapat
+            if (window.innerWidth <= 820 && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+            }
+            
+            // href varsa normal tıklama olayını devam ettir
+            if (link.href) {
+                return; // Browser normal link davranışını yapar
+            }
+            
+            // Logout butonu özel case
+            if (link.getAttribute('onclick')) {
+                return; // onclick fonksiyonunu çalıştır
+            }
+            
+            return;
+        }
+        
+        // Normal internal navigation
+        e.preventDefault();
         const targetId = link.getAttribute('data-target');
 
         if (window.innerWidth <= 820 && sidebar.classList.contains('open')) {

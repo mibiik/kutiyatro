@@ -193,10 +193,10 @@ function filtreleriBaslat() {
     };
 
     // Fotoğraf büyütme fonksiyonu (gelecekte kullanım için)
-    function fotografBuyut(fotoSrc) {
+function fotografBuyut(fotoSrc) {
         if (fotoSrc && fotoSrc.trim()) {
-            window.open(fotoSrc, '_blank');
-        }
+    window.open(fotoSrc, '_blank');
+}
     }
 
     oyunlariYukle();

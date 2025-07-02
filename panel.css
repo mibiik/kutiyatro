@@ -84,8 +84,33 @@ body {
 }
 
 .sidebar-nav .nav-link.external {
-    margin-top: auto; /* En alta iter */
     border-top: 1px solid #444;
+}
+
+.nav-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 10px 15px;
+}
+
+.admin-only {
+    opacity: 0.7;
+}
+
+.admin-only:hover {
+    opacity: 1;
+}
+
+.sidebar-nav .nav-link.logout {
+    margin-top: auto; /* En alta iter */
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border-top: 1px solid #444;
+}
+
+.sidebar-nav .nav-link.logout:hover {
+    background-color: #dc3545;
+    color: white;
 }
 
 /* Ana İçerik Alanı */
