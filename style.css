@@ -2212,3 +2212,16 @@ main {
         font-size: 1.5rem;
     }
 }
+
+@media (min-width: 769px) {
+  .oyun-kart-yeni-baslik,
+  .oyun-kart-yeni-yonetmen {
+    text-align: left !important;
+    width: 100%;
+    margin-left: 10%;
+    margin-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}

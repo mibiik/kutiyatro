@@ -105,7 +105,12 @@
         "Işık Operatörü: Nilsu Balcı",
         "Müzik: Deniz Kartal",
         "Afiş Tasarımı: Nilda Sevim"
-      ]
+      ],
+      "tur": "Ana Sahne",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": false,
+      "": ""
     },
     {
       "id": 3,
@@ -294,7 +299,12 @@
         "Kareografi: Naz King",
         "Dijital Efekt: Zeynep Ergüney & Tahsin Enes Kuru",
         "Afiş Tasarımı: Zeynep Beskan"
-      ]
+      ],
+      "tur": "Ana Sahne",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": true,
+      "": ""
     },
     {
       "id": 5,
@@ -463,18 +473,6 @@
       "aciklama": "'Periferi' kelimesinin 'çevre, kenar' anlamlarını taşıdığı bu oyun, toplumun ana akımından uzak, kenarda kalmış yaşamları ve hikayeleri ele alıyor olabilir. Afişteki görseller ve genel atmosfer, alışılmadık veya dışlanmış karakterlerin, belki de marjinalleşmiş bir topluluğun iç çatışmalarını veya dış dünya ile ilişkilerini dramatik ve yoğun bir şekilde sahneye taşıdığını düşündürmektedir.",
       "oyuncular": [
         {
-          "ad": "Ahmet Cem Tekçe",
-          "karakter": ""
-        },
-        {
-          "ad": "Ahmet Yesevi Nurcan",
-          "karakter": ""
-        },
-        {
-          "ad": "Aslı Naz Oymak",
-          "karakter": ""
-        },
-        {
           "ad": "Arda Ayça",
           "karakter": ""
         },
@@ -550,7 +548,12 @@
         "Müzik: Koç Üniversitesi Orkestra Kulübü (Arda Akbay, Ayberk Baymaz, Deniz Kartal, Doruk Atmış, Ezel Aydın, Giray Aslan Güçlü, Murat Menteşe, Nida Kaya)",
         "Işık: Süleyman Kaleli, Burak Gülgen",
         "Afiş Tasarımı: Nilda Sevim"
-      ]
+      ],
+      "tur": "Ana Sahne",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": true,
+      "": ""
     },
     {
       "id": 10,
@@ -571,19 +574,7 @@
           "karakter": ""
         },
         {
-          "ad": "Eylül Gülbin Yılmaz",
-          "karakter": ""
-        },
-        {
-          "ad": "Faruk Emre Tekin",
-          "karakter": ""
-        },
-        {
           "ad": "İbrahim Şahbaz",
-          "karakter": ""
-        },
-        {
-          "ad": "Miraç Birlik",
           "karakter": ""
         },
         {
@@ -609,10 +600,6 @@
         {
           "ad": "Zümra Koparan",
           "karakter": ""
-        },
-        {
-          "ad": "Zeynep Teker",
-          "karakter": ""
         }
       ],
       "diger_roller": [
@@ -620,7 +607,12 @@
         "Işık Tasarımı: Mehmet Güray Usta",
         "Afiş Tasarımı: Alperen Tekedereli",
         "Ses Tasarımı: Aslı Ece Yılmaz"
-      ]
+      ],
+      "tur": "Ana Sahne",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": true,
+      "": ""
     }
   ],
   "hakkimizda": {
@@ -981,7 +973,71 @@
       "durum": "aktif"
     },
     {
+      "ad": "Arda Ayça",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
       "ad": "Berkehan Tuncer",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Ece Gülüm",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Emre Eroğlu",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Selen Gürdal",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Reşit Özbek",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Ali Altuğ Temel",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Baran Aytekin",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Begüm Erçevik",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"
@@ -1046,6 +1102,14 @@
     },
     {
       "ad": "İdil Dal",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Melike Aksoy",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"
@@ -1173,7 +1237,7 @@
       "durum": "aktif"
     },
     {
-      "ad": "Reşit Özbek",
+      "ad": "Naz King",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"
@@ -1181,7 +1245,7 @@
       "durum": "aktif"
     },
     {
-      "ad": "Asena Ergül",
+      "ad": "Baran Aytekin",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"
@@ -1189,15 +1253,7 @@
       "durum": "aktif"
     },
     {
-      "ad": "Eylül Gülbin Yılmaz",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Faruk Emre Tekin",
+      "ad": "Denizcan Ertem",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"
@@ -1213,14 +1269,6 @@
       "durum": "aktif"
     },
     {
-      "ad": "Miraç Birlik",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
       "ad": "Rüzgar Altuncı",
       "img": "assets/pngegg.png",
       "roller": [
@@ -1229,15 +1277,7 @@
       "durum": "aktif"
     },
     {
-      "ad": "Sena Eliri",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Tuğba Bayar",
+      "ad": "Selin Koldaş",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"
@@ -1254,70 +1294,6 @@
     },
     {
       "ad": "Zümra Koparan",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Zeynep Teker",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Can Şahin",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Eylül Öztürk",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Faruk Emre Tekin",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Irmak Terazi",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Mehmet Ali Mansuroğlu",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Melek Yücel",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Simge Dere",
       "img": "assets/pngegg.png",
       "roller": [
         "oyuncu"

@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </ul>
                         <h4>Oyuncular</h4>
                         <ul class="oyuncu-listesi">
-                            ${(oyun.oyuncular && oyun.oyuncular.length > 0) ? oyun.oyuncular.map(oyuncu => `<li>${oyuncu}</li>`).join('') : '<li>Oyuncu kadrosu açıklanmadı.</li>'}
+                            ${(oyun.oyuncular && oyun.oyuncular.length > 0) ? oyun.oyuncular.map(oyuncu => `<li>${oyuncu.ad}${oyuncu.karakter ? ' - ' + oyuncu.karakter : ''}</li>`).join('') : '<li>Oyuncu kadrosu açıklanmadı.</li>'}
                         </ul>
                         ${(oyun.diger_roller && oyun.diger_roller.length > 0 && !(oyun.diger_roller.length === 1 && oyun.diger_roller[0] === 'Belirtilmemiş')) ? `
                         <h4 style="margin-top: 1rem;">Teknik Ekip</h4>
