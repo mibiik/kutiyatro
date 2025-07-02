@@ -27,54 +27,82 @@ function oyunlariGoster() {
     const grid = document.getElementById('oyunlar-grid');
     const bosDurum = document.getElementById('bos-durum');
 
-        if (!grid) return;
+    if (!grid) return;
     
     if (filtrelenmisOyunlar.length === 0) {
         grid.innerHTML = '';
-            if(bosDurum) bosDurum.style.display = 'block';
+        if(bosDurum) bosDurum.style.display = 'block';
         return;
     }
     
-        if(bosDurum) bosDurum.style.display = 'none';
+    if(bosDurum) bosDurum.style.display = 'none';
     
     grid.innerHTML = filtrelenmisOyunlar.map(oyun => {
         return `
-            <div class="oyun-kart" onclick="oyunDetayAc(${oyun.id})">
-                <div class="oyun-afis">
-                    <img src="${oyun.afis}" alt="${oyun.ad}" onerror="this.src='assets/logo-placeholder.png'">
-                    <div class="durum-badge durum-${oyun.durum}">
-                        ${getDurumText(oyun.durum)}
+            <div class="modern-oyun-kart" onclick="oyunDetayAc(${oyun.id})">
+                <div class="kart-afis-container">
+                    <img src="${oyun.afis}" alt="${oyun.ad}" class="kart-afis" onerror="this.src='assets/logo-placeholder.png'">
+                    <div class="kart-overlay">
+                        <div class="overlay-content">
+                            <div class="play-icon">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            <p class="overlay-text">Detayları Gör</p>
+                        </div>
                     </div>
-                    <div class="kategori-badge kategori-${oyun.kategori}">
-                        ${getKategoriText(oyun.kategori)}
+                    <div class="kart-badges">
+                        <span class="durum-badge durum-${oyun.durum}">
+                            ${getDurumText(oyun.durum)}
+                        </span>
+                        <span class="kategori-badge kategori-${oyun.kategori}">
+                            ${getKategoriText(oyun.kategori)}
+                        </span>
                     </div>
                 </div>
-                <div class="oyun-bilgi">
-                    <h3 class="oyun-adi">${oyun.ad}</h3>
-                    <p class="oyun-yazar">Yazar: ${oyun.yazar}</p>
-                    <p class="oyun-yonetmen">Yönetmen: ${oyun.yonetmen}</p>
-                    
-                    <div class="oyun-tarih-mekan">
-                        <div class="tarih">
-                            <span>📅</span>
-                             <span>${oyun.tarih || 'Belirtilmemiş'}</span>
-                        </div>
-                        <div class="mekan">
-                            <span>📍</span>
-                             <span>${oyun.mekan || 'Belirtilmemiş'}</span>
+                
+                <div class="kart-content">
+                    <div class="kart-header">
+                        <h3 class="kart-baslik">${oyun.ad}</h3>
+                        <div class="kart-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-feather-alt"></i>
+                                <span>${oyun.yazar || 'Bilinmiyor'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-video"></i>
+                                <span>${oyun.yonetmen || 'Bilinmiyor'}</span>
+                            </div>
                         </div>
                     </div>
                     
-                     <p class="oyun-aciklama">${oyun.aciklama.substring(0, 100)}...</p>
-                    
-                    <div class="oyun-footer">
-                        <div class="bilet-durumu">
-                            ${oyun.bilet ? 
-                                 `<a href="${oyun.bilet}" target="_blank" class="bilet-var">🎫 Bilet Al</a>` :
-                                 '<span class="bilet-yok">Bilet Mevcut Değil</span>'
-                            }
+                    <div class="kart-detaylar">
+                        <div class="detay-grup">
+                            ${oyun.tarih ? `
+                                <div class="detay-item">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>${oyun.tarih}</span>
+                                </div>
+                            ` : ''}
+                            ${oyun.mekan ? `
+                                <div class="detay-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>${oyun.mekan}</span>
+                                </div>
+                            ` : ''}
                         </div>
-                        <button class="detay-button">Detayları Gör</button>
+                    </div>
+                    
+                    <div class="kart-footer">
+                        ${oyun.bilet ? 
+                            `<a href="${oyun.bilet}" target="_blank" class="bilet-btn bilet-aktif" onclick="event.stopPropagation();">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span>Bilet Al</span>
+                            </a>` :
+                            `<div class="bilet-btn bilet-pasif">
+                                <i class="fas fa-ticket-alt"></i>
+                                <span>Bilet Mevcut Değil</span>
+                            </div>`
+                        }
                     </div>
                 </div>
             </div>

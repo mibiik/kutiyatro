@@ -378,6 +378,28 @@ button:disabled {
     margin-top: 4px;
 }
 
+.kategori-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-top: 5px;
+    border: 1px solid transparent;
+}
+
+.kategori-ana {
+    background: linear-gradient(135deg, #5D001E, #800020);
+    color: white;
+    border-color: #5D001E;
+}
+
+.kategori-oda {
+    background: linear-gradient(135deg, #2E8B57, #3CB371);
+    color: white;
+    border-color: #2E8B57;
+}
+
 .list-item-actions {
     display: flex;
     align-items: center;

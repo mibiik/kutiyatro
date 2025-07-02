@@ -479,12 +479,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const roleOrTitle = type === 'ekip' ? item.rol : (type === 'oyun' ? item.yazar : getRolDisplayName(getPrimaryRoleType(item.roller || [])));
         
+        // Kategori rozeti için oyun türünde özel işlem
+        let kategoriBadge = '';
+        if (type === 'oyun' && item.kategori) {
+            const kategoriText = item.kategori === 'ana' ? '🎭 Ana Sahne' : 
+                                 item.kategori === 'oda' ? '🏠 Oda Tiyatrosu' : 
+                                 '🎪 Diğer';
+            kategoriBadge = `<span class="kategori-badge kategori-${item.kategori}">${kategoriText}</span>`;
+        }
+        
         itemDiv.innerHTML = `
             <div class="list-item-content">
                  ${previewHtml}
                 <div class="list-item-info">
                     <span class="list-item-title">${item.ad || 'İsimsiz'}</span>
                     <span class="list-item-subtitle">${roleOrTitle || ''}</span>
+                    ${kategoriBadge}
                 </div>
             </div>
             <div class="list-item-actions">
@@ -607,7 +617,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let key = input.id.split('-').pop();
             
             // Özel field mapping'leri
-            if (input.id === 'modal-tur') key = 'tur';
+            if (input.id === 'modal-kategori') key = 'kategori';
             if (input.id === 'oyuncu-ad') key = 'ad';
             if (input.id === 'oyuncu-telefon') key = 'telefon';
             if (input.id === 'oyuncu-email') key = 'email';
@@ -754,11 +764,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalFields.innerHTML = `
                     <label for="modal-ad">Oyun Adı:</label>
                     <input type="text" id="modal-ad" value="${item.ad || ''}" required>
-                     <label for="modal-tur">Tür:</label>
-                    <select id="modal-tur">
-                        <option value="Ana Sahne" ${item.tur === 'Ana Sahne' ? 'selected' : ''}>Ana Sahne Oyunu</option>
-                        <option value="Oda Tiyatrosu" ${item.tur === 'Oda Tiyatrosu' ? 'selected' : ''}>Oda Tiyatrosu</option>
-                        <option value="Dış Oyun" ${item.tur === 'Dış Oyun' ? 'selected' : ''}>Dış Oyun</option>
+                    
+                    <label for="modal-kategori">Kategori:</label>
+                    <select id="modal-kategori" required>
+                        <option value="">Kategori Seçiniz</option>
+                        <option value="ana" ${item.kategori === 'ana' ? 'selected' : ''}>🎭 Ana Sahne Oyunu</option>
+                        <option value="oda" ${item.kategori === 'oda' ? 'selected' : ''}>🏠 Oda Tiyatrosu</option>
                     </select>
                     <label for="modal-yonetmen">Yönetmen:</label>
                     <input type="text" id="modal-yonetmen" value="${item.yonetmen || ''}">

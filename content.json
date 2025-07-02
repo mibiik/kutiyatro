@@ -156,7 +156,7 @@
       "diger_roller": [
         "Işık / Ses Tasarımı: Uğur Bayrak"
       ],
-      "siralama": 1
+      "siralama": 2
     },
     {
       "id": 4,
@@ -355,26 +355,14 @@
       "yardimci_yonetmen": "Aslı Naz Oymak, Melike Aksoy",
       "afis": "assets/hayvanciftligi.jpg",
       "kategori": "ana",
-      "tarih": "Belirtilmemiş",
-      "saat": "Belirtilmemiş",
+      "tarih": "",
+      "saat": "",
       "sure": "Belirtilmemiş",
       "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
       "aciklama": "George Orwell'ın dünyaca ünlü alegorik romanından uyarlanan bu oyun, bir çiftlikteki hayvanların isyan edip insan sahiplerini kovarak kendi yönetimlerini kurmalarını konu alır. Ancak zamanla devrimin idealist ilkeleri yozlaşır ve domuzlar, diğer hayvanlar üzerinde giderek daha baskıcı bir diktatörlük kurar. Oyun, totaliter rejimlerin yükselişini, gücün yozlaştırıcı etkisini ve propaganda mekanizmalarını eleştirel bir dille gözler önüne serer.",
       "oyuncular": [
         {
           "ad": "Arda Ayça",
-          "karakter": ""
-        },
-        {
-          "ad": "Asena Ergül",
-          "karakter": ""
-        },
-        {
-          "ad": "Aslı Naz Oymak",
-          "karakter": ""
-        },
-        {
-          "ad": "Cemre Yavuz",
           "karakter": ""
         },
         {
@@ -391,18 +379,6 @@
         },
         {
           "ad": "Emre Eroğlu",
-          "karakter": ""
-        },
-        {
-          "ad": "Eren Özden",
-          "karakter": ""
-        },
-        {
-          "ad": "E. Gülsin Yılmaz",
-          "karakter": ""
-        },
-        {
-          "ad": "Faruk Emre Tekin",
           "karakter": ""
         },
         {
@@ -426,10 +402,6 @@
           "karakter": ""
         },
         {
-          "ad": "Selen Eliri",
-          "karakter": ""
-        },
-        {
           "ad": "Selen Gürdal",
           "karakter": ""
         },
@@ -450,11 +422,12 @@
         "Işık Operatörü: Ali Dehmen, A. Rıtkuy Var"
       ],
       "tur": "Ana Sahne",
-      "konum": "",
+      "konum": "SGKM",
       "bilet": "",
-      "oneCikan": true,
+      "oneCikan": false,
       "": "",
-      "siralama": 2
+      "siralama": "1",
+      "sezon": "2022-2023"
     },
     {
       "id": 7,
