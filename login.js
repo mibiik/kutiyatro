@@ -476,9 +476,79 @@ function resetLoginButton() {
     document.querySelector('.login-container').classList.remove('loading');
 }
 
+// Gizli debug sistemi için değişkenler
+let logoClickCount = 0;
+let logoClickTimer = null;
+
+// Logo tıklama sistemi - 5 kez arka arkaya tıklanınca debug butonları görünür
+function initLogoClickSystem() {
+    const logo = document.getElementById('kutiyLogo');
+    if (logo) {
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', function() {
+            logoClickCount++;
+            
+            // Timer varsa temizle
+            if (logoClickTimer) {
+                clearTimeout(logoClickTimer);
+            }
+            
+            // 2 saniye içinde 5 tıklama olmazsa counter sıfırlanır
+            logoClickTimer = setTimeout(() => {
+                logoClickCount = 0;
+            }, 2000);
+            
+            // 5 tıklama yapıldığında debug butonlarını göster
+            if (logoClickCount >= 5) {
+                showDebugButtons();
+                logoClickCount = 0; // Counter'ı sıfırla
+                clearTimeout(logoClickTimer);
+            }
+            
+            // Görsel geri bildirim
+            if (logoClickCount > 0) {
+                logo.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    logo.style.transform = 'scale(1)';
+                }, 100);
+            }
+        });
+    }
+}
+
+// Debug butonlarını göster/gizle
+function showDebugButtons() {
+    const debugButtons = document.getElementById('debugButtons');
+    if (debugButtons) {
+        if (debugButtons.style.display === 'none' || debugButtons.style.display === '') {
+            // Göster
+            debugButtons.style.display = 'block';
+            debugButtons.style.animation = 'fadeIn 0.5s ease-in';
+            
+            // Başarı mesajı göster
+            showSuccess('🛠️ Debug modu aktif! Admin araçları görünür hale geldi.');
+            
+            console.log('🔧 Debug butonları aktif edildi!');
+        } else {
+            // Gizle
+            debugButtons.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                debugButtons.style.display = 'none';
+            }, 300);
+            
+            showSuccess('🔒 Debug modu kapatıldı. Admin araçları gizlendi.');
+            
+            console.log('🔒 Debug butonları gizlendi!');
+        }
+    }
+}
+
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
     // KALDIRILAN: checkAndUpdateExistingUsers() - Bu fonksiyon kullanıcıların şifre değiştirme durumunu zorla true yapıyordu
+    
+    // Gizli debug sistemini başlat
+    initLogoClickSystem();
     
     // Sadece login.html sayfasında session kontrolü yap
     if (window.location.pathname.includes('login.html')) {
