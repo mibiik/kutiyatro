@@ -991,6 +991,47 @@ document.addEventListener('DOMContentLoaded', () => {
         let touchItem = null;
         let placeholder = null;
 
+        // Touch drag temizleme fonksiyonu
+        const cleanupTouchDrag = () => {
+            // Timer'ları temizle
+            if (touchItem && touchItem.touchTimer) {
+                clearTimeout(touchItem.touchTimer);
+            }
+            
+            // Drag item'ı temizle
+            if (draggedItem) {
+                draggedItem.classList.remove('dragging');
+                draggedItem.style.position = '';
+                draggedItem.style.zIndex = '';
+                draggedItem.style.opacity = '';
+                draggedItem.style.transform = '';
+                draggedItem.style.pointerEvents = '';
+                draggedItem.style.top = '';
+                draggedItem.style.left = '';
+                draggedItem.style.right = '';
+                draggedItem.style.width = '';
+                draggedItem.style.webkitUserSelect = '';
+                draggedItem.style.userSelect = '';
+                draggedItem.style.webkitTouchCallout = '';
+            }
+            
+            // Placeholder'ları temizle
+            if (placeholder && placeholder.parentNode) {
+                placeholder.remove();
+            }
+            
+            // Tüm eski placeholder'ları da temizle
+            const allPlaceholders = list.querySelectorAll('.drag-placeholder');
+            allPlaceholders.forEach(p => p.remove());
+            
+            // Değişkenleri sıfırla
+            draggedItem = null;
+            touchItem = null;
+            placeholder = null;
+            touchStartY = 0;
+            touchCurrentY = 0;
+        };
+
         // Mouse/Desktop drag events
         list.addEventListener('dragstart', e => {
             if (e.target.classList.contains('draggable')) {
@@ -1030,6 +1071,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Touch/Mobile drag events
         list.addEventListener('touchstart', e => {
             if (e.target.closest('.draggable')) {
+                // Eğer zaten bir drag işlemi varsa, önce onu temizle
+                if (touchItem || draggedItem || placeholder) {
+                    cleanupTouchDrag();
+                }
+                
                 // Tüm varsayılan davranışları engelle
                 e.preventDefault();
                 e.stopPropagation();
@@ -1042,7 +1088,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 touchItem.style.userSelect = 'none';
                 touchItem.style.webkitTouchCallout = 'none';
                 
-                // Placeholder oluştur
+                // Önceki placeholder'ları temizle
+                const existingPlaceholders = list.querySelectorAll('.drag-placeholder');
+                existingPlaceholders.forEach(p => p.remove());
+                
+                // Yeni placeholder oluştur
                 placeholder = document.createElement('div');
                 placeholder.className = 'drag-placeholder';
                 placeholder.style.cssText = `
@@ -1067,8 +1117,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     touchItem.style.width = (touchItem.offsetWidth - 20) + 'px'; // Biraz daralt
                     
                     // Placeholder'ı göster
-                    list.insertBefore(placeholder, touchItem);
-                    placeholder.style.opacity = '1';
+                    if (placeholder && !placeholder.parentNode) {
+                        list.insertBefore(placeholder, touchItem);
+                        placeholder.style.opacity = '1';
+                    }
                     
                     draggedItem = touchItem;
                     
@@ -1098,12 +1150,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 draggedItem.style.left = (rect.left + 5) + 'px';
                 draggedItem.style.right = 'auto';
                 
-                // Placeholder'ın konumunu güncelle
-                const afterElement = getDragAfterElement(list, touchCurrentY);
-                if (afterElement == null) {
-                    list.appendChild(placeholder);
-                } else {
-                    list.insertBefore(placeholder, afterElement);
+                // Placeholder'ın konumunu güncelle (sadece mevcut placeholder varsa)
+                if (placeholder && placeholder.parentNode) {
+                    const afterElement = getDragAfterElement(list, touchCurrentY);
+                    if (afterElement == null) {
+                        list.appendChild(placeholder);
+                    } else {
+                        list.insertBefore(placeholder, afterElement);
+                    }
                 }
             }
         }, { passive: false });
@@ -1116,43 +1170,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearTimeout(touchItem.touchTimer);
                 
                 if (draggedItem) {
-                    // Dragging durumunu temizle
-                    draggedItem.classList.remove('dragging');
-                    draggedItem.style.position = '';
-                    draggedItem.style.zIndex = '';
-                    draggedItem.style.opacity = '';
-                    draggedItem.style.transform = '';
-                    draggedItem.style.pointerEvents = '';
-                    draggedItem.style.top = '';
-                    draggedItem.style.left = '';
-                    draggedItem.style.right = '';
-                    draggedItem.style.width = '';
-                    draggedItem.style.webkitUserSelect = '';
-                    draggedItem.style.userSelect = '';
-                    draggedItem.style.webkitTouchCallout = '';
-                    
                     // Placeholder'ın yerine gerçek item'ı koy
                     if (placeholder && placeholder.parentNode) {
                         placeholder.parentNode.insertBefore(draggedItem, placeholder);
-                        placeholder.remove();
                     }
                     
                     // Sıralamayı güncelle
                     updateOrder(list, type);
-                    
-                    draggedItem = null;
                 }
                 
-                // Placeholder'ı temizle
-                if (placeholder && placeholder.parentNode) {
-                    placeholder.remove();
-                }
-                
-                // Touch durumunu temizle
-                touchItem = null;
-                placeholder = null;
-                touchStartY = 0;
-                touchCurrentY = 0;
+                // Her durumda temizle
+                cleanupTouchDrag();
             }
         });
     };

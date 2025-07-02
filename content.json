@@ -42,7 +42,7 @@
       "diger_roller": [
         "Işık ve Ses: Ece Abalı"
       ],
-      "siralama": 4
+      "siralama": 5
     },
     {
       "id": 2,
@@ -308,7 +308,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 3
+      "siralama": 4
     },
     {
       "id": 5,
@@ -454,7 +454,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 2
+      "siralama": 3
     },
     {
       "id": 7,
@@ -639,7 +639,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 1
+      "siralama": 2
     },
     {
       "id": 10,
@@ -699,7 +699,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 4
+      "siralama": 6
     }
   ],
   "hakkimizda": {
@@ -727,27 +727,9 @@
       "img": "assets/pngegg.png"
     },
     {
-      "id": 3,
-      "ad": "Selen Nehir Sarıkılıç",
-      "rol": "Festival Sorumlusu",
-      "img": "assets/pngegg.png"
-    },
-    {
-      "id": 4,
-      "ad": "Tuana Elmas",
-      "rol": "Festival Sorumlusu",
-      "img": "assets/pngegg.png"
-    },
-    {
       "id": 5,
       "ad": "Melek Yücel",
       "rol": "Genel Sekreter",
-      "img": "assets/pngegg.png"
-    },
-    {
-      "id": 6,
-      "ad": "Kadir Kaan Erbaş",
-      "rol": "Mali Koordinatör ve Lojistik Sorumlusu",
       "img": "assets/pngegg.png"
     },
     {
@@ -760,6 +742,24 @@
       "id": 8,
       "ad": "Tunahan Saygılı",
       "rol": "Organizasyon Sorumlusu",
+      "img": "assets/pngegg.png"
+    },
+    {
+      "id": 6,
+      "ad": "Kadir Kaan Erbaş",
+      "rol": "Mali Koordinatör ve Lojistik Sorumlusu",
+      "img": "assets/pngegg.png"
+    },
+    {
+      "id": 3,
+      "ad": "Selen Nehir Sarıkılıç",
+      "rol": "Festival Sorumlusu",
+      "img": "assets/pngegg.png"
+    },
+    {
+      "id": 4,
+      "ad": "Tuana Elmas",
+      "rol": "Festival Sorumlusu",
       "img": "assets/pngegg.png"
     },
     {
