@@ -2605,7 +2605,7 @@ main {
     }
     
     .kart-afis {
-        filter: blur(1px) brightness(0.7);
+        filter: blur(0.2px) brightness(0.8);
     }
     
     .kart-content {
@@ -2659,7 +2659,7 @@ main {
     }
     
     .kart-afis {
-        filter: blur(1.2px) brightness(0.6);
+        filter: blur(0.8px) brightness(0.7);
     }
     
     .kart-content {
