@@ -52,7 +52,7 @@ function oyunlariGoster() {
                     </div>
                     <div class="kart-badges">
                         <span class="durum-badge durum-${oyun.durum}">
-                            ${getDurumText(oyun.durum)}
+                            ${getDurumText(oyun.durum, oyun.kategori)}
                         </span>
                         <span class="kategori-badge kategori-${oyun.kategori}">
                             ${getKategoriText(oyun.kategori)}
@@ -236,9 +236,13 @@ function fotografBuyut(fotoSrc) {
 });
 
 // Yardımcı fonksiyonlar
-function getDurumText(durum) {
+function getDurumText(durum, kategori) {
     if (durum === 'yaklasan') return 'Yaklaşan';
     if (durum === 'bitmis') return 'Oynandı';
+    
+    // Belirsiz durum için kategori bilgisini göster
+    if (kategori === 'ana') return 'Ana Sahne';
+    if (kategori === 'oda') return 'Oda Tiyatrosu';
     return 'Belirsiz';
 }
 

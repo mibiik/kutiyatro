@@ -510,11 +510,11 @@
       "yardimci_yonetmen": "Melike Aksoy, Aslı Naz Oymak, Betül Gülce Koç, İpek İftar",
       "afis": "assets/periferi.jpg",
       "kategori": "ana",
-      "tarih": "Belirtilmemiş",
-      "saat": "Belirtilmemiş",
+      "tarih": "",
+      "saat": "",
       "sure": "Belirtilmemiş",
-      "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
-      "aciklama": "'Periferi' kelimesinin 'çevre, kenar' anlamlarını taşıdığı bu oyun, toplumun ana akımından uzak, kenarda kalmış yaşamları ve hikayeleri ele alıyor olabilir. Afişteki görseller ve genel atmosfer, alışılmadık veya dışlanmış karakterlerin, belki de marjinalleşmiş bir topluluğun iç çatışmalarını veya dış dünya ile ilişkilerini dramatik ve yoğun bir şekilde sahneye taşıdığını düşündürmektedir.",
+      "mekan": "",
+      "aciklama": "İkinci Dünya Savaşı sonrası Almanya’sında geçen Periferi, dışlanan bir Çingene topluluğunun hayatta kalma çabasını ve toplumla olan kırılgan ilişkisini sahneye taşıyor. Aşk, kimlik ve “öteki” olma hâli; müzik, dans ve acı dolu anılarla iç içe geçiyor.\n\nAloya ile bir Alman askerin imkânsız aşkı, çatışmalarla örülü bir dünyanın içinde umut arıyor.\n\n\"Merkezin uzağında kalanların, yakıcı hikâyesi...\"\nİzleyiciyi sınırların dışına bakmaya çağıran güçlü bir anlatı.\n\n",
       "oyuncular": [
         {
           "ad": "Arda Ayça",
@@ -598,7 +598,8 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 3
+      "siralama": "3",
+      "sezon": "2022-2023"
     },
     {
       "id": 10,
@@ -611,7 +612,7 @@
       "tarih": "",
       "saat": "",
       "sure": "Belirtilmemiş",
-      "mekan": "Koç Üniversitesi tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
+      "mekan": "ODA TİYATROSU B328",
       "aciklama": "Çağdaş İngiliz yazar Mark Ravenhill'in bu eseri, klasik metinler olan 'Troyalı Kadınlar', 'Odysseia' ve 'Suç ve Ceza'yı modern bir bakış açısıyla yeniden yorumlar. Savaşın yıkıcı sonuçlarını, kadınların direnişini, eve dönüşün zorluklarını ve suç ile ceza kavramının evrensel sorgulamalarını harmanlayarak, geçmişin izlerini günümüzün acı gerçekleriyle birleştirir. Oyun, şiddet, adalet ve hayatta kalma temalarını cesur ve sorgulayıcı bir dille sahneye taşır.",
       "oyuncular": [
         {
