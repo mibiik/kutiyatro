@@ -1048,8 +1048,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navLinks.forEach(link => link.addEventListener('click', handleNavLinkClick));
     
-    return; // Hatalı kodun çalışmasını engellemek için geçici çözüm
-
     hamburgerBtn.addEventListener('click', toggleSidebar);
     closeSidebarBtn.addEventListener('click', toggleSidebar);
     mainContent.addEventListener('click', () => {

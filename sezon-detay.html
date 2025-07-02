@@ -7,55 +7,40 @@
     <link rel="stylesheet" href="panel.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Bu sayfaya özel ek stiller */
         .detail-main { padding: 40px; max-width: 1200px; margin: 0 auto; }
-        .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--bordo); padding-bottom: 15px; margin-bottom: 30px; }
-        .detail-header h2 { font-family: 'Anton', sans-serif; font-size: 2.5rem; color: var(--bordo); margin: 0; }
-        #back-to-panel { color: var(--text-color); text-decoration: none; font-weight: bold; }
-        .photo-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
-        .photo-gallery-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid var(--secondary-color);
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .photo-preview {
-            width: 75px;
-            height: 75px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .photo-path {
-            flex-grow: 1;
-            word-break: break-all;
-        }
-        .play-list-item { display: flex; gap: 15px; align-items: center; margin-bottom: 15px; background: #252525; padding: 10px; border-radius: 5px; }
-        .play-list-item img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px;}
-        .play-list-item .play-info { flex-grow: 1; }
+        .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--bordo); padding-bottom: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .detail-header h2 { font-family: 'Anton', sans-serif; font-size: 2.2rem; color: var(--bordo); margin: 0; }
+        .detail-header .back-link { color: var(--text-color); text-decoration: none; font-weight: bold; margin-right: 18px; }
+        .sezon-info-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+        .sezon-info-form input, .sezon-info-form textarea { font-size: 1.1em; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+        .sezon-info-form button { width: fit-content; margin-top: 6px; }
+        .content-blocks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+        .content-block-item { background: #fff; border-radius: 10px; box-shadow: 0 4px 18px rgba(93,0,30,0.07); padding: 18px 16px 14px 16px; display: flex; flex-direction: column; position: relative; min-height: 120px; }
+        .block-type-badge { background: var(--primary-color); color: #fff; border-radius: 8px; font-size: 0.85em; padding: 2px 10px; margin-left: 8px; }
+        .block-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .block-actions button { border-radius: 20px; padding: 6px 14px; font-size: 0.97em; display: flex; align-items: center; gap: 6px; }
+        .block-actions .edit-btn { background: #f4b942; color: #222; }
+        .block-actions .delete-btn { background: #e74c3c; color: #fff; }
+        .block-actions .drag-handle { color: #aaa; cursor: grab; margin-left: auto; }
+        @media (max-width: 700px) { .detail-main { padding: 10px; } .content-blocks-grid { grid-template-columns: 1fr; gap: 10px; } }
     </style>
 </head>
 <body>
-    <div class="sezon-detay-container">
-        <header class="sezon-detay-header">
-            <div>
-                <a href="panel.html#arsiv" class="back-link"><i class="fas fa-arrow-left"></i> Panele Dön</a>
-                <h1 id="sezon-baslik">Sezon Yükleniyor...</h1>
-                <p>Bu sezona ait içerik bloklarını buradan yönetebilirsiniz. Blokları sürükleyerek sıralamalarını değiştirebilirsiniz.</p>
-            </div>
-            <div class="header-actions">
-                <button id="add-content-block-btn" class="button-style"><i class="fas fa-plus"></i> Yeni İçerik Bloğu Ekle</button>
-            </div>
+    <div class="detail-main">
+        <header class="detail-header">
+            <a href="panel.html#arsiv" class="back-link"><i class="fas fa-arrow-left"></i> Panele Dön</a>
+            <h2 id="sezon-baslik">Sezon Yükleniyor...</h2>
+            <button id="add-content-block-btn" class="button-style"><i class="fas fa-plus"></i> Yeni İçerik Bloğu Ekle</button>
         </header>
-
-        <main id="content-blocks-container">
-            <!-- İçerik blokları buraya yüklenecek -->
+        <form id="sezon-info-form" class="sezon-info-form">
+            <input type="text" id="sezon-baslik-input" placeholder="Sezon Başlığı" required />
+            <textarea id="sezon-aciklama-input" rows="2" placeholder="Sezon Açıklaması"></textarea>
+            <button type="submit">Başlık & Açıklamayı Kaydet</button>
+        </form>
+        <main id="content-blocks-container" class="content-blocks-grid">
+            <!-- İçerik blokları buraya kart olarak yüklenecek -->
         </main>
     </div>
-
     <!-- Modal for adding/editing content blocks -->
     <div id="edit-modal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
@@ -70,7 +55,6 @@
         </div>
     </div>
     <div id="notification-container"></div>
-
     <script src="sezon-detay.js"></script>
 </body>
 </html> 

@@ -125,13 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Render Fonksiyonları ---
     const renderPage = () => {
+        if (!currentSeason) {
+            console.error("Render edilecek sezon bulunamadı.");
+            return;
+        }
         seasonTitleEl.textContent = `${currentSeason.sezon} Sezonu`;
-        sezonDetayBaslik.textContent = currentSeason.sezon;
         sezonBaslikInput.value = currentSeason.sezon;
         sezonAciklamaInput.value = currentSeason.aciklama;
         renderContentBlocks();
-        renderOyunlar();
-        renderFotograflar();
     };
     
     const renderContentBlocks = () => {
@@ -183,39 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return div;
     };
-
-    function renderOyunlar() {
-        sezonOyunlarList.innerHTML = '';
-        currentSeason.oyunlar.forEach(oyun => {
-            const item = document.createElement('div');
-            item.className = 'play-list-item';
-            item.innerHTML = `
-                <img src="../${oyun.img}" alt="${oyun.ad}">
-                <div class="play-info">
-                    <strong>${oyun.ad}</strong><br>
-                    <small>${oyun.yazar || ''}</small>
-                </div>
-                <div class="item-actions">
-                    <button class="edit-btn" data-id="${oyun.id}">Düzenle</button>
-                    <button class="delete-btn" data-id="${oyun.id}">Sil</button>
-                </div>`;
-            sezonOyunlarList.appendChild(item);
-        });
-    }
-
-    function renderFotograflar() {
-        sezonFotografGalerisi.innerHTML = '';
-        currentSeason.fotograflar.forEach((photoPath, index) => {
-            const photoItem = document.createElement('div');
-            photoItem.className = 'photo-gallery-item';
-            photoItem.innerHTML = `
-                <img src="${photoPath}" alt="Önizleme" class="photo-preview">
-                <span class="photo-path">${photoPath}</span>
-                <button class="delete-photo-btn" data-index="${index}">&times;</button>
-            `;
-            sezonFotografGalerisi.appendChild(photoItem);
-        });
-    }
 
     // --- MODAL VE FORM HANDLING ---
     const handleOpenModal = (type, index = -1) => {
@@ -282,121 +250,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    addContentBlockBtn.addEventListener('click', promptBlockType);
-
-    modalForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const { type, index } = currentEdit;
-        const isNew = index === -1;
-        let blockData = isNew ? { id: `block_${Date.now()}`, tip: type } : { ...currentSeason.icerikler[index] };
-
-        blockData.baslik = document.getElementById('modal-baslik').value;
-
-        switch(type) {
-            case 'oyun':
-                blockData.yonetmen = document.getElementById('modal-yonetmen').value;
-                blockData.yazar = document.getElementById('modal-yazar').value;
-                const afisFile = document.getElementById('modal-afis').files[0];
-                if (afisFile) {
-                    blockData.afis = await uploadImage(afisFile);
-                }
-                break;
-            case 'galeri':
-                const fotograflarFiles = document.getElementById('modal-fotograflar').files;
-                if (fotograflarFiles.length > 0) {
-                    if(!blockData.fotograflar) blockData.fotograflar = [];
-                    for (const file of fotograflarFiles) {
-                        const path = await uploadImage(file);
-                        if (path) blockData.fotograflar.push(path);
-                    }
-                }
-                break;
-            case 'video':
-                blockData.videoUrl = document.getElementById('modal-videoUrl').value;
-                break;
-            case 'metin':
-                blockData.metin = document.getElementById('modal-metin').value;
-                break;
-        }
-
-        if (isNew) {
-            if (!currentSeason.icerikler) currentSeason.icerikler = [];
-            currentSeason.icerikler.push(blockData);
-        } else {
-            currentSeason.icerikler[index] = blockData;
-        }
-
-        await saveContent();
-        closeModal();
-    });
-
-    const closeModal = () => {
-        modal.style.display = 'none';
-        modalFields.innerHTML = '';
-        modalForm.querySelector('.modal-actions').style.display = 'flex';
-    };
-
-    modalCloseBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => e.target === modal && closeModal());
-
     const handleDeleteBlock = (index) => {
-        if(confirm('Bu içerik bloğunu silmek istediğinizden emin misiniz?')) {
+        if (!currentSeason || !currentSeason.icerikler) return;
+
+        const block = currentSeason.icerikler[index];
+        if (confirm(`'${block.baslik || 'Başlıksız'}' bloğunu silmek istediğinizden emin misiniz?`)) {
             currentSeason.icerikler.splice(index, 1);
             saveContent();
         }
     };
 
-    // --- Olay Dinleyicileri ---
-    sezonInfoForm.addEventListener('submit', e => {
+    // --- EVENT LISTENERS ---
+
+    // Sezon başlığını ve açıklamasını kaydetmek için
+    sezonInfoForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (!currentSeason) {
+            showNotification('Kaydedilecek sezon bulunamadı. Sayfayı yenileyin.', 'error');
+            return;
+        }
         currentSeason.sezon = sezonBaslikInput.value;
         currentSeason.aciklama = sezonAciklamaInput.value;
-        seasonTitleEl.textContent = `${currentSeason.sezon} Sezonu`;
         saveContent();
     });
 
-    uploadPhotosButton.addEventListener('click', async () => {
-        const files = addPhotosInput.files;
-        if (files.length === 0) return showNotification('Lütfen önce dosya seçin.', 'error');
+    // Modal formunu kaydetmek için
+    modalForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        for (const file of files) {
-            const formData = new FormData();
-            formData.append('image', file);
-            try {
-                const response = await fetch('/api/upload', { method: 'POST', body: formData });
-                const result = await response.json();
-                if (!response.ok) throw new Error(result.message || 'Resim yüklenemedi.');
-                currentSeason.fotograflar.push(result.filePath);
-            } catch (error) {
-                showNotification(`Hata: ${error.message}`, 'error');
-            }
+        if (!currentSeason) {
+            showNotification('Kaydedilecek sezon bulunamadı. Sayfayı yenileyin.', 'error');
+            return;
         }
-        addPhotosInput.value = ''; // Input'u temizle
-        renderFotograflar();
-        saveContent();
-    });
 
-    sezonFotografGalerisi.addEventListener('click', e => {
-        if (e.target.classList.contains('delete-photo-btn')) {
-            const index = parseInt(e.target.dataset.index);
-            currentSeason.fotograflar.splice(index, 1);
-            renderFotograflar();
-            saveContent();
+        const { type, index } = currentEdit;
+        const isNew = index === -1;
+        let itemData = isNew ? { tip: type } : { ...currentSeason.icerikler[index] };
+
+        // Form alanlarını işle
+        itemData.baslik = modalFields.querySelector('#modal-baslik')?.value || '';
+        
+        switch (type) {
+            case 'oyun':
+                itemData.yonetmen = modalFields.querySelector('#modal-yonetmen')?.value || '';
+                itemData.yazar = modalFields.querySelector('#modal-yazar')?.value || '';
+                const afisInput = modalFields.querySelector('#modal-afis');
+                if (afisInput && afisInput.files[0]) {
+                    const uploadedPath = await uploadImage(afisInput.files[0]);
+                    if (uploadedPath) itemData.afis = uploadedPath;
+                }
+                break;
+            case 'galeri':
+                 const fotoInput = modalFields.querySelector('#modal-fotograflar');
+                 if (fotoInput && fotoInput.files.length > 0) {
+                     if (!itemData.fotograflar) itemData.fotograflar = [];
+                     for (const file of fotoInput.files) {
+                         const uploadedPath = await uploadImage(file);
+                         if (uploadedPath) itemData.fotograflar.push(uploadedPath);
+                     }
+                 }
+                break;
+            case 'video':
+                itemData.videoUrl = modalFields.querySelector('#modal-videoUrl')?.value || '';
+                break;
+            case 'metin':
+                itemData.metin = modalFields.querySelector('#modal-metin')?.value || '';
+                break;
         }
+
+        if (isNew) {
+            if (!currentSeason.icerikler) currentSeason.icerikler = [];
+            currentSeason.icerikler.push(itemData);
+        } else {
+            currentSeason.icerikler[index] = itemData;
+        }
+
+        await saveContent();
+        closeModal();
     });
-
-    addPlayButton.addEventListener('click', () => openOyunModal());
-
-    sezonOyunlarList.addEventListener('click', e => {
-        const target = e.target;
-        if(target.classList.contains('edit-btn')) {
-            const oyunId = parseInt(target.dataset.id);
-            openOyunModal(oyunId);
-        } else if (target.classList.contains('delete-btn')) {
-            const oyunId = parseInt(target.dataset.id);
-            currentSeason.oyunlar = currentSeason.oyunlar.filter(o => o.id !== oyunId);
-            renderOyunlar();
-            saveContent();
+    
+    // Yeni içerik bloğu ekleme butonuna tıklama
+    if (addContentBlockBtn) {
+        addContentBlockBtn.addEventListener('click', promptBlockType);
+    }
+    
+    // Modal kapatma
+    if (modalCloseBtn) {
+        modalCloseBtn.addEventListener('click', closeModal);
+    }
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
         }
     });
 

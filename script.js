@@ -243,10 +243,25 @@ window.addEventListener("scroll", () => {
 // Initial check
 handleScrollAnimation();
 
+// Oyun detay modalı fonksiyonu (ana sayfa için)
+window.oyunDetayAc = function(oyunId) {
+    console.log('oyunDetayAc çağrıldı:', oyunId);
+    console.log('window.tumOyunlar:', window.tumOyunlar);
+    showOyunModal(oyunId);
+};
+
 // Oyun detay modalı fonksiyonu (yeni şık tasarım)
 window.showOyunModal = function(oyunId) {
+    console.log('showOyunModal çağrıldı:', oyunId);
+    console.log('window.tumOyunlar:', window.tumOyunlar);
+    
     const oyun = window.tumOyunlar.find(o => (o.id || window.tumOyunlar.indexOf(o)) == oyunId);
-    if (!oyun) return;
+    console.log('Bulunan oyun:', oyun);
+    
+    if (!oyun) {
+        console.error('Oyun bulunamadı:', oyunId);
+        return;
+    }
 
     // Önceki modal varsa kaldır
     const existingModal = document.getElementById('oyun-detay-modal');
@@ -264,7 +279,11 @@ window.showOyunModal = function(oyunId) {
             <button class="oyun-modal-close-btn">&times;</button>
             <div class="oyun-modal-layout">
                 <div class="oyun-modal-afis-container">
-                    <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="oyun-modal-afis">
+                    <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="oyun-modal-afis" 
+                         onerror="this.src='assets/theater.png'; this.style.opacity='0.6';" 
+                         onload="this.style.opacity='1';">
+                    ${!oyun.afis ? '<div class="afis-placeholder-text">Afiş Yok</div>' : ''}
+                    ${oyun.afis ? '<div class="afis-click-overlay"><i class="fas fa-expand-arrows-alt"></i><span>Tam Ekran</span></div>' : ''}
                 </div>
                 <div class="oyun-modal-bilgi">
                     <h2 class="oyun-modal-baslik">${oyun.ad}</h2>
@@ -320,9 +339,29 @@ window.showOyunModal = function(oyunId) {
 
     // Afişe tıklayınca tam ekran yapma
     const afisImg = modal.querySelector('.oyun-modal-afis');
-    afisImg.addEventListener('click', () => {
-        showFullscreenAfis(oyun.afis);
-    });
+    const afisOverlay = modal.querySelector('.afis-click-overlay');
+    
+    if (afisImg && oyun.afis) {
+        // Hem afişe hem overlay'e tıklama
+        const openFullscreen = () => {
+            showFullscreenAfis(oyun.afis);
+        };
+        
+        afisImg.addEventListener('click', openFullscreen);
+        if (afisOverlay) {
+            afisOverlay.addEventListener('click', openFullscreen);
+        }
+        
+        // Afiş yüklenme durumunu kontrol et
+        afisImg.addEventListener('load', () => {
+            afisImg.style.opacity = '1';
+        });
+        
+        afisImg.addEventListener('error', () => {
+            afisImg.src = 'assets/theater.png';
+            afisImg.style.opacity = '0.6';
+        });
+    }
 }
 
 function showFullscreenAfis(src) {
@@ -331,16 +370,45 @@ function showFullscreenAfis(src) {
     const fullscreenHtml = `
         <div id="fullscreen-afis-modal" class="fullscreen-modal">
             <span class="fullscreen-close-btn">&times;</span>
-            <img src="${src}" alt="Afiş Tam Ekran">
+            <img src="${src}" alt="Afiş Tam Ekran" class="fullscreen-afis-img">
         </div>
     `;
     document.body.insertAdjacentHTML('beforeend', fullscreenHtml);
 
     const fullscreenModal = document.getElementById('fullscreen-afis-modal');
+    const fullscreenImg = fullscreenModal.querySelector('.fullscreen-afis-img');
     
     const closeFullscreen = () => {
-        fullscreenModal.remove();
+        fullscreenModal.classList.add('closing');
+        setTimeout(() => fullscreenModal.remove(), 300);
     };
+
+    // Afişin yüklenmesini bekle ve boyutlandır
+    fullscreenImg.addEventListener('load', () => {
+        const img = fullscreenImg;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        
+        // Afişin doğal boyutlarını al
+        const imgWidth = img.naturalWidth;
+        const imgHeight = img.naturalHeight;
+        
+        // Ekrana sığacak şekilde boyutlandır
+        const scaleX = windowWidth / imgWidth;
+        const scaleY = windowHeight / imgHeight;
+        const scale = Math.min(scaleX, scaleY, 1); // 1'den büyük olmasın (büyütme)
+        
+        // Boyutları ayarla
+        img.style.width = `${imgWidth * scale}px`;
+        img.style.height = `${imgHeight * scale}px`;
+        img.style.maxWidth = '100vw';
+        img.style.maxHeight = '100vh';
+    });
+    
+    fullscreenImg.addEventListener('error', () => {
+        fullscreenImg.src = 'assets/theater.png';
+        fullscreenImg.style.opacity = '0.6';
+    });
 
     fullscreenModal.querySelector('.fullscreen-close-btn').addEventListener('click', closeFullscreen);
     fullscreenModal.addEventListener('click', (e) => {
@@ -348,7 +416,7 @@ function showFullscreenAfis(src) {
             closeFullscreen();
         }
     });
-     document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function(event) {
         if (event.key === "Escape") {
             closeFullscreen();
         }

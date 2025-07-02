@@ -11,19 +11,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
-    <div id="mobile-menu-overlay" class="hidden"></div>
+
+<!-- MOBİL İÇİN ÜST BAR (YENİ KONUM) -->
+<header class="mobile-header">
+    <h3>KUTİY Panel</h3>
+    <button id="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</header>
+
+<div class="dashboard-container">
+    <!-- YAN NAVİGASYON MENÜSÜ -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <img src="assets/logo.png" alt="KUTİY Logo" class="logo">
-            <h2>Yönetim Paneli</h2>
+            <h3>KUTİY Panel</h3>
+            <button class="close-sidebar">&times;</button> <!-- Mobil için kapatma butonu -->
         </div>
-        <button id="mobile-menu-btn" aria-label="Menüyü aç">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
         <nav class="sidebar-nav">
-            <a href="#" class="nav-item active" data-section="anasayfa"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> Ana Sayfa Ayarları</a>
-            <a href="#" class="nav-item" data-section="oyunlarimiz"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-film"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg> Oyunlarımız</a>
+            <a href="#" class="nav-link active" data-target="overview"><i class="fas fa-tachometer-alt"></i> Genel Bakış</a>
             <a href="#" class="nav-link" data-target="hero-hakkimizda"><i class="fas fa-file-alt"></i> Ana Sayfa İçerikleri</a>
+            <a href="#" class="nav-link" data-target="oyunlar"><i class="fas fa-theater-masks"></i> Oyunlarımız</a>
             <a href="#" class="nav-link" data-target="ekip"><i class="fas fa-users"></i> Yönetim Kurulu</a>
             <a href="#" class="nav-link" data-target="oyuncu-havuzu"><i class="fas fa-user-friends"></i> Oyuncu Havuzu</a>
             <a href="#" class="nav-link" data-target="arsiv"><i class="fas fa-archive"></i> Arşiv Yönetimi</a>
@@ -101,7 +110,7 @@
                 <div class="oyun-list-kolon">
                     <h3>Tüm Oyunlar</h3>
                     <p class="liste-aciklama">Tüm oyunlarınız burada listelenir. Sıralamaları, 'Tüm Oyunlar' sayfasındaki sırayı belirler.</p>
-                    <div id="oyunlar-list"></div>
+                <div id="oyunlar-list"></div>
                     <button id="add-oyun-button" class="add-new-button"><i class="fas fa-plus"></i> Yeni Oyun Ekle</button>
                 </div>
                 
@@ -172,11 +181,24 @@
         </section>
 
     </main>
+</div>
 
-    <!-- Modals -->
-    <div id="notification" class="hidden"></div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-    <script src="panel.js"></script>
+<!-- Modal ve Bildirim Alanları Eskisi Gibi Kalıyor -->
+<div id="edit-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button class="modal-close-btn">&times;</button>
+        <h3 id="modal-title">Öğeyi Düzenle</h3>
+        <form id="modal-form">
+            <div id="modal-fields"></div>
+            <div class="modal-actions">
+                <button type="submit">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="notification-container"></div>
+
+<script src="mobile.js"></script>
+<script src="panel.js"></script>
 </body>
 </html> 

@@ -19,7 +19,11 @@
       "oyuncular": [],
       "durum": "bitmis",
       "anasayfadaGoster": false,
-      "bilet": ""
+      "bilet": "",
+      "tur": "Ana Sahne",
+      "saat": "",
+      "konum": "",
+      "oneCikan": false
     },
     {
       "id": 1719865003,
@@ -53,7 +57,11 @@
       "oyuncular": [],
       "durum": "bitmis",
       "anasayfadaGoster": false,
-      "bilet": ""
+      "bilet": "",
+      "tur": "Ana Sahne",
+      "saat": "",
+      "konum": "",
+      "oneCikan": true
     },
     {
       "id": 1719865005,
@@ -70,24 +78,11 @@
       "oyuncular": [],
       "durum": "bitmis",
       "anasayfadaGoster": true,
-      "bilet": ""
-    },
-    {
-      "id": 1719865006,
-      "ad": "Deli Kadın Hikayeleri",
-      "yazar": "Mine Söğüt",
-      "yonetmen": "Reşit Özbek, Ece Gülüm, Emre Eroğlu",
-      "yardimci_yonetmen": "",
-      "afis": "assets/delikadinhikayeleri.jpg",
-      "kategori": "oda",
-      "tarih": "26/03/2024 - 20.00",
-      "mekan": "Oda Tiyatrosu Ömer -3, B328",
-      "sure": "",
-      "aciklama": "",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": ""
+      "bilet": "",
+      "tur": "Ana Sahne",
+      "saat": "",
+      "konum": "",
+      "oneCikan": true
     },
     {
       "id": 1719865007,
@@ -104,7 +99,11 @@
       "oyuncular": [],
       "durum": "bitmis",
       "anasayfadaGoster": false,
-      "bilet": ""
+      "bilet": "",
+      "tur": "Ana Sahne",
+      "saat": "",
+      "konum": "",
+      "oneCikan": true
     },
     {
       "id": 1719865008,
@@ -202,9 +201,9 @@
   "ekip": [
     {
       "id": 1,
-      "ad": "Selen Sıla Gürdal",
+      "ad": "Selen Gürdal",
       "rol": "Eş Başkan",
-      "img": "assets/1751388449622-pngegg.png",
+      "img": "assets/1751326336794-1751302828394-DSCF5618.JPG",
       "email": "",
       "telefon": "",
       "sinif": "1. Sınıf",
@@ -301,25 +300,6 @@
     "email": "iletisim@kutiyatro.com"
   },
   "oyuncu_havuzu": [
-    {
-      "id": 1,
-      "ad": "Selen Sıla Gürdal",
-      "img": "assets/1751388449622-pngegg.png",
-      "telefon": "",
-      "email": "",
-      "sinif": "1. Sınıf",
-      "bolum": "Belirtilmemiş",
-      "ozellikler": [
-        "Eş Başkan"
-      ],
-      "katilim_tarihi": "2025-07-01",
-      "durum": "aktif",
-      "tip": "baskan",
-      "kurul_uyesi": true,
-      "roller": [
-        "baskan"
-      ]
-    },
     {
       "id": 2,
       "ad": "Uğur Bayrak",
@@ -480,20 +460,39 @@
         "aktif_uye"
       ],
       "durum": "aktif"
+    },
+    {
+      "id": 15,
+      "ad": "Selen Gürdal",
+      "img": "assets/1751326336794-1751302828394-DSCF5618.JPG",
+      "telefon": "",
+      "email": "",
+      "sinif": "1. Sınıf",
+      "bolum": "Belirtilmemiş",
+      "ozellikler": "Eş Başkan",
+      "katilim_tarihi": "2025-07-01",
+      "durum": "aktif",
+      "tip": "baskan",
+      "kurul_uyesi": true,
+      "roller": [
+        "baskan"
+      ],
+      "": false,
+      "katilim": "2025-07-01"
     }
   ],
   "arsiv": [
     {
-      "id": "sezon_1751388469790",
-      "sezon": "34TY",
+      "id": "sezon_1751440579953",
+      "sezon": "2024",
       "aciklama": "",
       "icerikler": []
     },
     {
-      "sezon": "2023-2024",
-      "oyunlar": [],
-      "fotograflar": [],
-      "id": "item_1751383338315"
+      "id": "sezon_1751395021237",
+      "sezon": "20024",
+      "aciklama": "",
+      "icerikler": []
     }
   ]
 }

@@ -700,6 +700,36 @@ section.is-visible {
         letter-spacing: 25px; /* Daha fazla harf aralığı */
         transform: translateY(-15vh) translateX(0); /* Daha az kaydırma */
     }
+    
+    /* Çok küçük ekranlarda öne çıkan oyunlar */
+    .oyunlar-grid.buyuk-kartlar {
+        gap: 15px;
+        padding: 0 10px;
+    }
+    
+    .oyun-kart-yeni {
+        height: 300px;
+        margin-bottom: 10px;
+    }
+    
+    .oyun-kart-yeni-icerik {
+        padding: 15px;
+    }
+    
+    .oyun-kart-yeni-baslik {
+        font-size: 1.3rem;
+        margin-bottom: 6px;
+    }
+    
+    .oyun-kart-yeni-yonetmen {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    
+    .oyun-kart-yeni-detay-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }
 
 /* === ŞIK OYUN DETAY MODALI (SIFIRDAN) === */
@@ -1649,6 +1679,39 @@ main {
     gap: 25px;
 }
 
+/* Mobilde öne çıkan oyunları tek sütun halinde arka arkaya sırala */
+@media (max-width: 768px) {
+    .oyunlar-grid.buyuk-kartlar {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 15px;
+    }
+    
+    .oyun-kart-yeni {
+        height: 350px;
+        margin-bottom: 15px;
+    }
+    
+    .oyun-kart-yeni-icerik {
+        padding: 20px;
+    }
+    
+    .oyun-kart-yeni-baslik {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+    
+    .oyun-kart-yeni-yonetmen {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .oyun-kart-yeni-detay-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
 /* Önceki .oyun-kart-buyuk stillerini kaldırıyoruz. */
 .oyun-kart-buyuk, 
 .oyun-kart-buyuk-img, 
@@ -1714,6 +1777,8 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
+    text-align: center;
 }
 
 .oyun-kart-yeni-baslik {
@@ -1722,6 +1787,7 @@ main {
     line-height: 1.2;
     margin: 0 0 5px 0;
     text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    text-align: center;
 }
 
 .oyun-kart-yeni-yonetmen {
@@ -1731,6 +1797,7 @@ main {
     color: rgba(255,255,255,0.8);
     margin: 0 0 20px 0;
     transition: all 0.3s ease;
+    text-align: center;
 }
 
 .oyun-kart-yeni-detay-btn {
@@ -1740,7 +1807,7 @@ main {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    align-self: flex-start;
+    align-self: center;
     transform: translateY(20px);
     opacity: 0;
     transition: all 0.4s ease 0.1s;
@@ -1758,4 +1825,390 @@ main {
 /* Diğer Bölümler */
 #ekip {
     padding: 100px 0;
+}
+
+.oyun-modal-overlay, .tam-ekran-afis-modal {
+    background: rgba(20, 20, 30, 0.75);
+    backdrop-filter: blur(8px) saturate(120%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    padding: 0;
+    transition: background 0.3s;
+}
+.oyun-modal-content, .tam-ekran-afis-container {
+    background: rgba(34, 34, 44, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+    border: 1px solid rgba(139,0,0,0.10);
+    max-width: 700px;
+    width: 95vw;
+    max-height: 90vh;
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    animation: modal-fade-in 0.35s cubic-bezier(.4,0,.2,1);
+}
+.oyun-modal-layout {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    width: 100%;
+    min-height: 320px;
+}
+.oyun-modal-afis-container {
+    flex: 0 0 220px;
+    background: linear-gradient(135deg, rgba(139,0,0,0.12) 0%, rgba(139,0,0,0.08) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 18px 0 0 18px;
+    overflow: hidden;
+    position: relative;
+    border-right: 1px solid rgba(139,0,0,0.15);
+}
+.oyun-modal-afis {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 0 0 0 18px;
+    box-shadow: none;
+    background: transparent;
+    padding: 15px;
+    max-width: calc(100% - 30px);
+    max-height: calc(100% - 30px);
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.oyun-modal-afis:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+.afis-placeholder-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255,255,255,0.6);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.afis-click-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(139, 0, 0, 0.1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 2;
+    border-radius: 0 0 0 18px;
+    backdrop-filter: blur(1px);
+}
+
+.afis-click-overlay i {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: #fff;
+    animation: pulse-expand 2s infinite;
+}
+
+@keyframes pulse-expand {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.afis-click-overlay i {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.afis-click-overlay span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.oyun-modal-afis-container:hover .afis-click-overlay {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.8) 0%, rgba(139, 0, 0, 0.6) 100%);
+    backdrop-filter: blur(2px);
+}
+
+.oyun-modal-afis-container:hover .oyun-modal-afis {
+    transform: scale(1.05);
+}
+.oyun-modal-bilgi {
+    flex: 1;
+    padding: 38px 32px 32px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #fff;
+    background: transparent;
+}
+.oyun-modal-baslik {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.1rem;
+    color: #fff;
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.oyun-modal-yazar, .oyun-modal-yonetmen {
+    color: #e0e0e0;
+    font-size: 1.05rem;
+    margin-bottom: 6px;
+}
+.oyun-modal-detay-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 24px;
+    margin: 18px 0 10px 0;
+    font-size: 1rem;
+    color: #DAA520;
+}
+.oyun-modal-detay-grid i {
+    color: #8B0000;
+    margin-right: 6px;
+}
+.oyun-modal-aciklama p {
+    color: #e0e0e0;
+    font-size: 1.08rem;
+    line-height: 1.7;
+    margin: 18px 0 0 0;
+    font-family: 'Poppins', sans-serif;
+}
+.oyun-modal-bilet-btn {
+    display: inline-block;
+    margin: 22px 0 0 0;
+    background: linear-gradient(90deg, #8B0000 0%, #A0001A 100%);
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    padding: 13px 32px;
+    font-size: 1.08rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 10px rgba(139,0,0,0.10);
+}
+.oyun-modal-bilet-btn:hover {
+    background: linear-gradient(90deg, #A0001A 0%, #8B0000 100%);
+    transform: translateY(-2px) scale(1.04);
+}
+.oyun-modal-kadro {
+    margin-top: 28px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+    padding: 18px 16px 10px 16px;
+}
+.oyun-modal-kadro h4 {
+    color: #DAA520;
+    font-size: 1.1rem;
+    margin: 0 0 10px 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
+.oyun-modal-kadro ul {
+    margin: 0;
+    padding: 0 0 0 12px;
+    color: #fff;
+    font-size: 1rem;
+}
+.oyun-modal-close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+    background: rgba(139,0,0,0.12);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 10;
+}
+.oyun-modal-close-btn:hover {
+    background: rgba(139,0,0,0.25);
+    transform: scale(1.08) rotate(90deg);
+}
+@media (max-width: 700px) {
+    .oyun-modal-layout {
+        flex-direction: column;
+        min-height: unset;
+    }
+    .oyun-modal-afis-container {
+        flex: none;
+        width: 100%;
+        height: 200px;
+        border-radius: 18px 18px 0 0;
+        border-right: none;
+        border-bottom: 1px solid rgba(139,0,0,0.15);
+    }
+    .oyun-modal-afis {
+        border-radius: 18px 18px 0 0;
+        height: 100%;
+        padding: 20px;
+        max-width: calc(100% - 40px);
+        max-height: calc(100% - 40px);
+    }
+    .afis-click-overlay {
+        border-radius: 18px 18px 0 0;
+    }
+    .afis-click-overlay i {
+        font-size: 1.8rem;
+    }
+    .afis-click-overlay span {
+        font-size: 0.8rem;
+    }
+    .oyun-modal-bilgi {
+        padding: 28px 16px 24px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .oyun-modal-afis-container {
+        height: 160px;
+    }
+    .oyun-modal-afis {
+        padding: 15px;
+        max-width: calc(100% - 30px);
+        max-height: calc(100% - 30px);
+    }
+    .oyun-modal-bilgi {
+        padding: 24px 12px 20px 12px;
+    }
+    .oyun-modal-baslik {
+        font-size: 1.6rem;
+    }
+    .oyun-modal-detay-grid {
+        gap: 12px 16px;
+        font-size: 0.9rem;
+    }
+    
+    /* Öne çıkan oyunlar mobil optimizasyonu */
+    .oyun-kart-yeni-baslik {
+        font-size: 1.4rem;
+        line-height: 1.3;
+    }
+    .oyun-kart-yeni-yonetmen {
+        font-size: 0.9rem;
+    }
+    .oyun-kart-yeni-icerik {
+        padding: 20px 15px;
+    }
+}
+@keyframes modal-fade-in {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Tam Ekran Afiş Modal */
+.fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30000;
+    opacity: 0;
+    animation: fullscreen-fade-in 0.3s ease forwards;
+}
+
+.fullscreen-modal.closing {
+    animation: fullscreen-fade-out 0.3s ease forwards;
+}
+
+.fullscreen-afis-img {
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.fullscreen-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(139, 0, 0, 0.8);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.fullscreen-close-btn:hover {
+    background: rgba(139, 0, 0, 1);
+    transform: scale(1.1) rotate(90deg);
+}
+
+@keyframes fullscreen-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fullscreen-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .fullscreen-close-btn {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .fullscreen-close-btn {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
 }
