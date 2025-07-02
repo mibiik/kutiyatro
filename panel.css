@@ -8,6 +8,7 @@
     --sidebar-bg: #2c000f;
     --sidebar-text: #E3E2DF;
     --sidebar-active: #5D001E;
+    --bordo: #800020;
 }
 
 body {
@@ -291,6 +292,33 @@ button:disabled {
     opacity: 0.5;
     background: #f0f8ff;
     border: 1px dashed #007bff;
+}
+
+/* Mobil sürükle-bırak desteği */
+.drag-placeholder {
+    height: 60px;
+    background: rgba(128, 0, 32, 0.1);
+    border: 2px dashed var(--bordo);
+    border-radius: 8px;
+    margin: 5px 0;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Mobil touch feedback */
+@media (max-width: 768px) {
+    .list-item.draggable {
+        cursor: grab;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        touch-action: none;
+    }
+    
+    .list-item.draggable:active {
+        cursor: grabbing;
+    }
 }
 
 .list-item-content {
