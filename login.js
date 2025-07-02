@@ -136,16 +136,26 @@ function convertToNewFormat(users) {
     const convertedUsers = [];
     
     for (const [username, userData] of Object.entries(users)) {
+        // Kullanıcı adına göre detaylı profil bilgileri
+        const profileData = getDetailedProfileData(username, userData);
+        
         // Yeni format: array of objects
         const userObj = {
             username: username,
-            ad: userData.name,
-            rol: userData.role,
+            ad: profileData.ad,
+            rol: profileData.rol,
             password: userData.defaultPassword ? btoa(userData.defaultPassword) : btoa('kutiy2025'),
             mustChangePassword: userData.needsPasswordChange || false,
             active: true,
-            email: '',
-            telefon: '',
+            email: profileData.email,
+            telefon: profileData.telefon,
+            bio: profileData.bio,
+            joinDate: profileData.joinDate,
+            birthDate: profileData.birthDate,
+            department: profileData.department,
+            experience: profileData.experience,
+            socialMedia: profileData.socialMedia,
+            profilePicture: profileData.profilePicture,
             permissions: getDefaultPermissions(userData.role)
         };
         
@@ -153,6 +163,181 @@ function convertToNewFormat(users) {
     }
     
     return convertedUsers;
+}
+
+// Kullanıcı adına göre detaylı profil verileri
+function getDetailedProfileData(username, userData) {
+    const profileData = {
+        ad: userData.name,
+        rol: userData.role,
+        email: '',
+        telefon: '',
+        bio: '',
+        joinDate: '2024-09-01',
+        birthDate: '',
+        department: 'Koç Üniversitesi',
+        experience: '',
+        socialMedia: {
+            instagram: '',
+            linkedin: '',
+            twitter: ''
+        },
+        profilePicture: 'assets/1751453697640-organizator-1881-logo-F1F415.png'
+    };
+
+    switch(username) {
+        case 'selen.gurdal':
+            profileData.email = 'selen.gurdal@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4501';
+            profileData.bio = 'KUTİY Eş Başkanı olarak kulübümüzün stratejik yönetiminden sorumludur. Tiyatro sanatına olan tutkusu ve liderlik yetenekleriyle ekibimizi yönlendirir.';
+            profileData.birthDate = '2003-03-15';
+            profileData.department = 'Koç Üniversitesi - İşletme';
+            profileData.experience = '3 yıl tiyatro deneyimi, 2 yıl yönetim deneyimi';
+            profileData.socialMedia.instagram = '@selen.gurdal';
+            break;
+
+        case 'ugur.bayrak':
+            profileData.email = 'ugur.bayrak@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4502';
+            profileData.bio = 'KUTİY Eş Başkanı olarak kulübün vizyonunu belirlemede aktif rol alır. Yaratıcı düşünce yapısı ve organizasyon becerileriyle öne çıkar.';
+            profileData.birthDate = '2002-07-22';
+            profileData.department = 'Koç Üniversitesi - Mühendislik';
+            profileData.experience = '4 yıl tiyatro deneyimi, 2 yıl yönetim deneyimi';
+            profileData.socialMedia.instagram = '@ugur.bayrak';
+            break;
+
+        case 'selen.sariklic':
+            profileData.email = 'selen.sariklic@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4503';
+            profileData.bio = 'Festival Sorumlusu olarak KÜTFEST organizasyonundan sorumludur. Event management konusunda uzmanlaşmış, detaylı planlama yeteneğine sahiptir.';
+            profileData.birthDate = '2003-11-08';
+            profileData.department = 'Koç Üniversitesi - İletişim';
+            profileData.experience = '2 yıl festival organizasyonu, 3 yıl tiyatro deneyimi';
+            profileData.socialMedia.instagram = '@selen.nehir';
+            break;
+
+        case 'tuana.elmas':
+            profileData.email = 'tuana.elmas@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4504';
+            profileData.bio = 'Festival Sorumlusu olarak KÜTFEST\'in yaratıcı içeriklerinden ve sanatsal yönünden sorumludur. Sanat yönetmeni kimliğiyle festivali şekillendirir.';
+            profileData.birthDate = '2003-01-20';
+            profileData.department = 'Koç Üniversitesi - Sanat Tarihi';
+            profileData.experience = '3 yıl sanat yönetimi, 4 yıl tiyatro deneyimi';
+            profileData.socialMedia.instagram = '@tuana.elmas';
+            break;
+
+        case 'melek.yucel':
+            profileData.email = 'melek.yucel@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4505';
+            profileData.bio = 'Genel Sekreter olarak kulübün tüm idari işlerinden, toplantı organizasyonundan ve dokümantasyonundan sorumludur. Titiz çalışma prensipleriyle öne çıkar.';
+            profileData.birthDate = '2002-12-03';
+            profileData.department = 'Koç Üniversitesi - Hukuk';
+            profileData.experience = '2 yıl idari yönetim, 3 yıl tiyatro deneyimi';
+            profileData.socialMedia.instagram = '@melek.yucel';
+            break;
+
+        case 'kadir.erbas':
+            profileData.email = 'kadir.erbas@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4506';
+            profileData.bio = 'Mali Koordinatör ve Lojistik Sorumlusu olarak kulübün finansal yönetimi ve etkinlik lojistiğinden sorumludur. Analitik düşünce yapısına sahiptir.';
+            profileData.birthDate = '2003-06-14';
+            profileData.department = 'Koç Üniversitesi - Ekonomi';
+            profileData.experience = '2 yıl mali yönetim, 1 yıl lojistik, 3 yıl tiyatro';
+            profileData.socialMedia.instagram = '@kadir.kaan';
+            break;
+
+        case 'sena.eliri':
+            profileData.email = 'sena.eliri@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4507';
+            profileData.bio = 'Oda Tiyatrosu Sorumlusu olarak küçük ölçekli ve deneysel oyun projelerinden sorumludur. Alternatif tiyatro formlarına odaklanır.';
+            profileData.birthDate = '2003-09-25';
+            profileData.department = 'Koç Üniversitesi - Psikoloji';
+            profileData.experience = '3 yıl oda tiyatrosu, 4 yıl oyunculuk deneyimi';
+            profileData.socialMedia.instagram = '@sena.eliri';
+            break;
+
+        case 'tunahan.saygili':
+            profileData.email = 'tunahan.saygili@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4508';
+            profileData.bio = 'Organizasyon Sorumlusu olarak etkinlik planlaması, sahne düzenlemeleri ve teknik koordinasyondan sorumludur. Problem çözme konusunda yeteneklidir.';
+            profileData.birthDate = '2002-04-11';
+            profileData.department = 'Koç Üniversitesi - Endüstri Mühendisliği';
+            profileData.experience = '3 yıl etkinlik organizasyonu, 2 yıl teknik koordinasyon';
+            profileData.socialMedia.instagram = '@tunahan.saygili';
+            break;
+
+        case 'can.sahin':
+            profileData.email = 'can.sahin@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4509';
+            profileData.bio = 'Sosyal Medya Sorumlusu olarak kulübün dijital varlığı, içerik üretimi ve online tanıtım stratejilerinden sorumludur. Yaratıcı içerik üreticisidir.';
+            profileData.birthDate = '2003-08-17';
+            profileData.department = 'Koç Üniversitesi - Medya ve Görsel Sanatlar';
+            profileData.experience = '2 yıl sosyal medya yönetimi, 3 yıl içerik üretimi';
+            profileData.socialMedia.instagram = '@can.sahin';
+            break;
+
+        case 'asli.hurma':
+            profileData.email = 'asli.hurma@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4510';
+            profileData.bio = 'Sponsorluk Sorumlusu olarak kurumsal iletişim, sponsor bulma ve ortaklık anlaşmalarından sorumludur. İletişim becerileri güçlüdür.';
+            profileData.birthDate = '2003-02-28';
+            profileData.department = 'Koç Üniversitesi - Uluslararası İlişkiler';
+            profileData.experience = '2 yıl kurumsal iletişim, 1 yıl sponsorluk yönetimi';
+            profileData.socialMedia.instagram = '@asli.hurma';
+            break;
+
+        case 'simge.dere':
+            profileData.email = 'simge.dere@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4511';
+            profileData.bio = 'Sponsorluk Sorumlusu olarak marka ortaklıkları ve finansal destekçi bulma konularında uzmanlaşmıştır. Negotiation yetenekleri gelişmiştir.';
+            profileData.birthDate = '2002-10-05';
+            profileData.department = 'Koç Üniversitesi - İşletme';
+            profileData.experience = '2 yıl marka ortaklıkları, 3 yıl proje yönetimi';
+            profileData.socialMedia.instagram = '@simge.dere';
+            break;
+
+        case 'gul.kal':
+            profileData.email = 'gul.kal@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4512';
+            profileData.bio = 'Tasarım Sorumlusu olarak görsel kimlik, poster tasarımları, sahne dekorları ve tüm yaratıcı tasarım süreçlerinden sorumludur.';
+            profileData.birthDate = '2003-05-12';
+            profileData.department = 'Koç Üniversitesi - Grafik Tasarım';
+            profileData.experience = '3 yıl grafik tasarım, 2 yıl sahne tasarımı deneyimi';
+            profileData.socialMedia.instagram = '@gul.deniz';
+            break;
+
+        case 'mehmet.usta':
+            profileData.email = 'mehmet.usta@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4513';
+            profileData.bio = 'Teknik Sorumlusu olarak sahne teknolojileri, ses-ışık sistemleri ve teknik altyapıdan sorumludur. Mühendislik yaklaşımını tiyatroya adapte eder.';
+            profileData.birthDate = '2002-09-30';
+            profileData.department = 'Koç Üniversitesi - Elektrik-Elektronik Mühendisliği';
+            profileData.experience = '3 yıl teknik yönetim, 2 yıl ses-ışık teknolojileri';
+            profileData.socialMedia.instagram = '@mehmet.guray';
+            break;
+
+        case 'merve.konuk':
+            profileData.email = 'merve.konuk@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4514';
+            profileData.bio = 'Turne Sorumlusu olarak oyunların farklı şehirlerdeki temsillerinden, seyahat organizasyonundan ve dış etkinliklerden sorumludur.';
+            profileData.birthDate = '2003-07-07';
+            profileData.department = 'Koç Üniversitesi - Turizm İşletmeciliği';
+            profileData.experience = '2 yıl turne organizasyonu, 3 yıl etkinlik yönetimi';
+            profileData.socialMedia.instagram = '@merve.makbule';
+            break;
+
+        case 'ecem.kaynar':
+            profileData.email = 'ecem.kaynar@ku.edu.tr';
+            profileData.telefon = '+90 555 123 4515';
+            profileData.bio = 'Kurul Üyesi olarak çeşitli projelerde aktif rol alır ve kulübün genel faaliyetlerine katkı sağlar. Genç ve dinamik yaklaşımıyla öne çıkar.';
+            profileData.birthDate = '2004-01-18';
+            profileData.department = 'Koç Üniversitesi - Sosyoloji';
+            profileData.experience = '1 yıl kurul üyeliği, 2 yıl oyunculuk deneyimi';
+            profileData.socialMedia.instagram = '@ecem.naz';
+            break;
+    }
+
+    return profileData;
 }
 
 // Role göre varsayılan izinleri belirle
