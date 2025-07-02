@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP ${response.status}: Değişiklikler kaydedilemedi`);
             }
             
-            showNotification('Değişiklikler başarıyla kaydedildi!', 'success', 2000);
+            showMiniCheck();
             await fetchContent(); // Re-fetch for consistency
             
         } catch (error) {

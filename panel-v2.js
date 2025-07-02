@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(siteContent, null, 2)
             });
             if (!response.ok) throw new Error('Değişiklikler sunucuya kaydedilemedi.');
-            showNotification('Değişiklikler başarıyla kaydedildi!', 'success');
+            showMiniCheck();
             await fetchContent(); // Re-fetch for consistency
         } catch (error) {
             console.error('Failed to save content:', error);
@@ -1134,6 +1134,51 @@ document.addEventListener('DOMContentLoaded', () => {
             notification.classList.remove('show');
             setTimeout(() => notification.remove(), 500);
         }, 3000);
+    };
+
+    // Mini feedback fonksiyonları - üst üste binmeyen
+    const showMiniCheck = () => {
+        // Mevcut mini feedback varsa kaldır
+        const existing = document.querySelector('.mini-feedback');
+        if (existing) existing.remove();
+        
+        const miniCheck = document.createElement('div');
+        miniCheck.className = 'mini-feedback success';
+        miniCheck.innerHTML = '✓';
+        miniCheck.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10001;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+        `;
+        
+        document.body.appendChild(miniCheck);
+        
+        // Animasyon
+        setTimeout(() => {
+            miniCheck.style.opacity = '1';
+            miniCheck.style.transform = 'scale(1)';
+        }, 10);
+        
+        // Kaldır
+        setTimeout(() => {
+            miniCheck.style.opacity = '0';
+            miniCheck.style.transform = 'scale(0.5)';
+            setTimeout(() => miniCheck.remove(), 300);
+        }, 1000);
     };
 
     // ----------------- EVENT LISTENERS SETUP -----------------

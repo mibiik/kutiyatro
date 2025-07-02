@@ -156,7 +156,7 @@
       "diger_roller": [
         "Işık / Ses Tasarımı: Uğur Bayrak"
       ],
-      "siralama": 2
+      "siralama": 1
     },
     {
       "id": 4,
@@ -308,7 +308,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 5
+      "siralama": 3
     },
     {
       "id": 5,
@@ -454,7 +454,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 1
+      "siralama": 2
     },
     {
       "id": 7,
@@ -639,7 +639,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 3
+      "siralama": 1
     },
     {
       "id": 10,
@@ -699,7 +699,7 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 6
+      "siralama": 4
     }
   ],
   "hakkimizda": {
