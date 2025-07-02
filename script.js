@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         return `
             <div class="${personClass}">
-                <img src="${uye.img || 'assets/pngegg.png'}" alt="${uye.ad}" class="person-image">
+                <img src="${uye.img || 'assets/1751453697640-organizator-1881-logo-F1F415.png'}" alt="${uye.ad}" class="person-image">
                 <h3 class="person-name">${uye.ad}</h3>
                 <p class="person-role">${uye.rol}</p>
             </div>
@@ -154,9 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.querySelector('#oyunlarimiz .oyunlar-grid');
         if (!container) return;
 
-        // Panelde "Öne Çıkar" olarak işaretlenen oyunları filtrele.
-        // Sıralama zaten panelde yapıldığı için burada sadece filtrelemek yeterli.
-        const gosterilecekOyunlar = oyunlar.filter(oyun => oyun.oneCikan === true).slice(0, 5); // En fazla 5 tane göster
+        // Panelde "Öne Çıkar" olarak işaretlenen oyunları filtrele ve sıralamaya göre sırala
+        const gosterilecekOyunlar = oyunlar
+            .filter(oyun => oyun.oneCikan === true)
+            .sort((a, b) => (a.siralama || 999) - (b.siralama || 999))  // Sıralamaya göre sırala
+            .slice(0, 5); // En fazla 5 tane göster
 
         if (gosterilecekOyunlar.length === 0) {
             container.innerHTML = '<p style="text-align: center; width: 100%;">Öne çıkarılan oyun bulunmuyor.</p>';

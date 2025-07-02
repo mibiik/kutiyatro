@@ -80,10 +80,60 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
+            // VERİ TEMİZLİĞİ: Oyuncu havuzunu düzenle
+            cleanupOyuncuHavuzu();
+            
             renderAllContent();
         } catch (error) {
             console.error('Failed to fetch content:', error);
             showNotification('İçerik yüklenemedi. Sunucu çalışıyor mu?', 'error');
+        }
+    };
+
+    // Oyuncu havuzu veri temizliği
+    const cleanupOyuncuHavuzu = () => {
+        if (!siteContent.oyuncu_havuzu) return;
+        
+        console.log('Oyuncu havuzu temizliği başlıyor...');
+        
+        // ID'siz kayıtlara ID ver
+        let maxId = 0;
+        siteContent.oyuncu_havuzu.forEach(oyuncu => {
+            if (oyuncu.id && typeof oyuncu.id === 'number') {
+                maxId = Math.max(maxId, oyuncu.id);
+            }
+        });
+        
+        siteContent.oyuncu_havuzu.forEach(oyuncu => {
+            if (!oyuncu.id) {
+                oyuncu.id = ++maxId;
+                console.log(`ID eklendi: ${oyuncu.ad} -> ID: ${oyuncu.id}`);
+            }
+        });
+        
+        // Duplicate kayıtları temizle (aynı isimde birden fazla kayıt varsa)
+        const uniqueNames = new Set();
+        const cleanedOyuncuHavuzu = [];
+        
+        siteContent.oyuncu_havuzu.forEach(oyuncu => {
+            if (oyuncu.ad) {
+                const normalizedName = oyuncu.ad.trim().toLowerCase();
+                if (!uniqueNames.has(normalizedName)) {
+                    uniqueNames.add(normalizedName);
+                    cleanedOyuncuHavuzu.push(oyuncu);
+                } else {
+                    console.log(`Duplicate kayıt kaldırıldı: ${oyuncu.ad}`);
+                }
+            }
+        });
+        
+        const originalLength = siteContent.oyuncu_havuzu.length;
+        siteContent.oyuncu_havuzu = cleanedOyuncuHavuzu;
+        
+        if (originalLength !== cleanedOyuncuHavuzu.length) {
+            console.log(`Oyuncu havuzu temizlendi: ${originalLength} -> ${cleanedOyuncuHavuzu.length} kayıt`);
+            // Temizlik sonrası otomatik kaydet
+            saveContent();
         }
     };
 
@@ -95,11 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(siteContent, null, 2)
             });
             if (!response.ok) throw new Error('Değişiklikler sunucuya kaydedilemedi.');
-            showNotification('Değişiklikler başarıyla kaydedildi!', 'success');
+            showNotification('Değişiklikler başarıyla kaydedildi!', 'success', 2000);
             await fetchContent(); // Re-fetch for consistency
         } catch (error) {
             console.error('Failed to save content:', error);
-            showNotification('Değişiklikler kaydedilemedi.', 'error');
+            showNotification('Değişiklikler kaydedilemedi.', 'error', 2500);
         }
     };
 
@@ -155,8 +205,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderOyunlar = () => {
         oyunlarList.innerHTML = '';
-        siteContent.oyunlar?.forEach((item, index) => {
-            const itemDiv = createDraggableListItem(item, index, 'oyun');
+        
+        // Oyunları sıralamaya göre sırala
+        const sortedOyunlar = [...(siteContent.oyunlar || [])].sort((a, b) => {
+            const siralamaA = a.siralama || 999;
+            const siralamaB = b.siralama || 999;
+            return siralamaA - siralamaB;
+        });
+        
+        sortedOyunlar.forEach((item) => {
+            // Orijinal index'i bul
+            const originalIndex = siteContent.oyunlar.findIndex(o => o.id === item.id);
+            const itemDiv = createDraggableListItem(item, originalIndex, 'oyun');
             oyunlarList.appendChild(itemDiv);
         });
         addDragAndDropListeners(oyunlarList, 'oyun');
@@ -165,11 +225,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderOneCikanOyunlar = () => {
         if (!oneCikanOyunlarList) return;
         oneCikanOyunlarList.innerHTML = '';
+        
+        // Öne çıkan oyunları filtrele ve sıralamaya göre sırala
         const oneCikanOyunlar = siteContent.oyunlar?.filter(o => o.oneCikan) || [];
+        const sortedOneCikanOyunlar = oneCikanOyunlar.sort((a, b) => {
+            const siralamaA = a.siralama || 999;
+            const siralamaB = b.siralama || 999;
+            return siralamaA - siralamaB;
+        });
         
-        console.log('Öne çıkan oyunlar:', oneCikanOyunlar);
+        console.log('Öne çıkan oyunlar (sıralı):', sortedOneCikanOyunlar);
         
-        oneCikanOyunlar.forEach(item => {
+        sortedOneCikanOyunlar.forEach(item => {
             // Find the original index to pass to handlers
             const originalIndex = siteContent.oyunlar.findIndex(o => o.id === item.id);
             console.log(`Oyun "${item.ad}" için originalIndex:`, originalIndex);
@@ -446,36 +513,58 @@ document.addEventListener('DOMContentLoaded', () => {
         // Formdaki tüm inputları/textarea'ları/select'leri işle
         const inputs = modalFields.querySelectorAll('input, textarea, select');
         for (const input of inputs) {
-            const key = input.id.split('-').pop();
+            // ID'den field adını çıkar ve özel durumları ele al
+            let key = input.id.split('-').pop();
+            
+            // Özel field mapping'leri
+            if (input.id === 'modal-tur') key = 'tur';
+            if (input.id === 'oyuncu-ad') key = 'ad';
+            if (input.id === 'oyuncu-telefon') key = 'telefon';
+            if (input.id === 'oyuncu-email') key = 'email';
+            if (input.id === 'oyuncu-sinif') key = 'sinif';
+            if (input.id === 'oyuncu-bolum') key = 'bolum';
+            if (input.id === 'oyuncu-durum') key = 'durum';
+            if (input.id === 'oyuncu-katilim') key = 'katilim_tarihi';
+            if (input.id === 'oyuncu-ozellikler') key = 'ozellikler';
+            if (input.id === 'oyuncu-img') key = 'img';
+            
             if (input.type === 'checkbox') {
-                if (key === 'roller') {
+                if (input.value && ['baskan', 'baskan_yardimcisi', 'sekreter', 'sayman', 'kurul_uyesi', 
+                    'yonetmen', 'yardimci_yonetmen', 'oyuncu', 'sahne_direktoru', 'teknik_sorumlu', 
+                    'isik_ses', 'sahne_tasarim', 'kostum_makyaj', 'sosyal_medya', 'grafik_tasarim', 
+                    'web_sorumlu', 'fotografci', 'aktif_uye', 'uye', 'aday'].includes(input.value)) {
+                    // Rol checkbox'ları
                     if (input.checked) {
                         if (!itemData.roller) itemData.roller = [];
                         if (!itemData.roller.includes(input.value)) {
                             itemData.roller.push(input.value);
                         }
-        } else {
+                    } else {
                         if (itemData.roller) {
                             itemData.roller = itemData.roller.filter(r => r !== input.value);
                         }
                     }
                 } else {
-                     itemData[key] = input.checked;
+                    // Diğer checkbox'lar
+                    itemData[key] = input.checked;
                 }
             } else if (input.type === 'file') {
                 if (input.files && input.files[0]) {
                     const uploadedPath = await uploadImage(input.files[0]);
                     if (uploadedPath) {
                         itemData[key] = uploadedPath;
+                        console.log(`Fotoğraf yüklendi: ${key} = ${uploadedPath}`);
                     }
                 }
             } else if (input.tagName.toLowerCase() === 'select' && input.multiple) {
                  itemData[key] = Array.from(input.selectedOptions).map(option => option.value);
-            }
-            else {
-                // 'id'si 'modal-tur' olanı 'tur' olarak kaydet
-                const finalKey = input.id === 'modal-tur' ? 'tur' : key;
-                itemData[finalKey] = input.value;
+            } else {
+                // Özellikler için özel işlem
+                if (key === 'ozellikler') {
+                    itemData[key] = input.value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+                } else {
+                    itemData[key] = input.value;
+                }
             }
         }
         
@@ -500,12 +589,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (index > -1) {
             siteContent[arrayKey][index] = itemData;
         } else {
-            if (!siteContent[arrayKey]) siteContent[arrayKey] = [];
             siteContent[arrayKey].push(itemData);
         }
 
+        // Çift yönlü senkronizasyon
         if (type === 'ekip') {
-             syncEkipToOyuncuHavuzu(itemData);
+            syncEkipToOyuncuHavuzu(itemData);
+        } else if (type === 'oyuncu') {
+            syncOyuncuHavuzuToEkip(itemData);
         }
 
         await saveContent();
@@ -523,8 +614,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             siteContent[arrayKey].splice(index, 1);
             
+            // Çift yönlü senkronizasyon
             if (type === 'ekip') {
                 syncEkipToOyuncuHavuzu(itemToDelete, true); // isDelete = true
+            } else if (type === 'oyuncu') {
+                syncOyuncuHavuzuToEkip(itemToDelete, true); // isDelete = true
             }
             
             saveContent();
@@ -583,9 +677,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <label for="modal-aciklama">Açıklama:</label>
                     <textarea id="modal-aciklama" rows="4">${item.aciklama || ''}</textarea>
                     <label for="modal-tarih">Tarih:</label>
-                    <input type="text" id="modal-tarih" value="${item.tarih || ''}" placeholder="Örn: 1-2 Ocak 2024">
-                     <label for="modal-saat">Saat:</label>
-                    <input type="text" id="modal-saat" value="${item.saat || ''}" placeholder="Örn: 20:00">
+                    <input type="date" id="modal-tarih" value="${item.tarih || ''}">
+                    <label for="modal-saat">Saat:</label>
+                    <input type="time" id="modal-saat" value="${item.saat || ''}">
                     <label for="modal-konum">Konum:</label>
                     <input type="text" id="modal-konum" value="${item.konum || ''}" placeholder="Örn: Koç Üniversitesi Sevgi Gönül Oditoryumu">
                      <label for="modal-bilet">Bilet Linki:</label>
@@ -593,6 +687,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <label for="modal-afis">Afiş:</label>
                     <input type="file" id="modal-afis" accept="image/*">
                     ${item.afis ? `<img src="${item.afis}" alt="Mevcut Afiş" style="max-width: 100px; margin-top: 10px;">` : ''}
+                    <label for="modal-siralama">Sıralama (küçük sayı önce gelir):</label>
+                    <input type="number" id="modal-siralama" value="${item.siralama || 1}" min="1" max="999" required>
                     <div class="checkbox-container">
                         <input type="checkbox" id="modal-oneCikan" ${item.oneCikan ? 'checked' : ''}>
                         <label for="modal-oneCikan">Ana Sayfada Öne Çıkar</label>
@@ -605,6 +701,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <button type="button" id="add-oyuncu-row-btn">Oyuncu Ekle</button>
                     </div>
+                    <label for="modal-sezon">Sezon:</label>
+                    <select id="modal-sezon">
+                      <option value="2022-2023">2022-2023</option>
+                      <option value="2023-2024">2023-2024</option>
+                      <option value="2024-2025">2024-2025</option>
+                    </select>
                 `;
 
                 // Add event listeners for dynamic cast rows
@@ -667,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 break;
             case 'oyuncu':
-            const previewSrc = item.img && item.img !== 'assets/pngegg.png' ? item.img : '';
+            const previewSrc = item.img && item.img !== 'assets/1751453697640-organizator-1881-logo-F1F415.png' ? item.img : '';
                 modalFields.innerHTML = `
                 <label for="oyuncu-ad">Ad Soyad:</label>
                 <input type="text" id="oyuncu-ad" value="${item.ad || ''}" required>
@@ -738,8 +840,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <label for="oyuncu-ozellikler">Özellikler (virgülle ayırın):</label>
                 <input type="text" id="oyuncu-ozellikler" value="${(item.ozellikler || []).join(', ')}" placeholder="Sahne deneyimi, Shakespeare, Dram">
                 
-                <label for="oyuncu-foto">Fotoğraf Yükle:</label>
-                <input type="file" id="oyuncu-foto" accept="image/*">
+                <label for="oyuncu-img">Fotoğraf Yükle:</label>
+                <input type="file" id="oyuncu-img" accept="image/*">
                 <div id="modal-preview-container">
                     ${previewSrc ? `<p>Mevcut Foto:</p><img src="${previewSrc}" alt="Mevcut fotoğraf">` : ''}
                 </div>
@@ -849,47 +951,65 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!siteContent[arrayKey]) return;
 
         const newOrderedIds = Array.from(list.querySelectorAll('.list-item')).map(item => item.dataset.id);
+        
+        console.log('Yeni sıralama:', newOrderedIds);
 
-        if (list.id === 'one-cikan-oyunlar-list') {
-            // "Öne Çıkanlar" listesi güncellendiğinde, tüm oyunlar listesini yeniden sırala.
-            // Önce sürüklenen öne çıkanları al, sonra geri kalanları (öne çıkan ama sürüklenmeyenler + öne çıkmayanlar)
-            const allOtherItemIds = siteContent.oyunlar
-                .map(item => item.id)
-                .filter(id => !newOrderedIds.includes(id));
-            
-            const finalOrderedIds = [...newOrderedIds, ...allOtherItemIds];
-            
-            const newArray = finalOrderedIds.map(id => 
-                siteContent.oyunlar.find(item => item.id === id)
-            ).filter(Boolean);
-
-            if (newArray.length === siteContent.oyunlar.length) {
-                siteContent.oyunlar = newArray;
+        if (arrayKey === 'oyunlar') {
+            if (list.id === 'one-cikan-oyunlar-list') {
+                // Öne çıkan oyunlar sürüklendiğinde, sadece öne çıkanların sıralamasını güncelle
+                newOrderedIds.forEach((id, index) => {
+                    const oyun = siteContent.oyunlar.find(item => item.id == id);
+                    if (oyun && oyun.oneCikan) {
+                        oyun.siralama = index + 1; // 1'den başlayarak sıralama
+                        console.log(`Öne çıkan oyun ${oyun.ad} yeni sıralaması: ${oyun.siralama}`);
+                    }
+                });
             } else {
-                showNotification('Öne çıkanlar sıralanırken bir hata oluştu.', 'error');
-                return; // Kaydetme ve yeniden render etme.
+                // Tüm oyunlar sürüklendiğinde, tüm oyunların sıralamasını güncelle
+                newOrderedIds.forEach((id, index) => {
+                    const oyun = siteContent.oyunlar.find(item => item.id == id);
+                    if (oyun) {
+                        oyun.siralama = index + 1; // 1'den başlayarak sıralama
+                        console.log(`Oyun ${oyun.ad} yeni sıralaması: ${oyun.siralama}`);
+                    }
+                });
             }
-
-        } else { 
-            // "Tüm Oyunlar" veya "Ekip" gibi tam bir liste güncellendiğinde
+        } else {
+            // Diğer listeler için (ekip, oyuncu havuzu) - mevcut sistem
             const newArray = newOrderedIds.map(id =>
-                siteContent[arrayKey].find(item => item.id === id)
+                siteContent[arrayKey].find(item => item.id === id || item.id == id)
             ).filter(Boolean);
 
             if (newArray.length === siteContent[arrayKey].length) {
                 siteContent[arrayKey] = newArray;
             } else {
-                showNotification('Genel sıralama sırasında bir hata oluştu.', 'error');
-                return; // Kaydetme ve yeniden render etme.
+                showNotification('Sıralama sırasında bir hata oluştu.', 'error');
+                return;
             }
         }
 
+        // Drag & drop için minimal feedback
+        clearTimeout(window.dragNotificationTimeout);
+        
         saveContent().then(() => {
-            // Değişiklikten sonra her iki oyun listesini de senkronize etmek için yeniden render et
+            // Değişiklikten sonra oyun listelerini yeniden render et
             if (arrayKey === 'oyunlar') {
                 renderOyunlar();
                 renderOneCikanOyunlar();
+            } else if (arrayKey === 'ekip') {
+                renderEkip();
+            } else if (arrayKey === 'oyuncu_havuzu') {
+                renderOyuncuHavuzu();
             }
+            
+            // Küçük visual feedback - sadece son drag işleminden sonra
+            window.dragNotificationTimeout = setTimeout(() => {
+                showMiniCheck();
+            }, 200);
+            
+        }).catch(error => {
+            console.error('Sıralama kaydedilemedi:', error);
+            showMiniError();
         });
     };
 
@@ -963,26 +1083,26 @@ document.addEventListener('DOMContentLoaded', () => {
             siteContent.oyuncu_havuzu = [];
         }
         
-        const existingIndex = siteContent.oyuncu_havuzu.findIndex(oyuncu => oyuncu.ad === ekipUyesi.ad);
+        // İsim bazlı arama (ID'ler tutarsız olduğu için)
+        const existingIndex = siteContent.oyuncu_havuzu.findIndex(oyuncu => 
+            oyuncu.ad && ekipUyesi.ad && oyuncu.ad.trim().toLowerCase() === ekipUyesi.ad.trim().toLowerCase()
+        );
         
         if (isDelete) {
             // Ekip üyesi silindiğinde oyuncu havuzundan da sil
             if (existingIndex !== -1) {
                 siteContent.oyuncu_havuzu.splice(existingIndex, 1);
+                console.log(`Oyuncu havuzundan silindi: ${ekipUyesi.ad}`);
             }
         } else {
             // Ekip üyesi eklendiğinde/güncellendiğinde oyuncu havuzunu senkronize et
             
-            // Mevcut oyuncu havuzundaki en büyük ID'yi bul
-            const maxOyuncuId = siteContent.oyuncu_havuzu.length > 0 ? 
-                Math.max(...siteContent.oyuncu_havuzu.map(o => o.id)) : 0;
-            
             const oyuncuData = {
                 id: existingIndex !== -1 ? 
                     siteContent.oyuncu_havuzu[existingIndex].id : // Mevcut ID'yi koru
-                    maxOyuncuId + 1, // Yeni ID oluştur
+                    Date.now(), // Yeni benzersiz ID oluştur
                 ad: ekipUyesi.ad,
-                img: ekipUyesi.img || 'assets/pngegg.png',
+                img: ekipUyesi.img || 'assets/1751453697640-organizator-1881-logo-F1F415.png',
                 telefon: ekipUyesi.telefon || '',
                 email: ekipUyesi.email || '',
                 sinif: ekipUyesi.sinif || 'Belirtilmemiş',
@@ -990,16 +1110,79 @@ document.addEventListener('DOMContentLoaded', () => {
                 ozellikler: ekipUyesi.ozellikler || [ekipUyesi.rol],
                 katilim_tarihi: ekipUyesi.katilim_tarihi || new Date().toISOString().split('T')[0],
                 durum: 'aktif',
-                tip: determinePlayerType(ekipUyesi.rol),
-                kurul_uyesi: true // Yönetim kurulu üyesi olduğunu belirtmek için
+                roller: [determinePlayerType(ekipUyesi.rol)], // Çoklu rol sistemi
+                kurul_uyesi: true, // Yönetim kurulu üyesi olduğunu belirtmek için
+                sezon: ekipUyesi.sezon || '2024-2025'
             };
             
             if (existingIndex !== -1) {
-                // Mevcut oyuncuyu güncelle
-                siteContent.oyuncu_havuzu[existingIndex] = oyuncuData;
+                // Mevcut oyuncuyu güncelle - mevcut roller ve tip bilgilerini koru
+                const existingOyuncu = siteContent.oyuncu_havuzu[existingIndex];
+                
+                // Rolleri birleştir (ekip rolü + mevcut roller)
+                const yeniRol = determinePlayerType(ekipUyesi.rol);
+                const mevcutRoller = existingOyuncu.roller || [];
+                if (!mevcutRoller.includes(yeniRol)) {
+                    mevcutRoller.push(yeniRol);
+                }
+                oyuncuData.roller = mevcutRoller;
+                
+                // Tip'i güncelle (en yüksek rol)
+                oyuncuData.tip = getPrimaryRoleType(oyuncuData.roller);
+                
+                // Diğer alanları güncelle
+                siteContent.oyuncu_havuzu[existingIndex] = {
+                    ...existingOyuncu, // Mevcut verileri koru
+                    ...oyuncuData, // Yeni verilerle güncelle
+                    id: existingOyuncu.id // ID'yi kesinlikle koru
+                };
+                
+                console.log(`Oyuncu havuzunda güncellendi: ${ekipUyesi.ad}, yeni img: ${ekipUyesi.img}`);
             } else {
                 // Yeni oyuncu ekle
+                oyuncuData.tip = determinePlayerType(ekipUyesi.rol);
                 siteContent.oyuncu_havuzu.push(oyuncuData);
+                console.log(`Oyuncu havuzuna eklendi: ${ekipUyesi.ad}`);
+            }
+        }
+    };
+
+    // Oyuncu havuzundan ekibe senkronizasyon (tersine senkronizasyon)
+    const syncOyuncuHavuzuToEkip = (oyuncu, isDelete = false) => {
+        if (!siteContent.ekip) {
+            siteContent.ekip = [];
+        }
+        
+        // İsim bazlı arama
+        const existingIndex = siteContent.ekip.findIndex(ekipUyesi => 
+            ekipUyesi.ad && oyuncu.ad && ekipUyesi.ad.trim().toLowerCase() === oyuncu.ad.trim().toLowerCase()
+        );
+        
+        if (isDelete) {
+            // Oyuncu silindiğinde ekipten de sil (sadece kurul üyesiyse)
+            if (existingIndex !== -1 && oyuncu.kurul_uyesi) {
+                siteContent.ekip.splice(existingIndex, 1);
+                console.log(`Ekipten silindi: ${oyuncu.ad}`);
+            }
+        } else {
+            // Oyuncu güncellendiğinde ekibi de güncelle (sadece kurul üyesiyse)
+            if (oyuncu.kurul_uyesi && existingIndex !== -1) {
+                const existingEkipUyesi = siteContent.ekip[existingIndex];
+                
+                // Fotoğraf ve diğer bilgileri güncelle ama rol bilgisini koru
+                const updatedEkipUyesi = {
+                    ...existingEkipUyesi, // Mevcut verileri koru (özellikle rol)
+                    ad: oyuncu.ad,
+                    img: oyuncu.img || existingEkipUyesi.img || 'assets/1751453697640-organizator-1881-logo-F1F415.png',
+                    telefon: oyuncu.telefon || existingEkipUyesi.telefon || '',
+                    email: oyuncu.email || existingEkipUyesi.email || '',
+                    sinif: oyuncu.sinif || existingEkipUyesi.sinif || '',
+                    bolum: oyuncu.bolum || existingEkipUyesi.bolum || '',
+                    sezon: oyuncu.sezon || existingEkipUyesi.sezon || '2024-2025'
+                };
+                
+                siteContent.ekip[existingIndex] = updatedEkipUyesi;
+                console.log(`Ekipte güncellendi: ${oyuncu.ad}, yeni img: ${oyuncu.img}`);
             }
         }
     };
@@ -1014,7 +1197,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------- UTILITIES -----------------
-    const showNotification = (message, type = 'success') => {
+    const showNotification = (message, type = 'success', duration = 3000) => {
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
         notification.textContent = message;
@@ -1023,7 +1206,96 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => notification.remove(), 500);
-        }, 3000);
+        }, duration);
+    };
+
+    // Mini feedback fonksiyonları - üst üste binmeyen
+    const showMiniCheck = () => {
+        // Mevcut mini feedback varsa kaldır
+        const existing = document.querySelector('.mini-feedback');
+        if (existing) existing.remove();
+        
+        const miniCheck = document.createElement('div');
+        miniCheck.className = 'mini-feedback success';
+        miniCheck.innerHTML = '✓';
+        miniCheck.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10001;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+        `;
+        
+        document.body.appendChild(miniCheck);
+        
+        // Animasyon
+        setTimeout(() => {
+            miniCheck.style.opacity = '1';
+            miniCheck.style.transform = 'scale(1)';
+        }, 10);
+        
+        // Kaldır
+        setTimeout(() => {
+            miniCheck.style.opacity = '0';
+            miniCheck.style.transform = 'scale(0.5)';
+            setTimeout(() => miniCheck.remove(), 300);
+        }, 1000);
+    };
+
+    const showMiniError = () => {
+        // Mevcut mini feedback varsa kaldır
+        const existing = document.querySelector('.mini-feedback');
+        if (existing) existing.remove();
+        
+        const miniError = document.createElement('div');
+        miniError.className = 'mini-feedback error';
+        miniError.innerHTML = '✕';
+        miniError.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f44336;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 10001;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+        `;
+        
+        document.body.appendChild(miniError);
+        
+        // Animasyon
+        setTimeout(() => {
+            miniError.style.opacity = '1';
+            miniError.style.transform = 'scale(1)';
+        }, 10);
+        
+        // Kaldır
+        setTimeout(() => {
+            miniError.style.opacity = '0';
+            miniError.style.transform = 'scale(0.5)';
+            setTimeout(() => miniError.remove(), 300);
+        }, 1500);
     };
 
     // ----------------- EVENT LISTENERS SETUP -----------------

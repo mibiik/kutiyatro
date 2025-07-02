@@ -685,7 +685,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 break;
             case 'oyuncu':
-            const previewSrc = item.img && item.img !== 'assets/pngegg.png' ? item.img : '';
+            const previewSrc = item.img && item.img !== 'assets/1751453697640-organizator-1881-logo-F1F415.png' ? item.img : '';
                 modalFields.innerHTML = `
                 <label for="oyuncu-ad">Ad Soyad:</label>
                 <input type="text" id="oyuncu-ad" value="${item.ad || ''}" required>
@@ -991,7 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     siteContent.oyuncu_havuzu[existingIndex].id : // Mevcut ID'yi koru
                     maxOyuncuId + 1, // Yeni ID oluştur
                 ad: ekipUyesi.ad,
-                img: ekipUyesi.img || 'assets/pngegg.png',
+                img: ekipUyesi.img || 'assets/1751453697640-organizator-1881-logo-F1F415.png',
                 telefon: ekipUyesi.telefon || '',
                 email: ekipUyesi.email || '',
                 sinif: ekipUyesi.sinif || 'Belirtilmemiş',

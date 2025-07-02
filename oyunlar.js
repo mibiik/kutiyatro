@@ -11,7 +11,7 @@ async function oyunlariYukle() {
                 throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
         const data = await response.json();
-        tumOyunlar = data.oyunlar || [];
+        tumOyunlar = (data.oyunlar || []).sort((a, b) => (a.siralama || 999) - (b.siralama || 999)); // Sıralamaya göre sırala
             filtrelenmisOyunlar = [...tumOyunlar]; // Başlangıçta tüm oyunları göster
         oyunlariGoster();
     } catch (error) {

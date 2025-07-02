@@ -349,14 +349,13 @@ section.is-visible {
 
 #hero h1 {
     font-size: 11vw;
-    color: var(--text-color);
+    color: #fff;
     margin: 0;
     line-height: 1;
     text-transform: uppercase;
     -webkit-text-stroke: initial;
-    color: #fff;
     z-index: 1;
-    animation: theatrical-flicker 4s linear 1;
+    animation: theatrical-flicker-once 3s ease-out 1 forwards;
     transform: translateY(-5vh) translateX(2vw);
     letter-spacing: 27px;
 }
@@ -411,12 +410,12 @@ section.is-visible {
     }
 }
 
-@keyframes theatrical-flicker {
-  0%, 18%, 22%, 25%, 53%, 57%, 82%, 86%, 100% {
-    color: var(--gri);
+@keyframes theatrical-flicker-once {
+  0% {
+    color: #fff;
     text-shadow: none;
   }
-  20%, 24%, 55%, 80% {
+  10% {
     color: #fff;
     text-shadow:
       0 0 7px #fff,
@@ -425,11 +424,34 @@ section.is-visible {
       0 0 82px var(--bordo),
       0 0 92px var(--bordo);
   }
-   84% {
+  20% {
+    color: #fff;
+    text-shadow: none;
+  }
+  30% {
     color: #fff;
     text-shadow:
-      0 0 7px #fff,
-      0 0 20px var(--bordo);
+      0 0 10px #fff,
+      0 0 25px var(--bordo),
+      0 0 50px var(--bordo),
+      0 0 90px var(--bordo);
+  }
+  40% {
+    color: #fff;
+    text-shadow: none;
+  }
+  50% {
+    color: #fff;
+    text-shadow:
+      0 0 15px #fff,
+      0 0 30px var(--bordo),
+      0 0 60px var(--bordo),
+      0 0 100px var(--bordo),
+      0 0 120px var(--bordo);
+  }
+  60%, 100% {
+    color: #fff;
+    text-shadow: none;
   }
 }
 
@@ -2216,10 +2238,8 @@ main {
 @media (min-width: 769px) {
   .oyun-kart-yeni-baslik,
   .oyun-kart-yeni-yonetmen {
-    text-align: left !important;
+    text-align: center !important;
     width: 100%;
-    margin-left: 10%;
-    margin-right: 0;
     margin-left: auto;
     margin-right: auto;
     display: block;

@@ -41,7 +41,8 @@
       ],
       "diger_roller": [
         "Işık ve Ses: Ece Abalı"
-      ]
+      ],
+      "siralama": 4
     },
     {
       "id": 2,
@@ -110,7 +111,8 @@
       "konum": "",
       "bilet": "",
       "oneCikan": false,
-      "": ""
+      "": "",
+      "siralama": 8
     },
     {
       "id": 3,
@@ -153,7 +155,8 @@
       ],
       "diger_roller": [
         "Işık / Ses Tasarımı: Uğur Bayrak"
-      ]
+      ],
+      "siralama": 2
     },
     {
       "id": 4,
@@ -304,7 +307,8 @@
       "konum": "",
       "bilet": "",
       "oneCikan": true,
-      "": ""
+      "": "",
+      "siralama": 5
     },
     {
       "id": 5,
@@ -340,7 +344,8 @@
       "konum": "",
       "bilet": "",
       "oneCikan": false,
-      "": ""
+      "": "",
+      "siralama": 9
     },
     {
       "id": 6,
@@ -371,7 +376,8 @@
       "konum": "",
       "bilet": "",
       "oneCikan": true,
-      "": ""
+      "": "",
+      "siralama": 1
     },
     {
       "id": 7,
@@ -400,7 +406,8 @@
         "Çeviren: Ekin T. Turan",
         "Fotoğraf: Eren Akkuzugil",
         "Işık & Ses: Umut Çağan Uslu"
-      ]
+      ],
+      "siralama": 10
     },
     {
       "id": 8,
@@ -456,7 +463,8 @@
       "diger_roller": [
         "Işık/Afiş/Makyaj: Gül Deniz Kal",
         "Ses: Ali Eren Ekşi"
-      ]
+      ],
+      "siralama": 7
     },
     {
       "id": 9,
@@ -553,7 +561,8 @@
       "konum": "",
       "bilet": "",
       "oneCikan": true,
-      "": ""
+      "": "",
+      "siralama": 3
     },
     {
       "id": 10,
@@ -612,7 +621,8 @@
       "konum": "",
       "bilet": "",
       "oneCikan": true,
-      "": ""
+      "": "",
+      "siralama": 6
     }
   ],
   "hakkimizda": {
@@ -623,11 +633,11 @@
       "id": 1,
       "ad": "Selen Gürdal",
       "rol": "Eş Başkan",
-      "img": "assets/1751326336794-1751302828394-DSCF5618.JPG",
+      "img": "assets/1751478995666-blank-profile-picture-973460_960_720.webp",
       "email": "",
       "telefon": "",
       "sinif": "1. Sınıf",
-      "bolum": "",
+      "bolum": "Belirtilmemiş",
       "katilim_tarihi": "",
       "ozellikler": [
         "Eş Başkan"
@@ -710,6 +720,16 @@
       "ad": "Merve Makbule Konuk",
       "rol": "Turne Sorumlusu",
       "img": "assets/pngegg.png"
+    },
+    {
+      "ad": "Ecem Naz Kaynar",
+      "rol": "*",
+      "email": "",
+      "telefon": "",
+      "sinif": "",
+      "bolum": "",
+      "img": "assets/1751479513718-blank-profile-picture-973460_960_720.webp",
+      "id": "item_1751479513722"
     }
   ],
   "iletisim": {
@@ -717,7 +737,7 @@
     "twitter": "#",
     "youtube": "#",
     "adres": "Koç Üniversitesi Tiyatro Kulübü (KUTİY)<br>Rumelifeneri, 34450 Sarıyer/İstanbul",
-    "email": "iletisim@kutiyatro.com"
+    "email": "theatre-club@ku.edu.tr"
   },
   "oyuncu_havuzu": [
     {
@@ -884,13 +904,15 @@
     {
       "id": 15,
       "ad": "Selen Gürdal",
-      "img": "assets/1751326336794-1751302828394-DSCF5618.JPG",
+      "img": "assets/1751478995666-blank-profile-picture-973460_960_720.webp",
       "telefon": "",
       "email": "",
       "sinif": "1. Sınıf",
       "bolum": "Belirtilmemiş",
-      "ozellikler": "Eş Başkan",
-      "katilim_tarihi": "2025-07-01",
+      "ozellikler": [
+        "Eş Başkan"
+      ],
+      "katilim_tarihi": "2025-07-02",
       "durum": "aktif",
       "tip": "baskan",
       "kurul_uyesi": true,
@@ -898,7 +920,8 @@
         "baskan"
       ],
       "": false,
-      "katilim": "2025-07-01"
+      "katilim": "2025-07-01",
+      "sezon": "2024-2025"
     },
     {
       "ad": "Arda Hakan Alpdoğan",
@@ -906,7 +929,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 16
     },
     {
       "ad": "Demir Demircioğlu",
@@ -914,15 +938,29 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 17
     },
     {
       "ad": "Ecem Naz Kaynar",
-      "img": "assets/pngegg.png",
+      "img": "assets/1751479513718-blank-profile-picture-973460_960_720.webp",
       "roller": [
-        "oyuncu"
+        "oyuncu",
+        "kurul_uyesi"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 18,
+      "telefon": "",
+      "email": "",
+      "sinif": "Belirtilmemiş",
+      "bolum": "Belirtilmemiş",
+      "ozellikler": [
+        "*"
+      ],
+      "katilim_tarihi": "2025-07-02",
+      "kurul_uyesi": true,
+      "sezon": "2024-2025",
+      "tip": "kurul_uyesi"
     },
     {
       "ad": "Elçin Ay",
@@ -930,7 +968,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 19
     },
     {
       "ad": "Emel Karataş",
@@ -938,7 +977,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 20
     },
     {
       "ad": "Fidel Berdan Demir",
@@ -946,15 +986,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Mehmet Güray Usta",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 21
     },
     {
       "ad": "Meltem Tanoğlu",
@@ -962,15 +995,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Merve Makbule Konuk",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 23
     },
     {
       "ad": "Arda Ayça",
@@ -978,7 +1004,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 25
     },
     {
       "ad": "Berkehan Tuncer",
@@ -986,7 +1013,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 26
     },
     {
       "ad": "Ece Gülüm",
@@ -994,7 +1022,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 27
     },
     {
       "ad": "Emre Eroğlu",
@@ -1002,15 +1031,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Selen Gürdal",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 28
     },
     {
       "ad": "Reşit Özbek",
@@ -1018,7 +1040,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 30
     },
     {
       "ad": "Ali Altuğ Temel",
@@ -1026,7 +1049,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 31
     },
     {
       "ad": "Baran Aytekin",
@@ -1034,7 +1058,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 32
     },
     {
       "ad": "Begüm Erçevik",
@@ -1042,7 +1067,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 33
     },
     {
       "ad": "Burak Arabacı",
@@ -1050,7 +1076,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 34
     },
     {
       "ad": "Efe Yıldırım",
@@ -1058,7 +1085,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 35
     },
     {
       "ad": "Efes Saatçi",
@@ -1066,7 +1094,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 36
     },
     {
       "ad": "Emre Eryar",
@@ -1074,7 +1103,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 37
     },
     {
       "ad": "Enis Oylum",
@@ -1082,7 +1112,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 38
     },
     {
       "ad": "Eylül Tekin",
@@ -1090,7 +1121,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 39
     },
     {
       "ad": "Gözde Akay",
@@ -1098,7 +1130,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 40
     },
     {
       "ad": "İdil Dal",
@@ -1106,7 +1139,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 41
     },
     {
       "ad": "Melike Aksoy",
@@ -1114,7 +1148,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 42
     },
     {
       "ad": "Nilsu Balcı",
@@ -1122,7 +1157,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 43
     },
     {
       "ad": "Onur Eren",
@@ -1130,7 +1166,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 44
     },
     {
       "ad": "Peylan Reşit Özben",
@@ -1138,7 +1175,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 45
     },
     {
       "ad": "Rümeysa Doğantay",
@@ -1146,7 +1184,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 46
     },
     {
       "ad": "Selin Kolbaş",
@@ -1154,7 +1193,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 47
     },
     {
       "ad": "Sude Karataş",
@@ -1162,7 +1202,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 48
     },
     {
       "ad": "Sueda Kocaman",
@@ -1170,7 +1211,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 49
     },
     {
       "ad": "Şehla İnanç Uçar",
@@ -1178,7 +1220,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 50
     },
     {
       "ad": "Utku İlhan",
@@ -1186,7 +1229,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 51
     },
     {
       "ad": "Utku Yılmaz",
@@ -1194,7 +1238,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 52
     },
     {
       "ad": "Yağmur Demirci",
@@ -1202,7 +1247,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 53
     },
     {
       "ad": "Zafer Özen",
@@ -1210,7 +1256,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 54
     },
     {
       "ad": "Zin Tülin Eraslan",
@@ -1218,7 +1265,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 55
     },
     {
       "ad": "Betül Gülce Koç",
@@ -1226,7 +1274,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 56
     },
     {
       "ad": "Hilal Yorulmaz",
@@ -1234,7 +1283,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 57
     },
     {
       "ad": "Naz King",
@@ -1242,15 +1292,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
-    },
-    {
-      "ad": "Baran Aytekin",
-      "img": "assets/pngegg.png",
-      "roller": [
-        "oyuncu"
-      ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 58
     },
     {
       "ad": "Denizcan Ertem",
@@ -1258,7 +1301,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 60
     },
     {
       "ad": "İbrahim Şahbaz",
@@ -1266,7 +1310,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 61
     },
     {
       "ad": "Rüzgar Altuncı",
@@ -1274,7 +1319,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 62
     },
     {
       "ad": "Selin Koldaş",
@@ -1282,7 +1328,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 63
     },
     {
       "ad": "Yalım Soylu",
@@ -1290,7 +1337,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 64
     },
     {
       "ad": "Zümra Koparan",
@@ -1298,7 +1346,8 @@
       "roller": [
         "oyuncu"
       ],
-      "durum": "aktif"
+      "durum": "aktif",
+      "id": 65
     }
   ],
   "arsiv": [
@@ -1461,16 +1510,6 @@
       "sezon": "2025-2026",
       "aciklama": "2025-2026 tiyatro sezonu",
       "icerikler": [
-        {
-          "tip": "oyun",
-          "baslik": "Aynadaki Çocuk",
-          "yonetmen": "Miraç Birlik",
-          "yazar": "Miraç Birlik",
-          "oyuncular": [],
-          "teknikEkip": [],
-          "afis": "assets/1751456768817-IMG_1177.jpg",
-          "ozet": "Aynadaki Çocuk, güzellik algısı, toplumun beklentileri ve insanın kendi iç sesiyle yüzleşmesi üzerine kurgulanmış etkileyici bir tek kişilik performans. Aras'ın iç monologları, hayal sahneleri ve zaman zaman seyirciyle kurduğu doğrudan iletişimle oyun; hem düşündürüyor hem duygulandırıyor."
-        },
         {
           "tip": "galeri",
           "baslik": "FENASAL ",

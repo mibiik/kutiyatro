@@ -10,27 +10,50 @@
     <link rel="stylesheet" href="mobile-extras.css">
     <link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
+    <script defer src="https://vercel.com/analytics/script.js"></script>
 </head>
 <body>
     <!-- Ana sayfa menüsü -->
-    <nav>
-        <div class="nav-container">
-            <div class="logo">
-                <a href="index.html">KUTİY</a>
-            </div>
-            <ul class="nav-menu">
+    <header class="desktop-header">
+        <div class="logo-container">
+            <a href="index.html"><img src="assets/logo.png" alt="KUTİY Logo" class="logo"></a>
+        </div>
+        <nav>
+            <ul class="nav-links">
                 <li><a href="index.html">Ana Sayfa</a></li>
                 <li><a href="oyunlar.html">Oyunlarımız</a></li>
                 <li><a href="arsiv.html" class="active">Arşiv</a></li>
+                <li><a href="#ekip">Ekip</a></li>
+                <li><a href="#hakkimizda">KUTİY Kimdir?</a></li>
                 <li><a href="#iletisim">İletişim</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+        </nav>
+        <div class="header-action">
+            <a href="#" class="bulten-abone">Bültene Abone Ol</a>
+            <a href="#" class="uye-giris">Üye Girişi</a>
         </div>
-    </nav>
+        <div class="progress-bar"></div>
+    </header>
+    <header class="new-navbar">
+        <a href="index.html" class="new-navbar__logo-link">
+            <img src="assets/logo.png" alt="KUTİY Logo" class="new-navbar__logo-img">
+        </a>
+        <button class="new-navbar__menu-btn" aria-label="Menüyü aç/kapat" aria-expanded="false">
+            <span class="new-navbar__menu-icon"></span>
+        </button>
+    </header>
+    <div class="new-navbar__overlay">
+        <nav class="new-navbar__nav">
+            <ul class="new-navbar__links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlarımız</a></li>
+                <li><a href="arsiv.html" class="active">Arşiv</a></li>
+                <li><a href="#ekip">Ekip</a></li>
+                <li><a href="#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
 
     <!-- Ana içerik -->
     <main class="archive-main">
