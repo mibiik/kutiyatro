@@ -2659,7 +2659,7 @@ main {
     }
     
     .kart-afis {
-        filter: blur(1.5px) brightness(0.6);
+        filter: blur(1.2px) brightness(0.6);
     }
     
     .kart-content {

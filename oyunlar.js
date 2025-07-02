@@ -50,11 +50,7 @@ function oyunlariGoster() {
                             <p class="overlay-text">Detayları Gör</p>
                         </div>
                     </div>
-                                        <div class="kart-badges">
-                        <span class="durum-badge durum-${oyun.durum}">
-                            ${getDurumText(oyun.durum, oyun.kategori)}
-                        </span>
-                    </div>
+                    
                 </div>
                 
                 <div class="kart-content">
