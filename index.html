@@ -105,7 +105,51 @@
 
         <section id="instagram-feed" class="animated-section">
             <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
-            <script src="https://static.elfsight.com/platform/platform.js" async></script>
+            <script>
+                // Ad blocker kontrolü ve Elfsight yükleme
+                function loadElfsight() {
+                    // Google Ads test ederek ad blocker varlığını kontrol et
+                    const testAd = document.createElement('div');
+                    testAd.innerHTML = '&nbsp;';
+                    testAd.className = 'adsbox';
+                    testAd.style.position = 'absolute';
+                    testAd.style.left = '-10000px';
+                    document.body.appendChild(testAd);
+                    
+                    setTimeout(() => {
+                        const hasAdBlocker = testAd.offsetHeight === 0;
+                        document.body.removeChild(testAd);
+                        
+                        if (!hasAdBlocker) {
+                            // Ad blocker yok, Elfsight'ı yükle
+                            const elfsightScript = document.createElement('script');
+                            elfsightScript.src = 'https://static.elfsight.com/platform/platform.js';
+                            elfsightScript.async = true;
+                            document.head.appendChild(elfsightScript);
+                        } else {
+                            // Ad blocker var, alternatif içerik göster
+                            const instagramSection = document.getElementById('instagram-feed');
+                            const elfsightDiv = instagramSection.querySelector('.elfsight-app-89fefda6-3f53-4016-9b79-d5db724ec22e');
+                            if (elfsightDiv) {
+                                elfsightDiv.innerHTML = `
+                                    <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 12px; margin: 20px 0;">
+                                        <h3 style="color: #333; margin-bottom: 15px;">📸 Instagram İçerikleri</h3>
+                                        <p style="color: #666; margin-bottom: 20px;">Instagram gönderilerimizi görmek için reklam engelleyicinizi devre dışı bırakabilir veya direkt Instagram hesabımızı ziyaret edebilirsiniz.</p>
+                                        <a href="https://instagram.com/kutiyatro" target="_blank" style="background: #E4405F; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600;">Instagram'da Takip Et</a>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }, 100);
+                }
+                
+                // Sayfa yüklendiğinde çalıştır
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', loadElfsight);
+                } else {
+                    loadElfsight();
+                }
+            </script>
             <div class="elfsight-app-89fefda6-3f53-4016-9b79-d5db724ec22e" data-elfsight-app-lazy></div>
         </section>
 

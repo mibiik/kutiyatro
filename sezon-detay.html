@@ -11,9 +11,36 @@
         .detail-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--bordo); padding-bottom: 15px; margin-bottom: 30px; flex-wrap: wrap; }
         .detail-header h2 { font-family: 'Anton', sans-serif; font-size: 2.2rem; color: var(--bordo); margin: 0; }
         .detail-header .back-link { color: var(--text-color); text-decoration: none; font-weight: bold; margin-right: 18px; }
-        .sezon-info-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
-        .sezon-info-form input, .sezon-info-form textarea { font-size: 1.1em; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
-        .sezon-info-form button { width: fit-content; margin-top: 6px; }
+        .sezon-info-form { 
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: flex-start;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .sezon-info-form .form-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .sezon-info-form .poster-field {
+            text-align: center;
+        }
+        .sezon-info-form .poster-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            border: 2px dashed #ccc;
+            margin-bottom: 10px;
+            object-fit: cover;
+            background-color: #f9f9f9;
+        }
+        .sezon-info-form input, .sezon-info-form textarea { font-size: 1em; padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 100%; box-sizing: border-box;}
+        .sezon-info-form button { width: fit-content; margin-top: 10px; }
         .content-blocks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
         .content-block-item { background: #fff; border-radius: 10px; box-shadow: 0 4px 18px rgba(93,0,30,0.07); padding: 18px 16px 14px 16px; display: flex; flex-direction: column; position: relative; min-height: 120px; }
         .block-type-badge { background: var(--primary-color); color: #fff; border-radius: 8px; font-size: 0.85em; padding: 2px 10px; margin-left: 8px; }
@@ -32,10 +59,17 @@
             <h2 id="sezon-baslik">Sezon Yükleniyor...</h2>
             <button id="add-content-block-btn" class="button-style"><i class="fas fa-plus"></i> Yeni İçerik Bloğu Ekle</button>
         </header>
-        <form id="sezon-info-form" class="sezon-info-form">
-            <input type="text" id="sezon-baslik-input" placeholder="Sezon Başlığı" required />
-            <textarea id="sezon-aciklama-input" rows="2" placeholder="Sezon Açıklaması"></textarea>
-            <button type="submit">Başlık & Açıklamayı Kaydet</button>
+        <form id="sezon-info-form">
+            <div class="form-fields">
+                <input type="text" id="sezon-baslik-input" placeholder="Sezon Başlığı (Örn: 2023-2024)" required />
+                <textarea id="sezon-aciklama-input" rows="4" placeholder="Sezon için genel bir açıklama veya tema..."></textarea>
+                 <button type="submit">Sezon Bilgilerini Kaydet</button>
+            </div>
+            <div class="poster-field">
+                <img src="assets/placeholder.png" alt="Sezon Afişi Önizleme" id="poster-preview" class="poster-preview">
+                <label for="sezon-poster-input" class="button-style" style="cursor:pointer; display:block;">Afiş Değiştir</label>
+                <input type="file" id="sezon-poster-input" accept="image/*" style="display: none;">
+            </div>
         </form>
         <main id="content-blocks-container" class="content-blocks-grid">
             <!-- İçerik blokları buraya kart olarak yüklenecek -->

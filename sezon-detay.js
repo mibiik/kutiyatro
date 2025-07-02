@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sezonInfoForm = document.getElementById('sezon-info-form');
     const sezonBaslikInput = document.getElementById('sezon-baslik-input');
     const sezonAciklamaInput = document.getElementById('sezon-aciklama-input');
+    const posterPreview = document.getElementById('poster-preview');
+    const posterInput = document.getElementById('sezon-poster-input');
     
     const sezonOyunlarList = document.getElementById('sezon-oyunlar-list');
     const addPlayButton = document.getElementById('add-play-button');
@@ -132,6 +134,8 @@ document.addEventListener('DOMContentLoaded', () => {
         seasonTitleEl.textContent = `${currentSeason.sezon} Sezonu`;
         sezonBaslikInput.value = currentSeason.sezon;
         sezonAciklamaInput.value = currentSeason.aciklama;
+        // Mevcut afişi veya yer tutucu resmi göster
+        posterPreview.src = currentSeason.afis || 'assets/placeholder.png'; 
         renderContentBlocks();
     };
     
@@ -227,27 +231,19 @@ document.addEventListener('DOMContentLoaded', () => {
         modalFields.innerHTML = fieldsHtml;
         modal.style.display = 'flex';
     };
-    
-    const promptBlockType = () => {
-        modalTitle.textContent = "Yeni İçerik Bloğu Türü Seçin";
-        modalFields.innerHTML = `
-            <div class="block-type-selection">
-                <button data-type="oyun"><i class="fas fa-theater-masks"></i> Oyun</button>
-                <button data-type="galeri"><i class="fas fa-images"></i> Fotoğraf Galerisi</button>
-                <button data-type="video"><i class="fab fa-youtube"></i> Video</button>
-                <button data-type="metin"><i class="fas fa-align-left"></i> Metin</button>
-            </div>
-        `;
-        modalForm.querySelector('.modal-actions').style.display = 'none';
-        modal.style.display = 'flex';
 
-        document.querySelectorAll('.block-type-selection button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const type = e.currentTarget.dataset.type;
-                modalForm.querySelector('.modal-actions').style.display = 'flex';
-                handleOpenModal(type);
-            }, { once: true });
-        });
+    const closeModal = () => {
+        modal.style.display = 'none';
+        modalFields.innerHTML = '';
+    };
+
+    const promptBlockType = () => {
+        const type = prompt("Oluşturmak istediğiniz içerik bloğu tipini girin:\n\noyun, galeri, video, metin", "metin");
+        if (type && ['oyun', 'galeri', 'video', 'metin'].includes(type.toLowerCase())) {
+            handleOpenModal(type.toLowerCase(), -1);
+        } else if (type) {
+            showNotification("Geçersiz blok tipi!", 'error');
+        }
     };
 
     const handleDeleteBlock = (index) => {
@@ -329,6 +325,19 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal();
     });
     
+    // Yeni afiş seçildiğinde anında yükle ve güncelle
+    posterInput.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const uploadedPath = await uploadImage(file);
+        if (uploadedPath) {
+            currentSeason.afis = uploadedPath;
+            posterPreview.src = uploadedPath; // Önizlemeyi anında güncelle
+            showNotification('Afiş yüklendi. Değişiklikleri kalıcı yapmak için kaydedin.', 'success');
+        }
+    });
+
     // Yeni içerik bloğu ekleme butonuna tıklama
     if (addContentBlockBtn) {
         addContentBlockBtn.addEventListener('click', promptBlockType);

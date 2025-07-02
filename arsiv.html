@@ -4,81 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUTİY - Arşiv</title>
-    <link rel="stylesheet" href="style.css"> <!-- Ana stil dosyası -->
-    <link rel="stylesheet" href="arsiv.css"> <!-- Arşiv sayfasına özel stiller -->
-    <link rel="stylesheet" href="mobile.css"> <!-- Mobil tasarım -->
-    <link rel="stylesheet" href="mobile-extras.css"> <!-- Mobil ekstra özellikler -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="arsiv.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="mobile-extras.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton:wght@400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
-    <!-- MASAÜSTÜ NAVBAR (Sadece geniş ekranlarda görünür) -->
-    <header class="desktop-header">
-        <div class="logo-container">
-            <a href="index.html"><img src="assets/logo.png" alt="KUTİY Logo" class="logo"></a>
-        </div>
-        <nav>
-            <ul class="nav-links">
+    <!-- Ana sayfa menüsü -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">KUTİY</a>
+            </div>
+            <ul class="nav-menu">
                 <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="index.html#oyunlarimiz">Oyunlarımız</a></li>
+                <li><a href="oyunlar.html">Oyunlarımız</a></li>
                 <li><a href="arsiv.html" class="active">Arşiv</a></li>
-                <li><a href="index.html#ekip">Ekip</a></li>
-                <li><a href="index.html#hakkimizda">KUTİY Kimdir?</a></li>
-                <li><a href="index.html#iletisim">İletişim</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
             </ul>
-        </nav>
-        <div class="header-action">
-            <a href="#" class="bulten-abone">Bültene Abone Ol</a>
-            <a href="#" class="uye-giris">Üye Girişi</a>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-        <div class="progress-bar"></div>
-    </header>
+    </nav>
 
-    <!-- YENİ MODERN MOBİL NAVBAR -->
-    <header class="new-navbar">
-        <a href="index.html" class="new-navbar__logo-link">
-            <img src="assets/logo.png" alt="KUTİY Logo" class="new-navbar__logo-img">
-        </a>
-        <button class="new-navbar__menu-btn" aria-label="Menüyü aç/kapat" aria-expanded="false">
-            <span class="new-navbar__menu-icon"></span>
-        </button>
-    </header>
-    <div class="new-navbar__overlay">
-        <nav class="new-navbar__nav">
-            <ul class="new-navbar__links">
-                <li><a href="index.html">Ana Sayfa</a></li>
-                <li><a href="index.html#oyunlarimiz">Oyunlarımız</a></li>
-                <li><a href="arsiv.html">Arşiv</a></li>
-                <li><a href="index.html#ekip">Ekip</a></li>
-                <li><a href="index.html#hakkimizda">KUTİY Kimdir?</a></li>
-                <li><a href="index.html#iletisim">İletişim</a></li>
-            </ul>
-        </nav>
-    </div>
+    <!-- Ana içerik -->
+    <main class="archive-main">
+        <!-- Header (Sayfa başlığı ve tanıtım metni) -->
+        <header class="archive-header">
+            <div class="container">
+                <h1 class="archive-title">ARŞİVİMİZ</h1>
+                <p class="archive-description">Yıllar boyunca sahneye taşıdığımız hikayelerin izinde...</p>
+                <div class="archive-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-years">0</span>
+                        <span class="stat-label">Yıl</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-plays">0</span>
+                        <span class="stat-label">Oyun</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-media">0</span>
+                        <span class="stat-label">Medya</span>
+                    </div>
+                </div>
+            </div>
+        </header>
 
-    <main id="archive-main">
-        <div class="archive-header">
-            <h1>KUTİY ARŞİVİ</h1>
-            <p>Geçmişten günümüze tiyatro yolculuğumuz...</p>
-        </div>
-        <div class="year-filter-container">
-            <button class="year-filter-btn active" data-year="all">Tümü</button>
-            <button class="year-filter-btn" data-year="2025-2026">2025-2026</button>
-            <button class="year-filter-btn" data-year="2024-2025">2024-2025</button>
-            <button class="year-filter-btn" data-year="2023-2024">2023-2024</button>
-            <button class="year-filter-btn" data-year="2022-2023">2022-2023</button>
-            <button class="year-filter-btn" data-year="2021-2022">2021-2022</button>
-            <button class="year-filter-btn" data-year="2020-2021">2020-2021</button>
-        </div>
-
-        <div id="archive-container">
-            <!-- Arşiv içeriği buraya arsiv.js tarafından dinamik olarak eklenecek -->
-        </div>
+        <!-- Years Container -->
+        <section class="years-container" id="years-container">
+            <!-- YearSection[] - JavaScript ile doldurulacak -->
+        </section>
     </main>
 
+    <!-- Gallery Modal -->
+    <div class="media-modal" id="media-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="gallery-nav gallery-prev" id="gallery-prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="gallery-nav gallery-next" id="gallery-next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal içeriği -->
+            </div>
+            <div class="gallery-info" id="gallery-info">
+                <span class="gallery-counter">1 / 5</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer id="iletisim">
         <div class="sosyal-medya">
             <!-- Dinamik olarak doldurulacak -->

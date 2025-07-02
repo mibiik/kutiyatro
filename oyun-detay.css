@@ -1,0 +1,403 @@
+/* oyun-detay.css */
+
+:root {
+    --bordo: #800020;
+    --altin: #DAA520;
+    --dark-bg: #121212;
+    --light-bg: #1e1e1e;
+    --text-color: #f4f4f4;
+    --gri: #a9a9a9;
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'Poppins', sans-serif;
+}
+
+#oyun-detay-main {
+    padding-top: 85px; /* Navbar yüksekliği */
+    background-color: var(--dark-bg);
+    min-height: 100vh;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.spinner {
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 5px solid var(--bordo);
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+/* Hero Section */
+.oyun-detay-hero {
+    position: relative;
+    height: 60vh;
+    display: flex;
+    align-items: flex-end;
+    color: white;
+    padding: 40px;
+    overflow: hidden; /* Bulanık kenarları gizlemek için */
+}
+
+.oyun-detay-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: var(--hero-bg-image);
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px) brightness(0.6);
+    transform: scale(1.1); /* Blur'dan kaynaklanan kenar boşluklarını doldurur */
+    z-index: 1;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(18, 18, 18, 1) 10%, rgba(18, 18, 18, 0.5) 70%, rgba(18, 18, 18, 0.2) 100%);
+    z-index: 2; /* ::before'un üzerine çıkması için */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3; /* Hem ::before hem de overlay'in üzerine çıkması için */
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+.hero-afis-container {
+    position: relative;
+    transform: translate(-100px, -40px); /* Transform buraya taşındı */
+    transition: transform 0.3s ease;
+}
+
+.hero-afis-container:hover {
+    transform: translate(-100px, -40px) scale(1.02); /* Hover'da hafif büyütme */
+}
+
+.hero-afis {
+    width: 340px; /* Büyütüldü */
+    height: 475px; /* Büyütüldü */
+    object-fit: contain; /* 'cover' yerine 'contain' kullanıldı */
+    border-radius: 12px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.8); /* Gölge efekti artırıldı */
+    /* position ve transform buradan kaldırıldı */
+    display: block; /* Olası hizalama sorunları için */
+}
+
+.fullscreen-icon {
+    position: absolute;
+    bottom: 15px; /* Konum güncellendi */
+    right: 15px;  /* Konum güncellendi */
+    width: 40px; /* Küçültüldü */
+    height: 40px; /* Küçültüldü */
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1; /* Artık her zaman görünür */
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+}
+
+.fullscreen-icon svg {
+    width: 20px; /* Küçültüldü */
+    height: 20px; /* Küçültüldü */
+}
+
+.hero-text h1 {
+    font-family: var(--heading-font);
+    font-size: 4.5rem;
+    margin: 0;
+    line-height: 1.1;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    margin-left: -15px;
+}
+
+.hero-text .yazar {
+    font-family: var(--body-font);
+    font-size: 1.5rem;
+    color: var(--altin);
+    margin: 10px 0 0 0;
+    font-weight: 500;
+}
+
+/* Detay İçeriği */
+.oyun-detay-body {
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: -80px auto 0 auto; /* Hero alanının üzerine taşır */
+    position: relative;
+    z-index: 3;
+    background: var(--light-bg);
+    border-radius: 20px;
+    box-shadow: 0 -5px 25px rgba(0,0,0,0.3);
+}
+
+.detay-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.detay-kart {
+    background-color: var(--dark-bg);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #2a2a2a;
+}
+
+.detay-kart h3 {
+    font-family: var(--heading-font);
+    font-size: 1.8rem;
+    color: var(--bordo);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detay-kart p, .detay-kart li {
+    font-family: var(--body-font);
+    color: var(--gri);
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.kadro-listesi, .oyuncu-listesi {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.kadro-listesi li {
+    margin-bottom: 10px;
+}
+
+.oyuncu-listesi {
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+h4 {
+    font-family: var(--heading-font);
+    color: var(--bordo);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.bilet-butonu {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: var(--bordo);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.bilet-butonu:hover {
+    background-color: #a00028;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(128, 0, 32, 0.4);
+}
+
+.bilet-yok {
+    margin-top: 20px;
+    display: block;
+    color: var(--gri);
+    font-style: italic;
+}
+
+/* Galeri */
+.galeri-section {
+    margin-top: 50px;
+}
+
+.galeri-section h2 {
+    font-family: var(--heading-font);
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--bordo);
+    margin-bottom: 30px;
+}
+
+.galeri-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.galeri-item {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.galeri-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 992px) {
+    .detay-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .oyun-detay-hero {
+        height: auto;
+        padding: 20px;
+        padding-top: 100px; /* Navbar için boşluk */
+        text-align: center;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .hero-afis-container {
+        transform: none !important; /* Masaüstü efektini kesin olarak iptal et */
+        margin-bottom: 20px; /* Alttaki metinle arayı aç */
+    }
+
+    .hero-afis {
+        width: 220px; /* Mobilde de büyütüldü */
+        height: 310px; /* Mobilde de büyütüldü */
+    }
+
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-text .yazar {
+        font-size: 1.2rem;
+    }
+
+    .oyun-detay-body {
+        margin-top: 20px;
+        padding: 30px 20px;
+    }
+
+    .oyuncu-listesi {
+        columns: 1;
+        -webkit-columns: 1;
+        -moz-columns: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+
+    .detay-kart {
+        padding: 20px;
+    }
+
+    .detay-kart h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Fullscreen Afis Modal */
+.fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 11000;
+    opacity: 0;
+    animation: fullscreen-fade-in 0.3s forwards;
+    backdrop-filter: blur(5px);
+}
+
+.fullscreen-modal.closing {
+    animation: fullscreen-fade-out 0.3s forwards;
+}
+
+@keyframes fullscreen-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fullscreen-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fullscreen-afis-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+}
+
+.fullscreen-close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+.fullscreen-close-btn:hover {
+    background: var(--bordo);
+    transform: scale(1.1) rotate(90deg);
+} 

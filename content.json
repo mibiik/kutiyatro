@@ -5,194 +5,622 @@
   },
   "oyunlar": [
     {
-      "id": 1719865002,
-      "ad": "Almost Maine",
+      "id": 1,
+      "ad": "Açık Denİzde",
+      "yazar": "Sławomir Mrożek",
+      "yonetmen": "Ece Gülüm",
+      "yardimci_yonetmen": "Aslı Naz Oymak",
+      "afis": "assets/acik_denizde.jpg",
+      "kategori": "oda",
+      "tarih": "13 Mayıs 2025",
+      "saat": "18.00",
+      "sure": "Belirtilmemiş",
+      "mekan": "Oda Tiyatrosu B328",
+      "aciklama": "Absürt tiyatronun önemli örneklerinden biri olan bu oyun, açık denizde küçük bir sal üzerinde hayatta kalmaya çalışan üç adamın hikayesini anlatır. Yiyecekleri tükenmek üzereyken, hayatta kalmak için bir kişinin feda edilmesi gerektiği fikri ortaya çıkar ve bu durum, karakterler arasında absürt ve trajikomik bir güç mücadelesine ve tartışmalara yol açar. İnsan doğasının bencilliğini ve sosyal yapıların çöküşünü eleştirel bir dille ele alır.",
+      "oyuncular": [
+        {
+          "ad": "Selen Nehir Sarıkılıç",
+          "karakter": ""
+        },
+        {
+          "ad": "Tunahan Saygılı",
+          "karakter": ""
+        },
+        {
+          "ad": "Kadir Kaan Erbaş",
+          "karakter": ""
+        },
+        {
+          "ad": "Sena Eliri",
+          "karakter": ""
+        },
+        {
+          "ad": "Melek Yücel",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Işık ve Ses: Ece Abalı"
+      ]
+    },
+    {
+      "id": 2,
+      "ad": "Almost, Maine",
       "yazar": "John Cariani",
       "yonetmen": "Elçin Ay",
       "yardimci_yonetmen": "Melike Aksoy",
       "afis": "assets/almost_maine.png",
       "kategori": "oda",
-      "tarih": "27 Mayıs - 18.30",
-      "mekan": "Oda Tiyatrosu Öğrenci Merkezi B328",
-      "sure": "",
-      "aciklama": "Çeviren: Zeynep Özden\nIşık Tasarımı: Demir Demircioğlu\nIşık Operatörü: Nilsu Balcı\nMüzik: Deniz Kartal\nSes Operatörü: Şimge Dere\nAfiş Tasarımı: Nilda Sevim",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": "",
-      "tur": "Ana Sahne",
-      "saat": "",
-      "konum": "",
-      "oneCikan": false
+      "tarih": "27 Mayıs",
+      "saat": "18.30",
+      "sure": "Belirtilmemiş",
+      "mekan": "Oda Tiyatrosu, Öğrenci Merkezi B328",
+      "aciklama": "Kuzey Maine'de, Almost adında kurgusal bir kasabada geçen bu oyun, kışkırtıcı ve eğlenceli bir dizi hikayeden oluşur. Kasabanın sakinleri, derinlerde yatan aşk, kayıp, pişmanlık ve umut gibi evrensel duyguları fantastik ve şiirsel bir dille deneyimler. Birbirinden bağımsız görünen ancak aslında birbirine bağlanan karakterlerin gece boyunca yaşadığı garip ve büyülü anlar, insan ilişkilerinin karmaşıklığını ve kırılganlığını gözler önüne serer.",
+      "oyuncular": [
+        {
+          "ad": "Arda Hakan Alpdoğan",
+          "karakter": ""
+        },
+        {
+          "ad": "Demir Demircioğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Ecem Naz Kaynar",
+          "karakter": ""
+        },
+        {
+          "ad": "Elçin Ay",
+          "karakter": ""
+        },
+        {
+          "ad": "Emel Karataş",
+          "karakter": ""
+        },
+        {
+          "ad": "Fidel Berdan Demir",
+          "karakter": ""
+        },
+        {
+          "ad": "Melike Aksoy",
+          "karakter": ""
+        },
+        {
+          "ad": "Mehmet Güray Usta",
+          "karakter": ""
+        },
+        {
+          "ad": "Meltem Tanoğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Merve Makbule Konuk",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Çeviren: Zeynep Özden",
+        "Işık Tasarımı: Demir Demircioğlu",
+        "Ses Operatörü: Simge Dere",
+        "Işık Operatörü: Nilsu Balcı",
+        "Müzik: Deniz Kartal",
+        "Afiş Tasarımı: Nilda Sevim"
+      ]
     },
     {
-      "id": 1719865003,
+      "id": 3,
       "ad": "Bir Yaz Gecesi Rüyası",
       "yazar": "William Shakespeare",
-      "yonetmen": "non",
-      "yardimci_yonetmen": "",
+      "yonetmen": "Belirtilmemiş",
+      "yardimci_yonetmen": "Belirtilmemiş",
       "afis": "assets/biryazgecesi.jpg",
       "kategori": "oda",
-      "tarih": "26 Mart Salı - 21.00",
-      "mekan": "ODA TİYATROSU",
-      "sure": "",
-      "aciklama": "Işık / Ses Tasarımı: Uğur Bayrak",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": ""
+      "tarih": "26 Mart Salı",
+      "saat": "21.00",
+      "sure": "Belirtilmemiş",
+      "mekan": "Oda Tiyatrosu",
+      "aciklama": "Shakespeare'in en sevilen komedilerinden biri olan bu oyun, Atina yakınlarındaki büyülü bir ormanda geçen, iç içe geçmiş aşk hikayelerini ve yanlış anlaşılmaları konu alır. Periler, sihirli iksirler ve talihsiz aşıkların karıştığı komik olaylar zinciri, aşkın ne kadar karmaşık ve bazen de absürt olabileceğini gösterirken, aynı zamanda bir grup amatör oyuncunun sergilemeye çalıştığı trajik bir oyunu da içinde barındırır.",
+      "oyuncular": [
+        {
+          "ad": "Arda Ayça",
+          "karakter": ""
+        },
+        {
+          "ad": "Berkehan Tuncer",
+          "karakter": ""
+        },
+        {
+          "ad": "Ece Gülüm",
+          "karakter": ""
+        },
+        {
+          "ad": "Emre Eroğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Selen Gürdal",
+          "karakter": ""
+        },
+        {
+          "ad": "Reşit Özbek",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Işık / Ses Tasarımı: Uğur Bayrak"
+      ]
     },
     {
-      "id": 1719865004,
-      "ad": "Deli Kadın Hikayeleri",
-      "yazar": "Mine Söğüt",
-      "yonetmen": "Ece Gülüm, Emre Eroğlu, Reşit Özbek",
-      "yardimci_yonetmen": "",
-      "afis": "assets/delikadinhikayeleri.jpg",
-      "kategori": "oda",
-      "tarih": "26 Aralık - 21.00",
-      "mekan": "ODA TİYATROSU B328",
-      "sure": "",
-      "aciklama": "",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": "",
-      "tur": "Ana Sahne",
-      "saat": "",
-      "konum": "",
-      "oneCikan": true
-    },
-    {
-      "id": 1719865005,
-      "ad": "Hayvan Çiftliği",
-      "yazar": "George Orwell",
-      "yonetmen": "Şahin Ergüney",
-      "yardimci_yonetmen": "Aslı Naz Oymak, Melike Aksoy",
-      "afis": "assets/hayvanciftligi.jpg",
-      "kategori": "ana",
-      "tarih": "",
-      "mekan": "Koç Üniversitesi Tiyatro Kulübü",
-      "sure": "",
-      "aciklama": "Dekor / Kostüm: Cansu Akdeniz\nMüzik: A. Samed Meraklı\nHareket Düzen: Bedirhan Dehmen\nGrafik Tasarım / Dijital Sanat Yönetmeni: Amir Ahmadoğlu\nIşık Tasarımı: Kerem Çetinel\nSes ve Makyaj: Ali Eren Ekşi\nIşık Operatörü: Ali Dehmen, A.Rutkay Var\nHareket Düzen Asistanı: Nihan Cengiz\nSponsor: PARİBUHUB",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": true,
-      "bilet": "",
-      "tur": "Ana Sahne",
-      "saat": "",
-      "konum": "",
-      "oneCikan": true
-    },
-    {
-      "id": 1719865007,
-      "ad": "Periferi",
-      "yazar": "Pembe Akgün",
-      "yonetmen": "Şahin Ergüney",
-      "yardimci_yonetmen": "Melih Aksoy, Aslı Naz Oymak, Betül Akgün, İpek İftar",
-      "afis": "assets/periferi.jpg",
-      "kategori": "ana",
-      "tarih": "",
-      "mekan": "Koç Üniversitesi Tiyatro Kulübü",
-      "sure": "",
-      "aciklama": "Kostüm: Gülbeyaz Apaydın\nKoreografi: Emre Sökmen\nDekor & Dijital Efekt: Zeynep Ergüney, Tahsin Enes Kuru\nMüzik: Koç Üniversitesi Orkestra Kulübü (Arda Durukan, Ayberk Yaymaz, Deniz Kartal, Doruk Atmiş, E201 Aydın, Giray Aslan Güçün, Murat Menteşe, Nida Kaya)\nIşık: Süleyman Kaleli, Burak Güleşi\nAfiş Tasarımı: Nilda Sevim",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": "",
-      "tur": "Ana Sahne",
-      "saat": "",
-      "konum": "",
-      "oneCikan": true
-    },
-    {
-      "id": 1719865008,
+      "id": 4,
       "ad": "Cadı Kazanı (The Crucible)",
       "yazar": "Arthur Miller",
       "yonetmen": "Şahin Ergüney",
       "yardimci_yonetmen": "Naz King",
       "afis": "assets/cadikazani.jpg",
       "kategori": "ana",
-      "tarih": "",
-      "mekan": "Koç Üniversitesi Tiyatro Kulübü",
-      "sure": "",
-      "aciklama": "Çeviren: Sabahattin Eyüpoğlu, Vedat Günyol\nDekor: Özlem Toprakçı\nKostüm: Gülbeyaz Apaydın\nIşık: Süleyman Kaleli\nMüzik: Berkehan Tuncer\nKoreografi: Naz King\nDijital Efekt: Zeynep Ergüney, Tahsin Enes Kuru\nAfiş Tasarımı: Zeynep Beskan",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": true,
-      "bilet": ""
+      "tarih": "Belirtilmemiş",
+      "saat": "Belirtilmemiş",
+      "sure": "Belirtilmemiş",
+      "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
+      "aciklama": "17. yüzyılda Amerika'nın Salem kasabasında yaşanan cadı avlarını konu alan bu etkileyici oyun, masum insanların histeri, korku ve bağnazlık ortamında nasıl kurban edildiğini gözler önüne serer. Miller, cadı avlarını McCarthy dönemindeki komünist avlarıyla paralellik kurarak, kitle psikolojisinin tehlikelerini, iftiranın yıkıcılığını ve bireyin doğru bildiği uğruna direnmesinin önemini vurgular.",
+      "oyuncular": [
+        {
+          "ad": "Ali Altuğ Temel",
+          "karakter": ""
+        },
+        {
+          "ad": "Baran Aytekin",
+          "karakter": ""
+        },
+        {
+          "ad": "Begüm Erçevik",
+          "karakter": ""
+        },
+        {
+          "ad": "Berkehan Tuncer",
+          "karakter": ""
+        },
+        {
+          "ad": "Burak Arabacı",
+          "karakter": ""
+        },
+        {
+          "ad": "Ece Gülüm",
+          "karakter": ""
+        },
+        {
+          "ad": "Efe Yıldırım",
+          "karakter": ""
+        },
+        {
+          "ad": "Efes Saatçi",
+          "karakter": ""
+        },
+        {
+          "ad": "Elçin Ay",
+          "karakter": ""
+        },
+        {
+          "ad": "Emre Eryar",
+          "karakter": ""
+        },
+        {
+          "ad": "Emre Eroğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Enis Oylum",
+          "karakter": ""
+        },
+        {
+          "ad": "Eylül Tekin",
+          "karakter": ""
+        },
+        {
+          "ad": "Gözde Akay",
+          "karakter": ""
+        },
+        {
+          "ad": "İdil Dal",
+          "karakter": ""
+        },
+        {
+          "ad": "Melike Aksoy",
+          "karakter": ""
+        },
+        {
+          "ad": "Nilsu Balcı",
+          "karakter": ""
+        },
+        {
+          "ad": "Onur Eren",
+          "karakter": ""
+        },
+        {
+          "ad": "Peylan Reşit Özben",
+          "karakter": ""
+        },
+        {
+          "ad": "Rümeysa Doğantay",
+          "karakter": ""
+        },
+        {
+          "ad": "Selin Kolbaş",
+          "karakter": ""
+        },
+        {
+          "ad": "Selen Gürdal",
+          "karakter": ""
+        },
+        {
+          "ad": "Sude Karataş",
+          "karakter": ""
+        },
+        {
+          "ad": "Sueda Kocaman",
+          "karakter": ""
+        },
+        {
+          "ad": "Şehla İnanç Uçar",
+          "karakter": ""
+        },
+        {
+          "ad": "Utku İlhan",
+          "karakter": ""
+        },
+        {
+          "ad": "Utku Yılmaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Yağmur Demirci",
+          "karakter": ""
+        },
+        {
+          "ad": "Zafer Özen",
+          "karakter": ""
+        },
+        {
+          "ad": "Zin Tülin Eraslan",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Çeviren: Sabahattin Eyüpoğlu, Vedat Günyol",
+        "Dekor: Özlem Toprakçı",
+        "Kostüm: Gülbeyaz Apaydın",
+        "Işık: Süleyman Kaleli",
+        "Müzik: Berkehan Tuncer",
+        "Kareografi: Naz King",
+        "Dijital Efekt: Zeynep Ergüney & Tahsin Enes Kuru",
+        "Afiş Tasarımı: Zeynep Beskan"
+      ]
     },
     {
-      "id": 1719865009,
-      "ad": "Sezuan'ın İyi İnsanı",
-      "yazar": "Bertolt Brecht",
-      "yonetmen": "Tolga Yeter",
-      "yardimci_yonetmen": "",
-      "afis": "assets/seuzanıniyiinsanı.jpg",
+      "id": 5,
+      "ad": "Deli Kadın Hikayeleri",
+      "yazar": "Mine Söğüt",
+      "yonetmen": "Ece Gülüm, Emre Eroğlu, Reşit Özbek",
+      "yardimci_yonetmen": "Belirtilmemiş",
+      "afis": "assets/delikadinhikayeleri.jpg",
+      "kategori": "oda",
+      "tarih": "26 Aralık",
+      "saat": "21.00",
+      "sure": "Belirtilmemiş",
+      "mekan": "Oda Tiyatrosu B328",
+      "aciklama": "Mine Söğüt'ün aynı adlı eserinden uyarlanan bu oyun, farklı kadınların 'delilik' addedilen yaşamlarını ve deneyimlerini sahneye taşıyor. Toplumun normlarına uymayan, kendi gerçekliklerinde var olan veya dışlanmış kadınların iç dünyalarını, aşklarını, acılarını ve isyanlarını anlatarak, delilik kavramını sorgulatır ve kadınlık hallerine farklı bir bakış açısı sunar.",
+      "oyuncular": [
+        {
+          "ad": "Betül Gülce Koç",
+          "karakter": ""
+        },
+        {
+          "ad": "Hilal Yorulmaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Şehla İnanç Uçar",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Belirtilmemiş"
+      ],
+      "tur": "Ana Sahne",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": false,
+      "": ""
+    },
+    {
+      "id": 6,
+      "ad": "Hayvan Çiftliği",
+      "yazar": "George Orwell",
+      "yonetmen": "Şahin Ergüney",
+      "yardimci_yonetmen": "Aslı Naz Oymak, Melike Aksoy",
+      "afis": "assets/hayvanciftligi.jpg",
       "kategori": "ana",
-      "tarih": "",
-      "mekan": "Koç Üniversitesi Tiyatro Kulübü",
-      "sure": "",
-      "aciklama": "Çeviren: Özdemir Nutku\nKostüm: Zeynep Beskan, Metehan Başlı\nMüzik: Tolga Çebi",
+      "tarih": "Belirtilmemiş",
+      "saat": "Belirtilmemiş",
+      "sure": "Belirtilmemiş",
+      "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
+      "aciklama": "George Orwell'ın dünyaca ünlü alegorik romanından uyarlanan bu oyun, bir çiftlikteki hayvanların isyan edip insan sahiplerini kovarak kendi yönetimlerini kurmalarını konu alır. Ancak zamanla devrimin idealist ilkeleri yozlaşır ve domuzlar, diğer hayvanlar üzerinde giderek daha baskıcı bir diktatörlük kurar. Oyun, totaliter rejimlerin yükselişini, gücün yozlaştırıcı etkisini ve propaganda mekanizmalarını eleştirel bir dille gözler önüne serer.",
       "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": true,
-      "bilet": ""
+      "diger_roller": [
+        "Dekor / Kostüm: Cansu Akdeniz",
+        "Müzik: A. Samed Meraklı",
+        "Hareket Düzenleme: Bedrihan Dehmen",
+        "Dijital Artist: Semanur Baraç, Sema Türkşolmaz",
+        "Grafik Tasarım / Dijital Sanat Yönetmeni: Amir Ahmadoğlu",
+        "Hareket Düzenleme Asistanı: Nihan Cengiz",
+        "Işık Tasarım: Kerem Çetinel",
+        "Ses ve Miksaj: Ali Eren Ekşi",
+        "Işık Operatörü: Ali Dehmen, A. Rıtkuy Var"
+      ],
+      "tur": "Ana Sahne",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": true,
+      "": ""
     },
     {
-      "id": 1719865010,
+      "id": 7,
       "ad": "Karmakarışık",
       "yazar": "Neil LaBute",
       "yonetmen": "Arda Ayça",
-      "yardimci_yonetmen": "",
+      "yardimci_yonetmen": "Belirtilmemiş",
       "afis": "assets/karmakarisik.jpg",
       "kategori": "oda",
-      "tarih": "26 Mayıs - 20.30",
-      "mekan": "ODA TİYATROSU ÖMER B328",
-      "sure": "",
-      "aciklama": "Çeviren: Ekin T. Turan\nFotoğraf: Eren Akkuzugil\nIşık & Ses: Umut Çağan Uslu",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": ""
+      "tarih": "26 Mayıs",
+      "saat": "20.30",
+      "sure": "Belirtilmemiş",
+      "mekan": "Oda Tiyatrosu Ömer B328",
+      "aciklama": "Neil LaBute'un çarpıcı eserlerinden biri olan 'Karmakarışık', modern ilişkilerin karmaşıklığını ve insan doğasının karanlık yönlerini cesurca ele alır. Oyun, iki karakter arasındaki gerilimli ve entrikalarla dolu bir ilişkiyi merkeze alarak, aşkın, güvenin ve manipülasyonun sınırlarını sorgular. Karakterlerin birbirlerine karşı oynadığı psikolojik oyunlar ve beklenmedik gelişmeler izleyiciyi sürekli diken üstünde tutar.",
+      "oyuncular": [
+        {
+          "ad": "Arda Ayça",
+          "karakter": ""
+        },
+        {
+          "ad": "Asena Ergül",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Çeviren: Ekin T. Turan",
+        "Fotoğraf: Eren Akkuzugil",
+        "Işık & Ses: Umut Çağan Uslu"
+      ]
     },
     {
-      "id": 1719865011,
+      "id": 8,
       "ad": "On İkinci Gece",
       "yazar": "William Shakespeare",
       "yonetmen": "Emre Eroğlu",
       "yardimci_yonetmen": "Uğur Bayrak",
       "afis": "assets/onikincigece.png",
       "kategori": "ana",
-      "tarih": "",
-      "mekan": "",
-      "sure": "",
-      "aciklama": "Işık/Afiş/Makyaj: Gül Deniz Kal\nSes: Ali Eren Ekşi",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": ""
+      "tarih": "Belirtilmemiş",
+      "saat": "Belirtilmemiş",
+      "sure": "Belirtilmemiş",
+      "mekan": "Belirtilmemiş",
+      "aciklama": "Shakespeare'in en keyifli komedilerinden biri olan 'On İkinci Gece', gemi kazası sonucu ayrı düşen ikiz kardeşler Viola ve Sebastian'ın hikayesini anlatır. Viola, erkek kılığına girerek Dük Orsino'nun hizmetine girer ve karmaşık bir aşk üçgeni başlar: Orsino, Kontes Olivia'ya aşıktır; Olivia ise erkek sandığı Viola'ya aşık olurken, Viola da Dük Orsino'ya gizlice aşıktır. Oyun, yanlış kimlikler, maskeler ve aşkın çeşitliliği üzerine eğlenceli bir keşiftir.",
+      "oyuncular": [
+        {
+          "ad": "Can Şahin",
+          "karakter": ""
+        },
+        {
+          "ad": "Eylül Öztürk",
+          "karakter": ""
+        },
+        {
+          "ad": "Faruk Emre Tekin",
+          "karakter": ""
+        },
+        {
+          "ad": "Irmak Terazi",
+          "karakter": ""
+        },
+        {
+          "ad": "Mehmet Ali Mansuroğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Melek Yücel",
+          "karakter": ""
+        },
+        {
+          "ad": "Simge Dere",
+          "karakter": ""
+        },
+        {
+          "ad": "Tuğba Bayar",
+          "karakter": ""
+        },
+        {
+          "ad": "Uğur Bayrak",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Işık/Afiş/Makyaj: Gül Deniz Kal",
+        "Ses: Ali Eren Ekşi"
+      ]
     },
     {
-      "id": 1719865012,
+      "id": 9,
+      "ad": "Periferi",
+      "yazar": "Pembe Akgün",
+      "yonetmen": "Şahin Ergüney",
+      "yardimci_yonetmen": "Melike Aksoy, Aslı Naz Oymak, Betül Gülce Koç, İpek İftar",
+      "afis": "assets/periferi.jpg",
+      "kategori": "ana",
+      "tarih": "Belirtilmemiş",
+      "saat": "Belirtilmemiş",
+      "sure": "Belirtilmemiş",
+      "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
+      "aciklama": "'Periferi' kelimesinin 'çevre, kenar' anlamlarını taşıdığı bu oyun, toplumun ana akımından uzak, kenarda kalmış yaşamları ve hikayeleri ele alıyor olabilir. Afişteki görseller ve genel atmosfer, alışılmadık veya dışlanmış karakterlerin, belki de marjinalleşmiş bir topluluğun iç çatışmalarını veya dış dünya ile ilişkilerini dramatik ve yoğun bir şekilde sahneye taşıdığını düşündürmektedir.",
+      "oyuncular": [
+        {
+          "ad": "Ahmet Cem Tekçe",
+          "karakter": ""
+        },
+        {
+          "ad": "Ahmet Yesevi Nurcan",
+          "karakter": ""
+        },
+        {
+          "ad": "Aslı Naz Oymak",
+          "karakter": ""
+        },
+        {
+          "ad": "Arda Ayça",
+          "karakter": ""
+        },
+        {
+          "ad": "Baran Aytekin",
+          "karakter": ""
+        },
+        {
+          "ad": "Denizcan Ertem",
+          "karakter": ""
+        },
+        {
+          "ad": "Ece Gülüm",
+          "karakter": ""
+        },
+        {
+          "ad": "Elçin Ay",
+          "karakter": ""
+        },
+        {
+          "ad": "Emre Eroğlu",
+          "karakter": ""
+        },
+        {
+          "ad": "Betül Gülce Koç",
+          "karakter": ""
+        },
+        {
+          "ad": "Hilal Yorulmaz",
+          "karakter": ""
+        },
+        {
+          "ad": "İbrahim Şahbaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Melike Aksoy",
+          "karakter": ""
+        },
+        {
+          "ad": "Naz King",
+          "karakter": ""
+        },
+        {
+          "ad": "Reşit Özbek",
+          "karakter": ""
+        },
+        {
+          "ad": "Rüzgar Altuncı",
+          "karakter": ""
+        },
+        {
+          "ad": "Şehla İnanç Uçar",
+          "karakter": ""
+        },
+        {
+          "ad": "Selen Gürdal",
+          "karakter": ""
+        },
+        {
+          "ad": "Selin Koldaş",
+          "karakter": ""
+        },
+        {
+          "ad": "Uğur Bayrak",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Kostüm: Gülbeyaz Apaydın",
+        "Koreografi: Emre Sökmen",
+        "Dekor & Dijital Efekt: Zeynep Ergüney, Tahsin Enes Kuru",
+        "Müzik: Koç Üniversitesi Orkestra Kulübü (Arda Akbay, Ayberk Baymaz, Deniz Kartal, Doruk Atmış, Ezel Aydın, Giray Aslan Güçlü, Murat Menteşe, Nida Kaya)",
+        "Işık: Süleyman Kaleli, Burak Gülgen",
+        "Afiş Tasarımı: Nilda Sevim"
+      ]
+    },
+    {
+      "id": 10,
       "ad": "Vur Yağmala Yeniden",
-      "yazar": "Mark Ravenhill (Troyalı Kadınlar, Odysseia, Suç ve Ceza uyarlaması)",
+      "yazar": "Mark Ravenhill",
       "yonetmen": "Reşit Özbek",
       "yardimci_yonetmen": "Selen Gürdal, Rüzgar Altuncı",
       "afis": "assets/vuryagmalayeniden.jpg",
       "kategori": "oda",
-      "tarih": "",
-      "mekan": "Koç Üniversitesi",
-      "sure": "",
-      "aciklama": "Dramaturji: İbrahim Şahbaz\nIşık Tasarımı: Mehmet Güray Usta\nAfiş Tasarımı: Alperen Tekedereli\nSes Tasarımı: Aslı Ece Yılmaz",
-      "oyuncular": [],
-      "durum": "bitmis",
-      "anasayfadaGoster": false,
-      "bilet": "",
-      "tur": "Ana Sahne",
-      "saat": "",
-      "konum": "",
-      "oneCikan": true
+      "tarih": "Belirtilmemiş",
+      "saat": "Belirtilmemiş",
+      "sure": "Belirtilmemiş",
+      "mekan": "Koç Üniversitesi tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
+      "aciklama": "Çağdaş İngiliz yazar Mark Ravenhill'in bu eseri, klasik metinler olan 'Troyalı Kadınlar', 'Odysseia' ve 'Suç ve Ceza'yı modern bir bakış açısıyla yeniden yorumlar. Savaşın yıkıcı sonuçlarını, kadınların direnişini, eve dönüşün zorluklarını ve suç ile ceza kavramının evrensel sorgulamalarını harmanlayarak, geçmişin izlerini günümüzün acı gerçekleriyle birleştirir. Oyun, şiddet, adalet ve hayatta kalma temalarını cesur ve sorgulayıcı bir dille sahneye taşır.",
+      "oyuncular": [
+        {
+          "ad": "Aslı Hurma",
+          "karakter": ""
+        },
+        {
+          "ad": "Eylül Gülbin Yılmaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Faruk Emre Tekin",
+          "karakter": ""
+        },
+        {
+          "ad": "İbrahim Şahbaz",
+          "karakter": ""
+        },
+        {
+          "ad": "Miraç Birlik",
+          "karakter": ""
+        },
+        {
+          "ad": "Rüzgar Altuncı",
+          "karakter": ""
+        },
+        {
+          "ad": "Selen Gürdal",
+          "karakter": ""
+        },
+        {
+          "ad": "Sena Eliri",
+          "karakter": ""
+        },
+        {
+          "ad": "Tuana Elmas",
+          "karakter": ""
+        },
+        {
+          "ad": "Yalım Soylu",
+          "karakter": ""
+        },
+        {
+          "ad": "Zümra Koparan",
+          "karakter": ""
+        },
+        {
+          "ad": "Zeynep Teker",
+          "karakter": ""
+        }
+      ],
+      "diger_roller": [
+        "Dramaturji: İbrahim Şahbaz",
+        "Işık Tasarımı: Mehmet Güray Usta",
+        "Afiş Tasarımı: Alperen Tekedereli",
+        "Ses Tasarımı: Aslı Ece Yılmaz"
+      ]
     }
   ],
   "hakkimizda": {
@@ -479,20 +907,612 @@
       ],
       "": false,
       "katilim": "2025-07-01"
+    },
+    {
+      "ad": "Arda Hakan Alpdoğan",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Demir Demircioğlu",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Ecem Naz Kaynar",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Elçin Ay",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Emel Karataş",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Fidel Berdan Demir",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Mehmet Güray Usta",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Meltem Tanoğlu",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Merve Makbule Konuk",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Berkehan Tuncer",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Burak Arabacı",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Efe Yıldırım",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Efes Saatçi",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Emre Eryar",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Enis Oylum",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Eylül Tekin",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Gözde Akay",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "İdil Dal",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Nilsu Balcı",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Onur Eren",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Peylan Reşit Özben",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Rümeysa Doğantay",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Selin Kolbaş",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Sude Karataş",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Sueda Kocaman",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Şehla İnanç Uçar",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Utku İlhan",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Utku Yılmaz",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Yağmur Demirci",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Zafer Özen",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Zin Tülin Eraslan",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Betül Gülce Koç",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Hilal Yorulmaz",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Reşit Özbek",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Asena Ergül",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Eylül Gülbin Yılmaz",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Faruk Emre Tekin",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "İbrahim Şahbaz",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Miraç Birlik",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Rüzgar Altuncı",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Sena Eliri",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Tuğba Bayar",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Yalım Soylu",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Zümra Koparan",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Zeynep Teker",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Can Şahin",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Eylül Öztürk",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Faruk Emre Tekin",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Irmak Terazi",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Mehmet Ali Mansuroğlu",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Melek Yücel",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
+    },
+    {
+      "ad": "Simge Dere",
+      "img": "assets/pngegg.png",
+      "roller": [
+        "oyuncu"
+      ],
+      "durum": "aktif"
     }
   ],
   "arsiv": [
     {
-      "id": "sezon_1751440579953",
-      "sezon": "2024",
-      "aciklama": "",
-      "icerikler": []
+      "id": "sezon_2020_2021",
+      "sezon": "2020-2021",
+      "aciklama": "2020-2021 tiyatro sezonu",
+      "icerikler": [],
+      "afis": ""
     },
     {
-      "id": "sezon_1751395021237",
-      "sezon": "20024",
-      "aciklama": "",
-      "icerikler": []
+      "id": "sezon_2021_2022",
+      "sezon": "2021-2022",
+      "aciklama": "2021-2022 tiyatro sezonu",
+      "icerikler": [],
+      "afis": ""
+    },
+    {
+      "id": "sezon_2022_2023",
+      "sezon": "2022-2023",
+      "aciklama": "2022-2023 tiyatro sezonu",
+      "icerikler": [],
+      "afis": ""
+    },
+    {
+      "id": "sezon_2023_2024",
+      "sezon": "2023-2024",
+      "aciklama": "2023-2024 tiyatro sezonu",
+      "icerikler": [
+        {
+          "tip": "oyun",
+          "baslik": "Deli Kadın Hikayeleri",
+          "yonetmen": "Ece Gülüm, Emre Eroğlu, Reşit Özbek",
+          "yazar": "Mine Söğüt",
+          "oyuncular": [],
+          "teknikEkip": [],
+          "afis": "assets/delikadinhikayeleri.jpg",
+          "ozet": "Mine Söğüt'ün güçlü metinleri"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Hayvan Çiftliği",
+          "yonetmen": "Şahin Ergüney",
+          "yazar": "George Orwell",
+          "oyuncular": [],
+          "teknikEkip": [
+            "Aslı Naz Oymak",
+            "Melike Aksoy"
+          ],
+          "afis": "assets/hayvanciftligi.jpg",
+          "ozet": "George Orwell'in toplumsal eleştiri dolu eseri"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Periferi",
+          "yonetmen": "Şahin Ergüney",
+          "yazar": "Pembe Akgün",
+          "oyuncular": [],
+          "teknikEkip": [
+            "Melih Aksoy",
+            "Aslı Naz Oymak",
+            "Betül Akgün",
+            "İpek İftar"
+          ],
+          "afis": "assets/periferi.jpg",
+          "ozet": "Günümüz toplumsal gerçekleri üzerine bir oyun"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Cadı Kazanı",
+          "yonetmen": "Şahin Ergüney",
+          "yazar": "Arthur Miller",
+          "oyuncular": [],
+          "teknikEkip": [
+            "Naz King"
+          ],
+          "afis": "assets/cadikazani.jpg",
+          "ozet": "Arthur Miller'ın ünlü yapıtı Cadı Kazanı'nın KUTİY yorumu"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Sezuan'ın İyi İnsanı",
+          "yonetmen": "Tolga Yeter",
+          "yazar": "Bertolt Brecht",
+          "oyuncular": [],
+          "teknikEkip": [],
+          "afis": "assets/seuzanıniyiinsanı.jpg",
+          "ozet": "Bertolt Brecht'in klasik eseri"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "On İkinci Gece",
+          "yonetmen": "Emre Eroğlu",
+          "yazar": "William Shakespeare",
+          "oyuncular": [],
+          "teknikEkip": [
+            "Uğur Bayrak"
+          ],
+          "afis": "assets/onikincigece.png",
+          "ozet": "Shakespeare'in ünlü komedisi"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Vur Yağmala Yeniden",
+          "yonetmen": "Reşit Özbek",
+          "yazar": "Mark Ravenhill",
+          "oyuncular": [],
+          "teknikEkip": [
+            "Selen Gürdal",
+            "Rüzgar Altuncı"
+          ],
+          "afis": "assets/vuryagmalayeniden.jpg",
+          "ozet": "Troyalı Kadınlar, Odysseia ve Suç ve Ceza uyarlaması"
+        }
+      ],
+      "afis": "assets/theater.png"
+    },
+    {
+      "id": "sezon_2024_2025",
+      "sezon": "2024-2025",
+      "aciklama": "2024-2025 tiyatro sezonu",
+      "icerikler": [
+        {
+          "tip": "oyun",
+          "baslik": "Almost Maine",
+          "yonetmen": "Elçin Ay",
+          "yazar": "John Cariani",
+          "oyuncular": [],
+          "teknikEkip": [
+            "Melike Aksoy"
+          ],
+          "afis": "assets/almost_Maine.png",
+          "ozet": "John Cariani'nin romantik komedisi"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Bir Yaz Gecesi Rüyası",
+          "yonetmen": "non",
+          "yazar": "William Shakespeare",
+          "oyuncular": [],
+          "teknikEkip": [],
+          "afis": "assets/biryazgecesi.jpg",
+          "ozet": "Shakespeare'in büyülü komedisi"
+        },
+        {
+          "tip": "oyun",
+          "baslik": "Karmakarışık",
+          "yonetmen": "Arda Ayça",
+          "yazar": "Neil LaBute",
+          "oyuncular": [],
+          "teknikEkip": [],
+          "afis": "assets/karmakarisik.jpg",
+          "ozet": "Neil LaBute'un provokatif oyunu"
+        }
+      ],
+      "afis": "assets/theater.png"
+    },
+    {
+      "id": "sezon_2025_2026",
+      "sezon": "2025-2026",
+      "aciklama": "2025-2026 tiyatro sezonu",
+      "icerikler": [
+        {
+          "tip": "oyun",
+          "baslik": "Aynadaki Çocuk",
+          "yonetmen": "Miraç Birlik",
+          "yazar": "Miraç Birlik",
+          "oyuncular": [],
+          "teknikEkip": [],
+          "afis": "assets/1751456768817-IMG_1177.jpg",
+          "ozet": "Aynadaki Çocuk, güzellik algısı, toplumun beklentileri ve insanın kendi iç sesiyle yüzleşmesi üzerine kurgulanmış etkileyici bir tek kişilik performans. Aras'ın iç monologları, hayal sahneleri ve zaman zaman seyirciyle kurduğu doğrudan iletişimle oyun; hem düşündürüyor hem duygulandırıyor."
+        },
+        {
+          "tip": "galeri",
+          "baslik": "FENASAL ",
+          "fotograflar": [
+            "assets/1751461727382-Image_fx (33).jpg",
+            "assets/1751461727399-Image_fx (32).jpg",
+            "assets/1751461727409-Gemini_Generated_Image_pwws38pwws38pwws.png",
+            "assets/1751461727423-Image_fx (31).jpg",
+            "assets/1751461727434-Image_fx (30).jpg",
+            "assets/1751461727444-Gemini_Generated_Image_7aat9r7aat9r7aat.png",
+            "assets/1751461727489-logo.png",
+            "assets/1751461727492-organizator-1881-logo-F1F415.png",
+            "assets/1751461727498-20250701_093318[1].jpg",
+            "assets/1751461727504-theater.png"
+          ]
+        }
+      ],
+      "afis": ""
     }
   ]
 }

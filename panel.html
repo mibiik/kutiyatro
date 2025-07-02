@@ -74,7 +74,7 @@
                     <i class="fas fa-archive"></i>
                     <div class="card-info">
                         <span id="arsiv-sayisi">0</span>
-                        <p>Arşivlenmiş Sezon</p>
+                        <p>Arşiv Sezonları</p>
                     </div>
                 </div>
             </div>
@@ -150,13 +150,44 @@
                 <button id="add-oyuncu-button">Yeni Oyuncu Ekle</button>
             </div>
         </section>
-        
-        <!-- 6. ARŞİV BÖLÜMÜ -->
+
+        <!-- 6. ARŞİV YÖNETİMİ BÖLÜMÜ -->
         <section id="arsiv" class="content-section" style="display: none;">
             <h2>Arşiv Yönetimi</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                Arşiv sayfasında gösterilecek sezonları ve içeriklerini yönetin. Her sezon; oyunlar, fotoğraf galerileri, videolar ve metin içerikleri barındırabilir.
+            </p>
+            
             <div class="content-block">
-                <div id="arsiv-list"></div>
-                <button id="add-sezon-button">Yeni Sezon Ekle</button>
+                <!-- Arşiv İstatistikleri -->
+                <div class="arsiv-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                    <div class="stat-card">
+                        <h4>Toplam Sezon</h4>
+                        <span id="total-seasons">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Toplam İçerik</h4>
+                        <span id="total-contents">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Fotoğraf Sayısı</h4>
+                        <span id="total-photos">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Video Sayısı</h4>
+                        <span id="total-videos">0</span>
+                    </div>
+                </div>
+
+                <!-- Sezon Listesi -->
+                <div class="arsiv-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Arşiv Sezonları</h3>
+                    <button id="add-sezon-button" class="add-new-button">
+                        <i class="fas fa-plus"></i> Yeni Sezon Ekle
+                    </button>
+                </div>
+                
+                <div id="arsiv-list" class="arsiv-list"></div>
             </div>
         </section>
 
