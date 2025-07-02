@@ -64,26 +64,30 @@ function oyunlariGoster() {
                     <div class="kart-header">
                         <h3 class="kart-baslik">${oyun.ad}</h3>
                         <div class="kart-meta">
-                            <div class="meta-item">
-                                <i class="fas fa-feather-alt"></i>
-                                <span>${oyun.yazar || 'Bilinmiyor'}</span>
-                            </div>
-                            <div class="meta-item">
-                                <i class="fas fa-video"></i>
-                                <span>${oyun.yonetmen || 'Bilinmiyor'}</span>
-                            </div>
+                            ${oyun.yazar && oyun.yazar.toLowerCase() !== 'belirtilmemiş' ? `
+                                <div class="meta-item">
+                                    <i class="fas fa-feather-alt"></i>
+                                    <span>${oyun.yazar}</span>
+                                </div>
+                            ` : ''}
+                            ${oyun.yonetmen && oyun.yonetmen.toLowerCase() !== 'belirtilmemiş' ? `
+                                <div class="meta-item">
+                                    <i class="fas fa-video"></i>
+                                    <span>${oyun.yonetmen}</span>
+                                </div>
+                            ` : ''}
                         </div>
                     </div>
                     
                     <div class="kart-detaylar">
                         <div class="detay-grup">
-                            ${oyun.tarih ? `
+                            ${oyun.tarih && oyun.tarih.toLowerCase() !== 'belirtilmemiş' ? `
                                 <div class="detay-item">
                                     <i class="fas fa-calendar-alt"></i>
                                     <span>${oyun.tarih}</span>
                                 </div>
                             ` : ''}
-                            ${(oyun.mekan || oyun.konum) ? `
+                            ${(oyun.mekan || oyun.konum) && (oyun.mekan || oyun.konum).toLowerCase() !== 'belirtilmemiş' ? `
                                 <div class="detay-item">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <span>${oyun.mekan || oyun.konum}</span>

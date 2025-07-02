@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="hero-text">
                         <h1>${oyun.ad}</h1>
-                        <p class="yazar">${oyun.yazar || 'Yazar belirtilmemiş'}</p>
+                        ${oyun.yazar && oyun.yazar.toLowerCase() !== 'belirtilmemiş' ? `<p class="yazar">${oyun.yazar}</p>` : ''}
                         ${tarihGelecek ? `
                             <div class="oyun-hero-seans-bilgi">
                                 <span class="oyun-hero-tarih"><i class="fas fa-calendar-alt"></i> ${oyun.tarih}</span>
@@ -147,8 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="detay-kart">
                         <h3><i class="fas fa-users"></i> Kadro</h3>
                         <ul class="kadro-listesi">
-                            <li><strong>Yönetmen:</strong> ${oyun.yonetmen || 'Belirtilmemiş'}</li>
-                            ${oyun.yardimciYonetmen ? `<li><strong>Yrd. Yönetmen:</strong> ${oyun.yardimciYonetmen}</li>` : ''}
+                            ${oyun.yonetmen && oyun.yonetmen.toLowerCase() !== 'belirtilmemiş' ? `<li><strong>Yönetmen:</strong> ${oyun.yonetmen}</li>` : ''}
+                            ${oyun.yardimciYonetmen && oyun.yardimciYonetmen.toLowerCase() !== 'belirtilmemiş' ? `<li><strong>Yrd. Yönetmen:</strong> ${oyun.yardimciYonetmen}</li>` : ''}
                         </ul>
                         <h4>Oyuncular</h4>
                         <ul class="oyuncu-listesi oyuncu-avatar-grid">
@@ -169,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <div class="detay-kart">
                         <h3><i class="fas fa-calendar-alt"></i> Seans Bilgileri</h3>
-                         <p><strong>Tarih:</strong> ${oyun.tarih || 'Belirtilmemiş'}</p>
-                         <p><strong>Saat:</strong> ${oyun.saat || 'Belirtilmemiş'}</p>
-                         <p><strong>Mekan:</strong> ${oyun.mekan || oyun.konum || 'Belirtilmemiş'}</p>
-                         <p><strong>Süre:</strong> ${oyun.sure || 'Belirtilmemiş'}</p>
+                         ${oyun.tarih && oyun.tarih.toLowerCase() !== 'belirtilmemiş' ? `<p><strong>Tarih:</strong> ${oyun.tarih}</p>` : ''}
+                         ${oyun.saat && oyun.saat.toLowerCase() !== 'belirtilmemiş' ? `<p><strong>Saat:</strong> ${oyun.saat}</p>` : ''}
+                         ${(oyun.mekan || oyun.konum) && (oyun.mekan || oyun.konum).toLowerCase() !== 'belirtilmemiş' ? `<p><strong>Mekan:</strong> ${oyun.mekan || oyun.konum}</p>` : ''}
+                         ${oyun.sure && oyun.sure.toLowerCase() !== 'belirtilmemiş' ? `<p><strong>Süre:</strong> ${oyun.sure}</p>` : ''}
                          ${oyun.bilet ? `<a href="${oyun.bilet}" class="bilet-butonu" target="_blank">Bilet Al</a>` : '<p class="bilet-yok">Bilet mevcut değil.</p>'}
                     </div>
                 </div>

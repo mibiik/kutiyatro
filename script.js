@@ -137,11 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${oyun.afis || 'assets/afis-placeholder.png'}" alt="${oyun.ad} Afişi" class="oyun-karti-modern-banner">
                     <div class="oyun-karti-modern-bilgi">
                         <h3 class="oyun-karti-modern-baslik">${oyun.ad}</h3>
-                        <p class="oyun-karti-modern-detay">Yazar: ${oyun.yazar || 'Bilinmiyor'}</p>
-                        <p class="oyun-karti-modern-detay">Yönetmen: ${oyun.yonetmen || 'Bilinmiyor'}</p>
+                        ${oyun.yazar && oyun.yazar.toLowerCase() !== 'belirtilmemiş' ? `<p class="oyun-karti-modern-detay">Yazar: ${oyun.yazar}</p>` : ''}
+                        ${oyun.yonetmen && oyun.yonetmen.toLowerCase() !== 'belirtilmemiş' ? `<p class="oyun-karti-modern-detay">Yönetmen: ${oyun.yonetmen}</p>` : ''}
                         <div class="oyun-karti-modern-ek-bilgi">
-                            <p class="oyun-karti-modern-detay">${oyun.tarih || ''}</p>
-                            <p class="oyun-karti-modern-detay">${oyun.mekan || oyun.konum || ''}</p>
+                            ${oyun.tarih && oyun.tarih.toLowerCase() !== 'belirtilmemiş' ? `<p class="oyun-karti-modern-detay">${oyun.tarih}</p>` : ''}
+                            ${(oyun.mekan || oyun.konum) && (oyun.mekan || oyun.konum).toLowerCase() !== 'belirtilmemiş' ? `<p class="oyun-karti-modern-detay">${oyun.mekan || oyun.konum}</p>` : ''}
                         </div>
                     </div>
                 </div>
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="oyun-kart-yeni-gradient"></div>
                     <div class="oyun-kart-yeni-icerik">
                         <h3 class="oyun-kart-yeni-baslik">${oyun.ad}</h3>
-                        <p class="oyun-kart-yeni-yonetmen">Yönetmen: ${oyun.yonetmen}</p>
+                        ${oyun.yonetmen && oyun.yonetmen.toLowerCase() !== 'belirtilmemiş' ? `<p class="oyun-kart-yeni-yonetmen">Yönetmen: ${oyun.yonetmen}</p>` : ''}
                         <span class="oyun-kart-yeni-detay-btn">Detayları Gör</span>
                     </div>
                 </div>

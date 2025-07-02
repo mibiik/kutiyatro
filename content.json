@@ -160,16 +160,16 @@
     },
     {
       "id": 4,
-      "ad": "Cadı Kazanı (The Crucible)",
+      "ad": "Cadı Kazanı ",
       "yazar": "Arthur Miller",
       "yonetmen": "Şahin Ergüney",
       "yardimci_yonetmen": "Naz King",
       "afis": "assets/cadikazani.jpg",
       "kategori": "ana",
-      "tarih": "Belirtilmemiş",
-      "saat": "Belirtilmemiş",
+      "tarih": "",
+      "saat": "",
       "sure": "Belirtilmemiş",
-      "mekan": "Koç Üniversitesi Tiyatro Kulübü tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
+      "mekan": "",
       "aciklama": "17. yüzyılda Amerika'nın Salem kasabasında yaşanan cadı avlarını konu alan bu etkileyici oyun, masum insanların histeri, korku ve bağnazlık ortamında nasıl kurban edildiğini gözler önüne serer. Miller, cadı avlarını McCarthy dönemindeki komünist avlarıyla paralellik kurarak, kitle psikolojisinin tehlikelerini, iftiranın yıkıcılığını ve bireyin doğru bildiği uğruna direnmesinin önemini vurgular.",
       "oyuncular": [
         {
@@ -308,7 +308,8 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 4
+      "siralama": "4",
+      "sezon": "2022-2023"
     },
     {
       "id": 5,
