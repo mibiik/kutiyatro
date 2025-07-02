@@ -721,15 +721,15 @@
       ]
     },
     {
-      "id": 3,
-      "ad": "Selen Nehir Sarıkılıç",
-      "rol": "Festival Sorumlusu",
-      "img": "assets/pngegg.png"
-    },
-    {
       "id": 2,
       "ad": "Uğur Bayrak",
       "rol": "Eş Başkan",
+      "img": "assets/pngegg.png"
+    },
+    {
+      "id": 3,
+      "ad": "Selen Nehir Sarıkılıç",
+      "rol": "Festival Sorumlusu",
       "img": "assets/pngegg.png"
     },
     {

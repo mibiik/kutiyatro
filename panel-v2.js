@@ -847,8 +847,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Touch/Mobile drag events
         list.addEventListener('touchstart', e => {
             if (e.target.closest('.draggable')) {
+                // Tüm varsayılan davranışları engelle
+                e.preventDefault();
+                e.stopPropagation();
+                
                 touchItem = e.target.closest('.draggable');
                 touchStartY = e.touches[0].clientY;
+                
+                // Context menu ve selection'ı engelle
+                touchItem.style.webkitUserSelect = 'none';
+                touchItem.style.userSelect = 'none';
+                touchItem.style.webkitTouchCallout = 'none';
                 
                 // Placeholder oluştur
                 placeholder = document.createElement('div');
@@ -863,34 +872,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     transition: opacity 0.2s ease;
                 `;
                 
-                // Long press algılama için timer
+                // Long press algılama için timer (daha kısa süre)
                 touchItem.touchTimer = setTimeout(() => {
                     // Touch item'ı dragging durumuna al
                     touchItem.classList.add('dragging');
                     touchItem.style.position = 'fixed';
                     touchItem.style.zIndex = '1000';
                     touchItem.style.opacity = '0.8';
-                    touchItem.style.transform = 'rotate(5deg)';
+                    touchItem.style.transform = 'rotate(3deg)';
                     touchItem.style.pointerEvents = 'none';
+                    touchItem.style.width = (touchItem.offsetWidth - 20) + 'px'; // Biraz daralt
                     
                     // Placeholder'ı göster
                     list.insertBefore(placeholder, touchItem);
                     placeholder.style.opacity = '1';
                     
                     draggedItem = touchItem;
-                }, 500); // 500ms long press
+                    
+                    // Haptic feedback (varsa)
+                    if (navigator.vibrate) {
+                        navigator.vibrate(50);
+                    }
+                }, 300); // 300ms long press (daha hızlı)
             }
         }, { passive: false });
 
         list.addEventListener('touchmove', e => {
+            // Dragging modunda değilse normal scroll'a izin ver
+            if (!draggedItem) {
+                return;
+            }
+            
             if (draggedItem && touchItem) {
                 e.preventDefault();
+                e.stopPropagation();
+                
                 touchCurrentY = e.touches[0].clientY;
                 
-                // Touch item'ı parmağı takip ettir
-                draggedItem.style.top = (touchCurrentY - 30) + 'px';
-                draggedItem.style.left = '10px';
-                draggedItem.style.right = '10px';
+                // Touch item'ı parmağı takip ettir - daha smooth
+                const rect = list.getBoundingClientRect();
+                draggedItem.style.top = (touchCurrentY - 40) + 'px';
+                draggedItem.style.left = (rect.left + 5) + 'px';
+                draggedItem.style.right = 'auto';
                 
                 // Placeholder'ın konumunu güncelle
                 const afterElement = getDragAfterElement(list, touchCurrentY);
@@ -904,6 +927,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         list.addEventListener('touchend', e => {
             if (touchItem) {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 clearTimeout(touchItem.touchTimer);
                 
                 if (draggedItem) {
@@ -917,6 +943,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     draggedItem.style.top = '';
                     draggedItem.style.left = '';
                     draggedItem.style.right = '';
+                    draggedItem.style.width = '';
+                    draggedItem.style.webkitUserSelect = '';
+                    draggedItem.style.userSelect = '';
+                    draggedItem.style.webkitTouchCallout = '';
                     
                     // Placeholder'ın yerine gerçek item'ı koy
                     if (placeholder && placeholder.parentNode) {
@@ -935,8 +965,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     placeholder.remove();
                 }
                 
+                // Touch durumunu temizle
                 touchItem = null;
                 placeholder = null;
+                touchStartY = 0;
+                touchCurrentY = 0;
             }
         });
     };
