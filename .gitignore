@@ -4,7 +4,7 @@
 # Environment variables
 .env
 
-# Credentials
+# Credentials (but allow content.json)
 credentials.json
 /credentials.json
 *.json
@@ -12,6 +12,9 @@ credentials.json
 # Build and distribution
 /build
 /dist
+
+# Vercel
+.vercel
 
 # Log files
 *.log

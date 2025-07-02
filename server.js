@@ -12,6 +12,20 @@ const CONTENT_PATH = path.join(__dirname, 'content.json');
 // Middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// CORS headers for API requests
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
+
 // Panel koruma middleware'i artık browser tarafında yapılıyor
 // Server tarafında koruma kaldırıldı
 app.use(express.static(path.join(__dirname)));
@@ -47,6 +61,25 @@ app.get('/api/content', (req, res) => {
     });
 });
 
+// GET: Doğrudan content.json dosyasını servis et (Vercel fallback)
+app.get('/content.json', (req, res) => {
+    fs.readFile(CONTENT_PATH, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Content.json okuma hatası:', err);
+            return res.status(404).send('Content.json bulunamadı.');
+        }
+        
+        // CORS ve cache headers
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        res.setHeader('Content-Type', 'application/json');
+        
+        res.send(data);
+    });
+});
+
 // POST: Gelen yeni içeriği kaydet
 app.post('/api/content', (req, res) => {
     const newContent = req.body;
@@ -72,4 +105,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
 app.listen(PORT, () => {
     console.log(`Sunucu http://localhost:${PORT} adresinde çalışıyor.`);
     console.log(`Yönetim paneli girişi: http://localhost:${PORT}/login.html`);
-}); 
+});
+
+// Vercel export
+module.exports = app; 

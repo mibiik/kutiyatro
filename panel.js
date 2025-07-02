@@ -4,18 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let siteContent = {};
     let currentEdit = { type: null, index: -1 };
 
-    // API Base URL - Environment'a göre ayarla
-    const getApiBaseUrl = () => {
-        // Production (Vercel) ortamı için kontrol
-        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-            return window.location.origin; // Vercel URL'i kullan
-        }
-        // Development ortamı
-        return '';
-    };
-
-    const API_BASE_URL = getApiBaseUrl();
-
     // ----------------- ELEMENT SELECTORS -----------------
     // Main Layout
     const sidebar = document.querySelector('.sidebar');
@@ -79,9 +67,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------- API CALLS -----------------
     const fetchContent = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/content`);
-            if (!response.ok) throw new Error('İçerik sunucudan alınamadı.');
-            siteContent = await response.json();
+            // Ana API endpoint'ini dene
+            let response = await fetch('/api/content');
+            
+            // API başarısız olursa, doğrudan content.json'u dene
+            if (!response.ok) {
+                console.warn('API endpoint başarısız, doğrudan content.json deneniyor...');
+                response = await fetch('/content.json');
+            }
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: İçerik alınamadı`);
+            }
+            
+            const data = await response.text();
+            try {
+                siteContent = JSON.parse(data);
+            } catch (parseError) {
+                console.error('JSON parse hatası:', parseError);
+                throw new Error('Geçersiz JSON formatı');
+            }
             
             // Eski tek rol sistemini çoklu rol sistemine dönüştür
             if (siteContent.oyuncu_havuzu) {
@@ -96,9 +101,36 @@ document.addEventListener('DOMContentLoaded', () => {
             cleanupOyuncuHavuzu();
             
             renderAllContent();
+            console.log('İçerik başarıyla yüklendi');
+            
         } catch (error) {
             console.error('Failed to fetch content:', error);
-            showNotification('İçerik yüklenemedi. Sunucu çalışıyor mu?', 'error');
+            
+            // Daha detaylı hata mesajı
+            let errorMessage = 'İçerik yüklenemedi.';
+            if (error.message.includes('404')) {
+                errorMessage = 'İçerik dosyası bulunamadı. Sunucu ayarlarını kontrol edin.';
+            } else if (error.message.includes('500')) {
+                errorMessage = 'Sunucu hatası. Lütfen daha sonra tekrar deneyin.';
+            } else if (error.message.includes('JSON')) {
+                errorMessage = 'İçerik dosyası bozuk. Sistem yöneticisine başvurun.';
+            } else if (error.name === 'TypeError') {
+                errorMessage = 'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.';
+            }
+            
+            showNotification(errorMessage, 'error', 5000);
+            
+            // Boş bir içerik objesi oluştur ki sayfa çökmekmesin
+            siteContent = {
+                hero: { title: '', subtitle: '' },
+                hakkimizda: { text: '' },
+                iletisim: { instagram: '', twitter: '', youtube: '', adres: '', email: '' },
+                oyunlar: [],
+                ekip: [],
+                oyuncu_havuzu: [],
+                arsiv: []
+            };
+            renderAllContent();
         }
     };
 
@@ -151,17 +183,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveContent = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/api/content`, {
+            const response = await fetch('/api/content', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache'
+                },
                 body: JSON.stringify(siteContent, null, 2)
             });
-            if (!response.ok) throw new Error('Değişiklikler sunucuya kaydedilemedi.');
+            
+            if (!response.ok) {
+                // Vercel'de POST işlemleri çalışmayabilir, özel durum olarak ele al
+                if (response.status === 404 || response.status === 405) {
+                    throw new Error('READ_ONLY_MODE');
+                }
+                throw new Error(`HTTP ${response.status}: Değişiklikler kaydedilemedi`);
+            }
+            
             showNotification('Değişiklikler başarıyla kaydedildi!', 'success', 2000);
             await fetchContent(); // Re-fetch for consistency
+            
         } catch (error) {
             console.error('Failed to save content:', error);
-            showNotification('Değişiklikler kaydedilemedi.', 'error', 2500);
+            
+            if (error.message === 'READ_ONLY_MODE') {
+                showNotification('⚠️ Read-Only Mod: Bu Vercel deployment\'ında düzenleme yapılamaz. Lokal geliştirme ortamını kullanın.', 'error', 8000);
+            } else {
+                let errorMessage = 'Değişiklikler kaydedilemedi.';
+                if (error.message.includes('404')) {
+                    errorMessage = 'API endpoint bulunamadı. Sunucu yapılandırması kontrol edilmeli.';
+                } else if (error.message.includes('500')) {
+                    errorMessage = 'Sunucu hatası. Dosya yazma izinleri kontrol edilmeli.';
+                } else if (error.name === 'TypeError') {
+                    errorMessage = 'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.';
+                }
+                showNotification(errorMessage, 'error', 5000);
+            }
         }
     };
 
@@ -169,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const formData = new FormData();
         formData.append('image', file);
         try {
-            const response = await fetch(`${API_BASE_URL}/api/upload`, {
+            const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             });
