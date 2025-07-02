@@ -136,8 +136,11 @@ function updateProfilesIfNeeded(users) {
     let updated = false;
     
     const updatedUsers = users.map(user => {
+        let userNeedsUpdate = false;
+        
         // Eğer kullanıcının detaylı profil bilgileri eksikse, ekle
         if (!user.bio || !user.department || !user.experience) {
+            userNeedsUpdate = true;
             updated = true;
             const profileData = getDetailedProfileData(user.username, {
                 name: user.ad,
@@ -152,9 +155,21 @@ function updateProfilesIfNeeded(users) {
                 birthDate: user.birthDate || profileData.birthDate,
                 joinDate: user.joinDate || profileData.joinDate,
                 socialMedia: user.socialMedia || profileData.socialMedia,
-                profilePicture: user.profilePicture || profileData.profilePicture
+                profilePicture: user.profilePicture || profileData.profilePicture,
+                // Şifre değiştirme durumunu kontrol et - eğer undefined ise true yap
+                mustChangePassword: user.mustChangePassword !== false
             };
         }
+        
+        // Sadece şifre değiştirme durumunu kontrol et
+        if (user.mustChangePassword === undefined || user.mustChangePassword === null) {
+            updated = true;
+            return {
+                ...user,
+                mustChangePassword: true
+            };
+        }
+        
         return user;
     });
     
@@ -181,7 +196,7 @@ function convertToNewFormat(users) {
             ad: profileData.ad,
             rol: profileData.rol,
             password: userData.defaultPassword ? btoa(userData.defaultPassword) : btoa('kutiy2025'),
-            mustChangePassword: userData.needsPasswordChange || false,
+            mustChangePassword: userData.needsPasswordChange !== false,
             active: true,
             email: profileData.email,
             telefon: profileData.telefon,
@@ -612,6 +627,9 @@ function resetLoginButton() {
 
 // Sayfa yüklendiğinde
 document.addEventListener('DOMContentLoaded', function() {
+    // Sayfa yüklenirken mevcut kullanıcıları kontrol et ve güncelle
+    checkAndUpdateExistingUsers();
+    
     // Sadece login.html sayfasında session kontrolü yap
     if (window.location.pathname.includes('login.html')) {
         try {
@@ -682,4 +700,68 @@ window.kutiyGetCurrentUser = function() {
         return null;
     }
 };
-window.clearBrowserData = clearBrowserData; 
+window.clearBrowserData = clearBrowserData;
+window.resetAllPasswordsToDefault = resetAllPasswordsToDefault;
+window.resetAllUserPasswords = resetAllUserPasswords;
+window.checkAndUpdateExistingUsers = checkAndUpdateExistingUsers;
+
+// Tüm kullanıcıları şifre değiştirme durumuna sıfırla (admin fonksiyonu)
+function resetAllPasswordsToDefault() {
+    const users = loadUserData();
+    const resetUsers = users.map(user => ({
+        ...user,
+        password: btoa('kutiy2025'),
+        mustChangePassword: true
+    }));
+    
+    saveUserData(resetUsers);
+    console.log('Tüm kullanıcılar varsayılan şifreye (kutiy2025) sıfırlandı ve şifre değiştirme zorunlu hale getirildi.');
+    return resetUsers;
+}
+
+// Kullanıcı dostu şifre sıfırlama fonksiyonu
+function resetAllUserPasswords() {
+    if (confirm('⚠️ DİKKAT!\n\nBu işlem tüm kullanıcıların şifrelerini "kutiy2025" olarak sıfırlayacak ve herkesin tekrar şifre değiştirmesini zorunlu hale getirecek.\n\nBu işlemi yapmak istediğinizden emin misiniz?')) {
+        try {
+            resetAllPasswordsToDefault();
+            alert('✅ Başarılı!\n\nTüm kullanıcı şifreleri sıfırlandı.\n\n• Varsayılan şifre: kutiy2025\n• Herkes ilk girişte yeni şifre belirlemek zorunda\n\nSayfa yeniden yüklenecek.');
+            window.location.reload();
+        } catch (error) {
+            console.error('Şifre sıfırlama hatası:', error);
+            alert('❌ Hata!\n\nŞifre sıfırlama işlemi başarısız oldu. Konsolu kontrol edin.');
+        }
+    }
+}
+
+// Test için: Mevcut kullanıcıları kontrol et ve güncelle
+function checkAndUpdateExistingUsers() {
+    try {
+        const users = loadUserData();
+        let needsUpdate = false;
+        
+        const updatedUsers = users.map(user => {
+            // Eğer kullanıcının mustChangePassword alanı false ise, true yap
+            if (user.mustChangePassword === false) {
+                needsUpdate = true;
+                console.log(`${user.username} kullanıcısının şifre değiştirme durumu true yapıldı`);
+                return {
+                    ...user,
+                    mustChangePassword: true
+                };
+            }
+            return user;
+        });
+        
+        if (needsUpdate) {
+            saveUserData(updatedUsers);
+            console.log('Mevcut kullanıcılar güncellendi - hepsi şifre değiştirmek zorunda');
+            return true;
+        } else {
+            console.log('Tüm kullanıcılar zaten şifre değiştirme durumunda');
+            return false;
+        }
+    } catch (error) {
+        console.error('Kullanıcı güncelleme hatası:', error);
+        return false;
+    }
+} 
