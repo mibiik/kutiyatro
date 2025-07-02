@@ -424,7 +424,7 @@
       ],
       "tur": "Ana Sahne",
       "konum": "SGKM",
-      "bilet": "",
+      "bilet": "http://localhost:3002/panel.html",
       "oneCikan": true,
       "": "",
       "siralama": "1",

@@ -2604,6 +2604,10 @@ main {
         height: 250px;
     }
     
+    .kart-afis {
+        filter: blur(1px) brightness(0.7);
+    }
+    
     .kart-content {
         padding: 20px;
     }
@@ -2612,13 +2616,36 @@ main {
         font-size: 1.4rem;
     }
     
-    .play-icon {
-        width: 60px;
-        height: 60px;
+    /* Mobilde sürekli görünen minimal overlay */
+    .kart-overlay {
+        opacity: 1;
+        background: linear-gradient(
+            135deg,
+            rgba(0, 0, 0, 0.4) 0%,
+            rgba(128, 0, 32, 0.3) 50%,
+            rgba(0, 0, 0, 0.5) 100%
+        );
+        backdrop-filter: blur(0.5px);
     }
     
-    .play-icon i {
-        font-size: 20px;
+    .overlay-content {
+        transform: translateY(0);
+    }
+    
+    .play-icon {
+        display: none;
+    }
+    
+    .overlay-text {
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        letter-spacing: 0.5px;
     }
     
     .bilet-btn {
@@ -2629,6 +2656,10 @@ main {
 @media (max-width: 480px) {
     .kart-afis-container {
         height: 200px;
+    }
+    
+    .kart-afis {
+        filter: blur(1.5px) brightness(0.6);
     }
     
     .kart-content {
@@ -2648,5 +2679,11 @@ main {
         padding: 6px 12px;
         font-size: 0.65rem;
         min-width: 100px;
+    }
+    
+    .overlay-text {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        border-radius: 16px;
     }
 }
