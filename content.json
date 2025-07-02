@@ -424,7 +424,7 @@
       "tur": "Ana Sahne",
       "konum": "SGKM",
       "bilet": "",
-      "oneCikan": false,
+      "oneCikan": true,
       "": "",
       "siralama": "1",
       "sezon": "2022-2023"
@@ -466,31 +466,15 @@
       "yonetmen": "Emre Eroğlu",
       "yardimci_yonetmen": "Uğur Bayrak",
       "afis": "assets/onikincigece.png",
-      "kategori": "ana",
-      "tarih": "Belirtilmemiş",
-      "saat": "Belirtilmemiş",
+      "kategori": "oda",
+      "tarih": "",
+      "saat": "",
       "sure": "Belirtilmemiş",
       "mekan": "Belirtilmemiş",
       "aciklama": "Shakespeare'in en keyifli komedilerinden biri olan 'On İkinci Gece', gemi kazası sonucu ayrı düşen ikiz kardeşler Viola ve Sebastian'ın hikayesini anlatır. Viola, erkek kılığına girerek Dük Orsino'nun hizmetine girer ve karmaşık bir aşk üçgeni başlar: Orsino, Kontes Olivia'ya aşıktır; Olivia ise erkek sandığı Viola'ya aşık olurken, Viola da Dük Orsino'ya gizlice aşıktır. Oyun, yanlış kimlikler, maskeler ve aşkın çeşitliliği üzerine eğlenceli bir keşiftir.",
       "oyuncular": [
         {
           "ad": "Can Şahin",
-          "karakter": ""
-        },
-        {
-          "ad": "Eylül Öztürk",
-          "karakter": ""
-        },
-        {
-          "ad": "Faruk Emre Tekin",
-          "karakter": ""
-        },
-        {
-          "ad": "Irmak Terazi",
-          "karakter": ""
-        },
-        {
-          "ad": "Mehmet Ali Mansuroğlu",
           "karakter": ""
         },
         {
@@ -502,10 +486,6 @@
           "karakter": ""
         },
         {
-          "ad": "Tuğba Bayar",
-          "karakter": ""
-        },
-        {
           "ad": "Uğur Bayrak",
           "karakter": ""
         }
@@ -514,7 +494,12 @@
         "Işık/Afiş/Makyaj: Gül Deniz Kal",
         "Ses: Ali Eren Ekşi"
       ],
-      "siralama": 7
+      "siralama": "7",
+      "konum": "",
+      "bilet": "",
+      "oneCikan": false,
+      "": "",
+      "sezon": "2022-2023"
     },
     {
       "id": 9,
@@ -622,8 +607,8 @@
       "yardimci_yonetmen": "Selen Gürdal, Rüzgar Altuncı",
       "afis": "assets/vuryagmalayeniden.jpg",
       "kategori": "oda",
-      "tarih": "Belirtilmemiş",
-      "saat": "Belirtilmemiş",
+      "tarih": "",
+      "saat": "",
       "sure": "Belirtilmemiş",
       "mekan": "Koç Üniversitesi tarafından düzenleniyor (Spesifik oda/salon bilgisi verilmemiş)",
       "aciklama": "Çağdaş İngiliz yazar Mark Ravenhill'in bu eseri, klasik metinler olan 'Troyalı Kadınlar', 'Odysseia' ve 'Suç ve Ceza'yı modern bir bakış açısıyla yeniden yorumlar. Savaşın yıkıcı sonuçlarını, kadınların direnişini, eve dönüşün zorluklarını ve suç ile ceza kavramının evrensel sorgulamalarını harmanlayarak, geçmişin izlerini günümüzün acı gerçekleriyle birleştirir. Oyun, şiddet, adalet ve hayatta kalma temalarını cesur ve sorgulayıcı bir dille sahneye taşır.",
@@ -672,7 +657,8 @@
       "bilet": "",
       "oneCikan": true,
       "": "",
-      "siralama": 6
+      "siralama": "6",
+      "sezon": "2022-2023"
     }
   ],
   "hakkimizda": {

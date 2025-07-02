@@ -83,10 +83,10 @@ function oyunlariGoster() {
                                     <span>${oyun.tarih}</span>
                                 </div>
                             ` : ''}
-                            ${oyun.mekan ? `
+                            ${(oyun.mekan || oyun.konum) ? `
                                 <div class="detay-item">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span>${oyun.mekan}</span>
+                                    <span>${oyun.mekan || oyun.konum}</span>
                                 </div>
                             ` : ''}
                         </div>

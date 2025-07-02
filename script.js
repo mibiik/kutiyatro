@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p class="oyun-karti-modern-detay">Yönetmen: ${oyun.yonetmen || 'Bilinmiyor'}</p>
                         <div class="oyun-karti-modern-ek-bilgi">
                             <p class="oyun-karti-modern-detay">${oyun.tarih || ''}</p>
-                            <p class="oyun-karti-modern-detay">${oyun.mekan || ''}</p>
+                            <p class="oyun-karti-modern-detay">${oyun.mekan || oyun.konum || ''}</p>
                         </div>
                     </div>
                 </div>

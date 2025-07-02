@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h3><i class="fas fa-calendar-alt"></i> Seans Bilgileri</h3>
                          <p><strong>Tarih:</strong> ${oyun.tarih || 'Belirtilmemiş'}</p>
                          <p><strong>Saat:</strong> ${oyun.saat || 'Belirtilmemiş'}</p>
-                         <p><strong>Mekan:</strong> ${oyun.konum || oyun.mekan || 'Belirtilmemiş'}</p>
+                         <p><strong>Mekan:</strong> ${oyun.mekan || oyun.konum || 'Belirtilmemiş'}</p>
                          <p><strong>Süre:</strong> ${oyun.sure || 'Belirtilmemiş'}</p>
                          ${oyun.bilet ? `<a href="${oyun.bilet}" class="bilet-butonu" target="_blank">Bilet Al</a>` : '<p class="bilet-yok">Bilet mevcut değil.</p>'}
                     </div>

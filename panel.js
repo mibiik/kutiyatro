@@ -618,6 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Özel field mapping'leri
             if (input.id === 'modal-kategori') key = 'kategori';
+            if (input.id === 'modal-konum') key = 'mekan'; // Konum alanını mekan olarak kaydet
             if (input.id === 'oyuncu-ad') key = 'ad';
             if (input.id === 'oyuncu-telefon') key = 'telefon';
             if (input.id === 'oyuncu-email') key = 'email';
@@ -782,7 +783,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      <label for="modal-saat">Saat:</label>
                     <input type="time" id="modal-saat" value="${item.saat || ''}">
                     <label for="modal-konum">Konum:</label>
-                    <input type="text" id="modal-konum" value="${item.konum || ''}" placeholder="Örn: Koç Üniversitesi Sevgi Gönül Oditoryumu">
+                    <input type="text" id="modal-konum" value="${item.mekan || item.konum || ''}" placeholder="Örn: Koç Üniversitesi Sevgi Gönül Oditoryumu">
                      <label for="modal-bilet">Bilet Linki:</label>
                     <input type="url" id="modal-bilet" value="${item.bilet || ''}" placeholder="https://bilet.ix/link">
                     <label for="modal-afis">Afiş:</label>
