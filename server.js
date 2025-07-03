@@ -4,6 +4,15 @@ const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
 const { google } = require('googleapis');
+const admin = require('firebase-admin');
+
+// TODO: Firebase Admin SDK'yı başlatmak için servis hesabı anahtarını güvenli bir şekilde sağlayın.
+// Bu bilgiyi Firebase projenizin ayarlarından (Ayarlar > Servis Hesapları) alabilirsiniz.
+// const serviceAccount = require('./path/to/your/serviceAccountKey.json');
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount)
+// });
 
 const app = express();
 const PORT = 3002;
