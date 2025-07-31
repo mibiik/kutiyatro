@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUTİY - Koç Üniversitesi Tiyatro Kulübü</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="mobile-extras.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="https://vercel.com/analytics/script.js"></script>
+</head>
+<body>
+    <!-- MASAÜSTÜ NAVBAR (Sadece geniş ekranlarda görünür) -->
+    <header class="desktop-header">
+        <div class="logo-container">
+            <a href="index.html"><img src="assets/logo.png" alt="KUTİY Logo" class="logo"></a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlarımız</a></li>
+                <li><a href="arsiv.html">Arşiv</a></li>
+                <li><a href="#ekip">Ekip</a></li>
+                <li><a href="#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+        <div class="header-action">
+            <a href="#" class="bulten-abone">Bültene Abone Ol</a>
+            <a href="#" class="uye-giris">Üye Girişi</a>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
+
+    <!-- YENİ MODERN MOBİL NAVBAR -->
+    <header class="new-navbar">
+        <a href="index.html" class="new-navbar__logo-link">
+            <img src="assets/logo.png" alt="KUTİY Logo" class="new-navbar__logo-img">
+        </a>
+        <button class="new-navbar__menu-btn" aria-label="Menüyü aç/kapat" aria-expanded="false">
+            <span class="new-navbar__menu-icon"></span>
+        </button>
+    </header>
+    <div class="new-navbar__overlay">
+        <nav class="new-navbar__nav">
+            <ul class="new-navbar__links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlarımız</a></li>
+                <li><a href="arsiv.html">Arşiv</a></li>
+                <li><a href="#ekip">Ekip</a></li>
+                <li><a href="#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+        <section id="hero">
+            <div class="hero-background-images">
+                <div class="afis-mosaic">
+                    <svg>
+                        <filter id="pixelate">
+                            <feFlood x="4" y="4" height="8" width="8"/>
+                            <feComposite width="8" height="8"/>
+                            <feTile result="a"/>
+                            <feComposite in="SourceGraphic" in2="a" operator="in"/>
+                        </filter>
+                    </svg>
+                    <img src="assets/vuryagmalayeniden.jpg" class="afis-mosaic-img">
+                    <img src="assets/acik_denizde.jpg" class="afis-mosaic-img">
+                    <img src="assets/almost_maine.png" class="afis-mosaic-img">
+                    <img src="assets/biryazgecesi.jpg" class="afis-mosaic-img">
+                    <img src="assets/delikadinhikayeleri.jpg" class="afis-mosaic-img">
+                    <img src="assets/hayvanciftligi.jpg" class="afis-mosaic-img">
+                    <img src="assets/karmakarisik.jpg" class="afis-mosaic-img">
+                    <img src="assets/onikincigece.png" class="afis-mosaic-img">
+                    <img src="assets/periferi.jpg" class="afis-mosaic-img">
+                    <img src="assets/cadikazani.jpg" class="afis-mosaic-img">
+                </div>
+                <div class="afis-gradient"></div>
+            </div>
+            <h1>KUTİYATRO SUNAR</h1>
+            <div class="event-highlight">
+                <p>Koç Üniversitesi Tiyatro Kulübü</p>
+            </div>
+            <a href="#instagram-feed" class="scroll-down-arrow" aria-label="Aşağı Kaydır">
+                <span></span>
+            </a>
+        </section>
+
+        <section id="hakkimizda" class="animated-section">
+            <div class="hakkimizda-baslik-logo">
+                <img src="assets/logo.png" alt="KUTİY Logo" class="hakkimizda-logo">
+                <h2>BİZ KİMİZ?</h2>
+            </div>
+            <div class="hakkimizda-icerik">
+                <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY), üniversitemizin en köklü ve aktif öğrenci kulüplerinden biridir. Amacımız, tiyatronun birleştirici gücüyle kampüs içinde sanatsal bir alan yaratmak, öğrencilerimize sahne sanatları alanında kendilerini geliştirme fırsatı sunmak ve unutulmaz performanslarla izleyicilerimizle buluşmaktır. Oda tiyatromuzda hem klasik hem de modern oyunlara kendi yorumumuzu katarak yeni ve postmodern bir sahne estetiği arayışındayız.</p>
+            </div>
+        </section>
+
+        <section id="instagram-feed" class="animated-section">
+            <!-- Elfsight Instagram Feed | Untitled Instagram Feed -->
+            <script>
+                // Ad blocker kontrolü ve Elfsight yükleme
+                function loadElfsight() {
+                    // Google Ads test ederek ad blocker varlığını kontrol et
+                    const testAd = document.createElement('div');
+                    testAd.innerHTML = '&nbsp;';
+                    testAd.className = 'adsbox';
+                    testAd.style.position = 'absolute';
+                    testAd.style.left = '-10000px';
+                    document.body.appendChild(testAd);
+                    
+                    setTimeout(() => {
+                        const hasAdBlocker = testAd.offsetHeight === 0;
+                        document.body.removeChild(testAd);
+                        
+                        if (!hasAdBlocker) {
+                            // Ad blocker yok, Elfsight'ı yükle
+                            const elfsightScript = document.createElement('script');
+                            elfsightScript.src = 'https://static.elfsight.com/platform/platform.js';
+                            elfsightScript.async = true;
+                            document.head.appendChild(elfsightScript);
+                        } else {
+                            // Ad blocker var, alternatif içerik göster
+                            const instagramSection = document.getElementById('instagram-feed');
+                            const elfsightDiv = instagramSection.querySelector('.elfsight-app-89fefda6-3f53-4016-9b79-d5db724ec22e');
+                            if (elfsightDiv) {
+                                elfsightDiv.innerHTML = `
+                                    <div style="text-align: center; padding: 40px; background: #f8f9fa; border-radius: 12px; margin: 20px 0;">
+                                        <h3 style="color: #333; margin-bottom: 15px;">📸 Instagram İçerikleri</h3>
+                                        <p style="color: #666; margin-bottom: 20px;">Instagram gönderilerimizi görmek için reklam engelleyicinizi devre dışı bırakabilir veya direkt Instagram hesabımızı ziyaret edebilirsiniz.</p>
+                                        <a href="https://instagram.com/kutiyatro" target="_blank" style="background: #E4405F; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600;">Instagram'da Takip Et</a>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }, 100);
+                }
+                
+                // Sayfa yüklendiğinde çalıştır
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', loadElfsight);
+                } else {
+                    loadElfsight();
+                }
+            </script>
+            <div class="elfsight-app-89fefda6-3f53-4016-9b79-d5db724ec22e" data-elfsight-app-lazy></div>
+        </section>
+
+        <section id="oyunlarimiz" class="section-container">
+            <h2 class="section-title">Öne Çıkan Oyunlarımız</h2>
+            <div class="oyunlar-grid buyuk-kartlar">
+                <!-- Oyunlar buraya dinamik olarak eklenecek -->
+            </div>
+        </section>
+
+        <section id="oyunlar" class="animated-section">
+            <h2>YAKLAŞAN OYUNLAR</h2>
+            <div class="oyun-galerisi">
+                <!-- Oyun kartları buraya script.js tarafından dinamik olarak eklenecek -->
+            </div>
+        </section>
+
+        <section id="ekip" class="animated-section">
+            <div class="ekip-container">
+                <h2>EKİP</h2>
+                <div class="ekip-grid">
+                    <!-- Tüm ekip üyeleri script.js tarafından buraya eklenecek -->
+                </div>
+                <div class="ekip-contact-section">
+                    <h3>İletişim</h3>
+                    <a href="mailto:theatre-club@ku.edu.tr" class="contact-btn-text">Ekiple İletişime Geç</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hayvan Çiftliği Chatbot Bölümü -->
+        <section id="chatbot-section" class="chatbot-section">
+            <div class="chatbot-container">
+                <div class="chatbot-header">
+                    <h2><i class="fas fa-comments"></i> Hayvan Çiftliği Sohbeti</h2>
+                    <p>Karakterlerle konuşun, hikayeyi keşfedin!</p>
+                </div>
+                <div class="chatbot-cards">
+                    <div class="chatbot-card">
+                        <div class="card-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3>Tekil Sohbet</h3>
+                        <p>Seçtiğiniz karakterle özel sohbet edin</p>
+                        <a href="hayvan-chatbot.html" class="chatbot-btn">
+                            <i class="fas fa-arrow-right"></i>
+                            Sohbete Başla
+                        </a>
+                    </div>
+                    <div class="chatbot-card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Grup Sohbeti</h3>
+                        <p>Tüm karakterlerle birlikte sohbet edin</p>
+                        <a href="grup-sohbeti.html" class="chatbot-btn">
+                            <i class="fas fa-arrow-right"></i>
+                            Gruba Katıl
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="iletisim">
+        <div class="sosyal-medya">
+            <a href="https://instagram.com/kutiyatro" target="_blank">Instagram</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Youtube</a>
+        </div>
+        <div class="iletisim-bilgileri">
+            <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY)</p>
+            <p>Rumelifeneri, 34450 Sarıyer/İstanbul</p>
+            <p>theatre-club@ku.edu.tr</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="mobile.js"></script>
+    <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      // Sadece 768px'den geniş ekranlarda masaüstü animasyonunu çalıştır
+      if (window.innerWidth > 768) {
+        const mosaic = document.querySelector('.afis-mosaic');
+        let images = Array.from(document.querySelectorAll('.afis-mosaic-img'));
+        function layoutImages() {
+          const cols = 5;
+          const rows = Math.ceil(images.length / cols);
+          const w = mosaic.offsetWidth / cols;
+          const h = mosaic.offsetHeight / rows;
+          images.forEach((img, i) => {
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+            img.style.left = (col * w) + 'px';
+            img.style.top = (row * h) + 'px';
+            img.style.width = w + 'px';
+            img.style.height = h + 'px';
+            img.style.position = 'absolute';
+          });
+        }
+        layoutImages();
+        window.addEventListener('resize', layoutImages);
+        // Maksimum 3 defa, negatif-normal geçişleri 0.7-2s arası rastgele
+        function crazyGlitchEffect(img) {
+          let count = 0;
+          function doGlitch() {
+            img.classList.add('glitch');
+            const glitchTime = 700 + Math.random() * 1300; // 0.7s - 2s
+            setTimeout(() => {
+              img.classList.remove('glitch');
+              count++;
+              if (count < 3) {
+                const pause = 300 + Math.random() * 600;
+                setTimeout(doGlitch, pause);
+              }
+            }, glitchTime);
+          }
+          doGlitch();
+        }
+        function swapRandomPair() {
+          if (images.length < 2) return;
+          let i = Math.floor(Math.random() * images.length);
+          let j;
+          do {
+            j = Math.floor(Math.random() * images.length);
+          } while (j === i);
+          const imgA = images[i];
+          const imgB = images[j];
+          crazyGlitchEffect(imgA);
+          setTimeout(() => {
+            crazyGlitchEffect(imgB);
+          }, 400);
+          setTimeout(() => {
+            crazyGlitchEffect(imgA);
+            crazyGlitchEffect(imgB);
+          }, 2500);
+          setTimeout(() => {
+            const leftA = imgA.style.left, topA = imgA.style.top;
+            const leftB = imgB.style.left, topB = imgB.style.top;
+            imgA.style.left = leftB;
+            imgA.style.top = topB;
+            imgB.style.left = leftA;
+            imgB.style.top = topA;
+            const temp = images[i];
+            images[i] = images[j];
+            images[j] = temp;
+            setTimeout(() => {
+              layoutImages();
+              const delays = [3000, 5000, 6000];
+              const nextDelay = delays[Math.floor(Math.random() * delays.length)];
+              setTimeout(swapRandomPair, nextDelay);
+            }, 1200);
+          }, 5000);
+        }
+        swapRandomPair();
+      }
+    });
+    </script>
+</body>
+</html>

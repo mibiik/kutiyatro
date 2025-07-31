@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tüm Oyunlarımız - KUTİY</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="oyunlar.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="mobile-extras.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://vercel.com/analytics/script.js"></script>
+</head>
+<body>
+    <!-- MASAÜSTÜ NAVBAR (Sadece geniş ekranlarda görünür) -->
+    <header class="desktop-header">
+        <div class="logo-container">
+            <a href="index.html"><img src="assets/logo.png" alt="KUTİY Logo" class="logo"></a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html" class="active">Oyunlarımız</a></li>
+                <li><a href="arsiv.html">Arşiv</a></li>
+                <li><a href="index.html#ekip">Ekip</a></li>
+                <li><a href="index.html#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="index.html#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+        <div class="header-action">
+            <a href="#" class="bulten-abone">Bültene Abone Ol</a>
+            <a href="#" class="uye-giris">Üye Girişi</a>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
+
+    <!-- YENİ MODERN MOBİL NAVBAR -->
+    <header class="new-navbar">
+        <a href="index.html" class="new-navbar__logo-link">
+            <img src="assets/logo.png" alt="KUTİY Logo" class="new-navbar__logo-img">
+        </a>
+        <button class="new-navbar__menu-btn" aria-label="Menüyü aç/kapat" aria-expanded="false">
+            <span class="new-navbar__menu-icon"></span>
+        </button>
+    </header>
+    <div class="new-navbar__overlay">
+        <nav class="new-navbar__nav">
+            <ul class="new-navbar__links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html" class="active">Oyunlarımız</a></li>
+                <li><a href="arsiv.html">Arşiv</a></li>
+                <li><a href="index.html#ekip">Ekip</a></li>
+                <li><a href="index.html#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="index.html#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+        <section class="oyun-filtre">
+            <h1 style="text-align:center; margin-bottom: 20px; font-size:2.2rem; font-family: 'Anton', sans-serif; letter-spacing:1px;">Tüm Oyunlarımız</h1>
+            <div class="filtre-container">
+                <div class="filtre-grup">
+                    <label>Kategori:</label>
+                    <select id="kategori-filtre">
+                        <option value="tumu"><i class="fas fa-theater-masks"></i> Tüm Kategoriler</option>
+                        <option value="ana"><i class="fas fa-theater-masks"></i> Ana Sahne Oyunları</option>
+                        <option value="oda"><i class="fas fa-home"></i> Oda Tiyatrosu Oyunları</option>
+                    </select>
+                </div>
+                <div class="filtre-grup">
+                    <label>Durum:</label>
+                    <select id="durum-filtre">
+                        <option value="tumu">Tüm Durumlar</option>
+                        <option value="yaklasiyor">Yaklaşan</option>
+                        <option value="oynaniyor">Sahnade</option>
+                        <option value="bitmis">Tamamlanan</option>
+                    </select>
+                </div>
+                <div class="filtre-grup">
+                    <input type="text" id="arama-input" placeholder="Oyun adı, yazar veya yönetmen ara...">
+                </div>
+            </div>
+        </section>
+        <section class="oyunlar-section">
+            <div id="oyunlar-grid" class="oyunlar-grid">
+                <!-- Oyunlar buraya dinamik olarak eklenecek -->
+            </div>
+            <div id="bos-durum" class="bos-durum" style="display: none;">
+                <h3>Henüz oyun bulunmuyor</h3>
+                <p>Aradığınız kriterlere uygun oyun bulunamadı.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Ana Sayfa Footer'ı -->
+    <footer id="iletisim">
+        <div class="sosyal-medya">
+            <a href="https://instagram.com/kutiyatro" target="_blank">Instagram</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Youtube</a>
+        </div>
+        <div class="iletisim-bilgileri">
+            <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY)</p>
+            <p>Rumelifeneri, 34450 Sarıyer/İstanbul</p>
+            <p>theatre-club@ku.edu.tr</p>
+        </div>
+    </footer>
+
+    <!-- Oyun Detay Modal -->
+    <div id="oyun-detay-modal" class="modal-overlay">
+        <div class="modal-icerik">
+            <button class="modal-kapat" onclick="modalKapat()">&times;</button>
+            
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="modal-afis">
+                    <img id="modal-afis-img" src="" alt="Oyun Afişi">
+                </div>
+                <div class="modal-baslik-bilgi">
+                    <h1 id="modal-oyun-adi"></h1>
+                    <div class="modal-yazar-yonetmen">
+                        <p><strong>Yazar:</strong> <span id="modal-yazar"></span></p>
+                        <p><strong>Yönetmen:</strong> <span id="modal-yonetmen"></span></p>
+                        <p id="modal-yardimci-yonetmen-row" style="display: none;">
+                            <strong>Yrd. Yönetmen:</strong> <span id="modal-yardimci-yonetmen"></span>
+                        </p>
+                    </div>
+                    <div class="modal-oyun-bilgi">
+                        <div class="bilgi-item">
+                            <span class="bilgi-label">Tarih:</span>
+                            <span id="modal-tarih"></span>
+                        </div>
+                        <div class="bilgi-item">
+                            <span class="bilgi-label">Mekan:</span>
+                            <span id="modal-mekan"></span>
+                        </div>
+                        <div class="bilgi-item">
+                            <span class="bilgi-label">Süre:</span>
+                            <span id="modal-sure"></span>
+                        </div>
+                        <div class="bilgi-item">
+                            <span class="bilgi-label">Kategori:</span>
+                            <span id="modal-kategori" class="kategori-badge"></span>
+                        </div>
+                    </div>
+                    <div id="modal-bilet-section" class="modal-bilet" style="display: none;">
+                        <a id="modal-bilet-link" href="#" target="_blank" class="bilet-button">
+                            🎫 Bilet Al
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Açıklama -->
+                <div class="modal-section">
+                    <h3>Oyun Hakkında</h3>
+                    <p id="modal-aciklama"></p>
+                </div>
+
+                <!-- Oyuncular -->
+                <div class="modal-section">
+                    <h3>Oyuncu Kadrosu</h3>
+                    <div id="modal-oyuncular" class="oyuncular-grid">
+                        <!-- Oyuncular buraya gelecek -->
+                    </div>
+                </div>
+
+                <!-- Fotoğraflar -->
+                <div class="modal-section" id="modal-fotograflar-section">
+                    <h3>Oyundan Fotoğraflar</h3>
+                    <div id="modal-fotograflar" class="fotograflar-grid">
+                        <!-- Fotoğraflar buraya gelecek -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="mobile.js"></script>
+    <script src="oyunlar.js"></script>
+</body>
+</html>

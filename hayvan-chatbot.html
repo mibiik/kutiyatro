@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Hayvan Çiftliği - Karakter Sohbeti</title>
+    <link rel="stylesheet" href="hayvan-chatbot.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Karakter Seçim Bölümü -->
+        <div class="character-selection" id="characterSelection">
+            <div class="header">
+                <h1><i class="fas fa-paw"></i> Hayvan Çiftliği Sohbeti</h1>
+                <p>Hangi karakterle konuşmak istiyorsunuz?</p>
+            </div>
+            
+            <div class="characters-grid">
+                <div class="character-card" data-character="napoleon">
+                    <div class="character-avatar">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Napoleon</h3>
+                    <p>Çiftliğin lideri, domuz</p>
+                </div>
+                
+                <div class="character-card" data-character="snowball">
+                    <div class="character-avatar">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Snowball</h3>
+                    <p>Devrimci lider, domuz</p>
+                </div>
+                
+                <div class="character-card" data-character="boxer">
+                    <div class="character-avatar">
+                        <i class="fas fa-horse"></i>
+                    </div>
+                    <h3>Boxer</h3>
+                    <p>Güçlü ve sadık at</p>
+                </div>
+                
+                <div class="character-card" data-character="clover">
+                    <div class="character-avatar">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Clover</h3>
+                    <p>Anaç ve koruyucu kısrak</p>
+                </div>
+                
+                <div class="character-card" data-character="benjamin">
+                    <div class="character-avatar">
+                        <i class="fas fa-glasses"></i>
+                    </div>
+                    <h3>Benjamin</h3>
+                    <p>Bilge ve şüpheci eşek</p>
+                </div>
+                
+                <div class="character-card" data-character="mollie">
+                    <div class="character-avatar">
+                        <i class="fas fa-ribbon"></i>
+                    </div>
+                    <h3>Mollie</h3>
+                    <p>Şık ve bencil kısrak</p>
+                </div>
+                
+                <div class="character-card" data-character="squealer">
+                    <div class="character-avatar">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Squealer</h3>
+                    <p>Propaganda uzmanı domuz</p>
+                </div>
+                
+                <div class="character-card" data-character="old-major">
+                    <div class="character-avatar">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>Old Major</h3>
+                    <p>Devrimin ilham kaynağı</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sohbet Bölümü -->
+        <div class="chat-container" id="chatContainer" style="display: none;">
+            <div class="chat-header">
+                <button class="back-btn" id="backBtn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="current-character">
+                    <div class="character-avatar-small" id="currentCharacterAvatar">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <div>
+                        <h3 id="currentCharacterName">Karakter</h3>
+                        <p id="currentCharacterDesc">Açıklama</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Mesajlar buraya gelecek -->
+            </div>
+            
+            <div class="chat-input">
+                <div class="input-container">
+                    <input type="text" id="messageInput" placeholder="Mesajınızı yazın..." maxlength="500">
+                    <button id="sendBtn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="character-actions">
+                    <button class="action-btn" data-action="greet">
+                        <i class="fas fa-hand-wave"></i> Selamla
+                    </button>
+                    <button class="action-btn" data-action="ask-opinion">
+                        <i class="fas fa-question"></i> Fikrini Sor
+                    </button>
+                    <button class="action-btn" data-action="tell-story">
+                        <i class="fas fa-book"></i> Hikaye Anlat
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yükleniyor -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Karakter düşünüyor...</p>
+        </div>
+    </div>
+
+    <script src="https://js.puter.com/v2/" crossorigin="anonymous"></script>
+    <script src="hayvan-chatbot.js" defer></script>
+</body>
+</html> 

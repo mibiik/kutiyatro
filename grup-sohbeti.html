@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Hayvan Çiftliği - Grup Sohbeti</title>
+    <link rel="stylesheet" href="grup-sohbeti.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Grup Sohbeti Başlığı -->
+        <div class="group-header">
+            <div class="header-content">
+                <h1><i class="fas fa-users"></i> Hayvan Çiftliği Grup Sohbeti</h1>
+                <p>Tüm karakterlerle birlikte sohbet edin!</p>
+                <div class="online-characters">
+                    <span class="online-indicator"></span>
+                    <span>8 karakter çevrimiçi</span>
+                </div>
+            </div>
+            <div class="character-avatars">
+                <div class="avatar" data-character="napoleon" title="Napoleon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="avatar" data-character="snowball" title="Snowball">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="avatar" data-character="boxer" title="Boxer">
+                    <i class="fas fa-horse"></i>
+                </div>
+                <div class="avatar" data-character="clover" title="Clover">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="avatar" data-character="benjamin" title="Benjamin">
+                    <i class="fas fa-glasses"></i>
+                </div>
+                <div class="avatar" data-character="mollie" title="Mollie">
+                    <i class="fas fa-ribbon"></i>
+                </div>
+                <div class="avatar" data-character="squealer" title="Squealer">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <div class="avatar" data-character="old-major" title="Old Major">
+                    <i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ana Sohbet Alanı -->
+        <div class="chat-area">
+            <div class="chat-messages" id="chatMessages">
+                <!-- Grup mesajları buraya gelecek -->
+            </div>
+            
+            <div class="chat-input-area">
+                <div class="input-container">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="input-wrapper">
+                        <input type="text" id="messageInput" placeholder="Grup sohbetine mesajınızı yazın..." maxlength="500">
+                        <div class="input-actions">
+                            <button class="emoji-btn" id="emojiBtn">
+                                <i class="fas fa-smile"></i>
+                            </button>
+                            <button class="send-btn" id="sendBtn">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="action-btn" data-action="greet-all">
+                        <i class="fas fa-hand-wave"></i> Herkese Selam
+                    </button>
+                    <button class="action-btn" data-action="ask-opinion">
+                        <i class="fas fa-question"></i> Fikir Sor
+                    </button>
+                    <button class="action-btn" data-action="start-debate">
+                        <i class="fas fa-comments"></i> Tartışma Başlat
+                    </button>
+                    <button class="action-btn" data-action="tell-story">
+                        <i class="fas fa-book"></i> Hikaye Anlat
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Karakter Bilgi Paneli -->
+        <div class="character-info-panel" id="characterInfoPanel">
+            <div class="panel-header">
+                <h3>Karakter Bilgileri</h3>
+                <button class="close-panel" id="closePanel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="character-details" id="characterDetails">
+                <!-- Karakter detayları buraya gelecek -->
+            </div>
+        </div>
+
+        <!-- Yükleniyor -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Karakterler düşünüyor...</p>
+        </div>
+
+        <!-- Navigasyon -->
+        <div class="navigation">
+            <a href="hayvan-chatbot.html" class="nav-btn">
+                <i class="fas fa-comment"></i>
+                Tekil Sohbet
+            </a>
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Ana Sayfa
+            </a>
+        </div>
+    </div>
+
+    <script src="https://js.puter.com/v2/" crossorigin="anonymous"></script>
+    <script src="grup-sohbeti.js" defer></script>
+</body>
+</html> 
