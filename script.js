@@ -2,15 +2,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.desktop-header');
     const progressBar = document.querySelector('.progress-bar'); // Progress bar'ı seç
+    let lastScrollTop = 0; // Son scroll pozisyonunu takip etmek için
 
     if (header) {
         window.addEventListener('scroll', () => {
+            const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
             // Header scroll efekti
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
+
+            // Navbar'ı scroll yönüne göre gizle/göster
+            if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
+                // Aşağı scroll - navbar'ı gizle
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                // Yukarı scroll - navbar'ı göster
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = currentScrollTop;
 
             // Progress bar hesaplaması
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
