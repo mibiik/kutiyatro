@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hayvan Çiftliği Chatbot - KUTİY</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="stylesheet" href="mobile-extras.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="hayvan-ciftligi-chatbot.css">
+    <script defer src="https://vercel.com/analytics/script.js"></script>
+</head>
+<body>
+    <!-- MASAÜSTÜ NAVBAR -->
+    <header class="desktop-header">
+        <div class="logo-container">
+            <a href="index.html"><img src="assets/logo.png" alt="KUTİY Logo" class="logo"></a>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlarımız</a></li>
+                <li><a href="hayvan-ciftligi-chatbot.html" class="active">Hayvan Çiftliği Chatbot</a></li>
+                <li><a href="arsiv.html">Arşiv</a></li>
+                <li><a href="index.html#ekip">Ekip</a></li>
+                <li><a href="index.html#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="index.html#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+        <div class="header-action">
+            <a href="#" class="bulten-abone">Bültene Abone Ol</a>
+            <a href="#" class="uye-giris">Üye Girişi</a>
+        </div>
+        <div class="progress-bar"></div>
+    </header>
+
+    <!-- MOBİL NAVBAR -->
+    <header class="new-navbar">
+        <a href="index.html" class="new-navbar__logo-link">
+            <img src="assets/logo.png" alt="KUTİY Logo" class="new-navbar__logo-img">
+        </a>
+        <button class="new-navbar__menu-btn" aria-label="Menüyü aç/kapat" aria-expanded="false">
+            <span class="new-navbar__menu-icon"></span>
+        </button>
+    </header>
+    <div class="new-navbar__overlay">
+        <nav class="new-navbar__nav">
+            <ul class="new-navbar__links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="oyunlar.html">Oyunlarımız</a></li>
+                <li><a href="hayvan-ciftligi-chatbot.html" class="active">Hayvan Çiftliği Chatbot</a></li>
+                <li><a href="arsiv.html">Arşiv</a></li>
+                <li><a href="index.html#ekip">Ekip</a></li>
+                <li><a href="index.html#hakkimizda">KUTİY Kimdir?</a></li>
+                <li><a href="index.html#iletisim">İletişim</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="chatbot-main">
+        <section class="chatbot-hero">
+            <div class="chatbot-hero-content">
+                <div class="chatbot-hero-text">
+                    <h1>Hayvan Çiftliği</h1>
+                    <h2>Karakterlerle Sohbet Et</h2>
+                    <p>George Orwell'ın dünyaca ünlü eserinin karakterleriyle konuşun, onların düşüncelerini öğrenin ve çiftlikteki olayları farklı perspektiflerden dinleyin.</p>
+                </div>
+                <div class="chatbot-hero-image">
+                    <img src="assets/hayvanciftligi.jpg" alt="Hayvan Çiftliği" class="hero-afis">
+                </div>
+            </div>
+        </section>
+
+        <section class="chatbot-section">
+            <div class="chatbot-container">
+                <div class="character-selector">
+                    <h3>Karakter Seçin</h3>
+                    <div class="character-grid">
+                        <div class="character-card" data-character="napoleon">
+                            <div class="character-avatar">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <h4>Napoleon</h4>
+                            <p>Lider Domuz</p>
+                        </div>
+                        <div class="character-card" data-character="snowball">
+                            <div class="character-avatar">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>Snowball</h4>
+                            <p>Devrimci Domuz</p>
+                        </div>
+                        <div class="character-card" data-character="boxer">
+                            <div class="character-avatar">
+                                <i class="fas fa-horse"></i>
+                            </div>
+                            <h4>Boxer</h4>
+                            <p>Çalışkan At</p>
+                        </div>
+                        <div class="character-card" data-character="squealer">
+                            <div class="character-avatar">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <h4>Squealer</h4>
+                            <p>Propaganda Domuzu</p>
+                        </div>
+                        <div class="character-card" data-character="old-major">
+                            <div class="character-avatar">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h4>Old Major</h4>
+                            <p>Bilge Domuz</p>
+                        </div>
+                        <div class="character-card" data-character="clover">
+                            <div class="character-avatar">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h4>Clover</h4>
+                            <p>Anaç At</p>
+                        </div>
+                        <div class="character-card" data-character="molly">
+                            <div class="character-avatar">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <h4>Molly</h4>
+                            <p>Beyaz At</p>
+                        </div>
+                        <div class="character-card" data-character="benjamin">
+                            <div class="character-avatar">
+                                <i class="fas fa-donkey"></i>
+                            </div>
+                            <h4>Benjamin</h4>
+                            <p>Eşek</p>
+                        </div>
+                        <div class="character-card" data-character="moses">
+                            <div class="character-avatar">
+                                <i class="fas fa-crow"></i>
+                            </div>
+                            <h4>Moses</h4>
+                            <p>Kuzgun</p>
+                        </div>
+                        <div class="character-card" data-character="mrjones">
+                            <div class="character-avatar">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h4>Mr. Jones</h4>
+                            <p>Çiftçi</p>
+                        </div>
+                        <div class="character-card" data-character="koyunlar">
+                            <div class="character-avatar">
+                                <i class="fas fa-sheep"></i>
+                            </div>
+                            <h4>Koyunlar</h4>
+                            <p>Sürü</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chatbot-interface">
+                    <div class="chat-header">
+                        <div class="selected-character">
+                            <div class="character-info">
+                                <div class="character-avatar-small">
+                                    <i class="fas fa-question"></i>
+                                </div>
+                                <div class="character-details">
+                                    <h4>Karakter Seçin</h4>
+                                    <p>Yukarıdan bir karakter seçerek sohbete başlayın</p>
+                                </div>
+                            </div>
+                            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="welcome-message">
+                            <div class="message bot-message">
+                                <div class="message-avatar">
+                                    <i class="fas fa-theater-masks"></i>
+                                </div>
+                                <div class="message-content">
+                                    <p>Merhaba! Hayvan Çiftliği'nin karakterleriyle tanışmaya hazır mısın? Yukarıdan bir karakter seç ve onunla sohbet etmeye başla!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <input type="text" id="chatInput" placeholder="Mesajınızı yazın..." disabled>
+                            <button id="sendButton" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="iletisim">
+        <div class="sosyal-medya">
+            <a href="https://instagram.com/kutiyatro" target="_blank">Instagram</a>
+            <a href="#" target="_blank">Twitter</a>
+            <a href="#" target="_blank">Youtube</a>
+        </div>
+        <div class="iletisim-bilgileri">
+            <p>Koç Üniversitesi Tiyatro Kulübü (KUTİY)</p>
+            <p>Rumelifeneri, 34450 Sarıyer/İstanbul</p>
+            <p>theatre-club@ku.edu.tr</p>
+        </div>
+    </footer>
+
+    <script src="https://js.puter.com/v2/"></script>
+    <script src="hayvan-ciftligi-chatbot.js"></script>
+    <script src="mobile.js"></script>
+</body>
+</html> 

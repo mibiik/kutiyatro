@@ -5,7 +5,8 @@ const path = require('path');
 const multer = require('multer');
 const { google } = require('googleapis');
 const admin = require('firebase-admin');
-const OpenAI = require('openai');
+// OpenAI import'u kaldırıldı çünkü şu anda kullanılmıyor
+// const { Configuration, OpenAIApi } = require('openai');
 
 // TODO: Firebase Admin SDK'yı başlatmak için servis hesabı anahtarını güvenli bir şekilde sağlayın.
 // Bu bilgiyi Firebase projenizin ayarlarından (Ayarlar > Servis Hesapları) alabilirsiniz.
@@ -15,9 +16,11 @@ const OpenAI = require('openai');
 //   credential: admin.credential.cert(serviceAccount)
 // });
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'YOUR_API_KEY', // OpenAI API anahtarınızı buraya ekleyin
-});
+// OpenAI konfigürasyonu kaldırıldı
+// const configuration = new Configuration({
+//   apiKey: 'YOUR_API_KEY', // OpenAI API anahtarınızı buraya ekleyin
+// });
+// const openai = new OpenAIApi(configuration);
 
 const app = express();
 const PORT = 3002;
@@ -118,11 +121,11 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
 app.post('/api/chat', async (req, res) => {
   const userMessage = req.body.message;
   try {
-    const response = await openai.chat.completions.create({
+    const response = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: userMessage }],
     });
-    res.json({ reply: response.choices[0].message.content });
+    res.json({ reply: response.data.choices[0].message.content });
   } catch (error) {
     console.error(error);
     res.status(500).send('Error processing your request.');

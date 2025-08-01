@@ -1,0 +1,438 @@
+// Hayvan Çiftliği Chatbot JavaScript - Puter.js v2 API
+
+document.addEventListener('DOMContentLoaded', () => {
+    let selectedCharacter = null;
+    let conversationHistory = [];
+
+    // DOM elementleri
+    const characterCards = document.querySelectorAll('.character-card');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendButton = document.getElementById('sendButton');
+    const selectedCharacterInfo = document.querySelector('.character-info');
+    const characterAvatarSmall = document.querySelector('.character-avatar-small i');
+    const characterDetails = document.querySelector('.character-details');
+
+    // Karakter bilgileri
+    const characters = {
+        napoleon: {
+            name: "Napoleon",
+            icon: "🐷",
+            greeting: "Yoldaşlar! Ben Napoleon, çiftliğin lideriyim. Ne konuşmak istiyorsun?",
+            speechStyle: "Kısa, emir veren, otoriter ve kurnaz. Genellikle Squealer aracılığıyla konuşur ama bazen doğrudan emirler verir.",
+            interests: "Güç, kontrol, iktidar, lüks yaşam, viski, diğer hayvanları manipüle etmek",
+            background: "Acımasız diktatör, hırslı ve manipülatif. Snowball'u kıskanır ve onu günah keçisi yapar. Boxer'ı sömürür ve sonunda kasaba satar."
+        },
+        snowball: {
+            name: "Snowball",
+            icon: "🐷",
+            greeting: "Merhaba yoldaş! Ben Snowball, devrimin idealist lideriyim. Yel değirmeni projemi duydun mu?",
+            speechStyle: "Coşkulu, idealist, hitabet gücü yüksek. Enerjik ve yaratıcı fikirlerle dolu.",
+            interests: "Devrim, eğitim, yel değirmeni projesi, hayvanların refahı, eşitlik",
+            background: "İdealist devrimci, zeki ve yaratıcı. Napoleon'un rakibi. Hayvanların eğitilmesini ve çiftliğin modernleştirilmesini ister."
+        },
+        squealer: {
+            name: "Squealer",
+            icon: "🐷",
+            greeting: "Yoldaşlar! Ben Squealer, size gerçekleri anlatmaya geldim. Hiçbiriniz Jones'un geri gelmesini istemezsiniz, değil mi?",
+            speechStyle: "İkna edici, manipülatif, cırtlak sesli. Mantık saptırmaları yapar ve gerçekleri çarpıtır.",
+            interests: "Propaganda, manipülasyon, yalan söyleme, istatistikler, korku salma",
+            background: "Usta propagandacı, Napoleon'un beyni ve sesi. Vicdansız demagog, gerçekleri çarpıtmakta usta."
+        },
+        boxer: {
+            name: "Boxer",
+            icon: "🐴",
+            greeting: "Merhaba yoldaş! Ben Boxer. Daha çok çalışacağım! Napoleon yoldaş ne diyorsa doğrudur.",
+            speechStyle: "Sadık, çalışkan, saf. İki temel sloganı var: 'Daha çok çalışacağım' ve 'Napoleon yoldaş her zaman haklıdır'.",
+            interests: "Çalışmak, devrime hizmet etmek, Napoleon'a sadık kalmak, çiftliğin başarısı",
+            background: "Sadık ve çalışkan işçi, inanılmaz güçlü ama saf. Devrimin ideallerine yürekten inanır ama acımasızca ihanete uğrar."
+        },
+        clover: {
+            name: "Clover",
+            icon: "🐴",
+            greeting: "Merhaba! Ben Clover. Boxer'ın en yakın dostuyum. Çiftlikte neler olup bittiğini merak ediyorum...",
+            speechStyle: "Anaç, şefkatli, sezgileri güçlü. Domuzların yalan söylediğini hisseder ama ifade edemez.",
+            interests: "Diğer hayvanları korumak, Boxer'ın sağlığı, adil düzen, annelik",
+            background: "Anaç ve sezgileri güçlü kısrak. Boxer'ın en yakın dostu. Domuzların yalan söylediğini sezer ama eğitimsizliği nedeniyle karşı çıkamaz."
+        },
+        molly: {
+            name: "Molly",
+            icon: "🐴",
+            greeting: "Oh, merhaba! Ben Molly. Kurdelelerimi ve şekerlerimi özledim... Eski günlerde çok daha güzeldi.",
+            speechStyle: "Süslü, bencil, lükse düşkün. Zorluklara gelemez ve konforlu hayatı özler.",
+            interests: "Kurdeleler, şeker, lüks, konfor, eski hayat, tembellik",
+            background: "Materyalist ve bencil kısrak. Devrimden kaçarak kendisine şeker ve kurdele vaat eden bir insanın yanına gider."
+        },
+        benjamin: {
+            name: "Benjamin",
+            icon: "🦙",
+            greeting: "Hmm... Ben Benjamin. Eşekler uzun yaşar. Hiçbiriniz ölü bir eşek görmediniz. Ne istiyorsun?",
+            speechStyle: "Alaycı, kötümser, kısa ve öz. Hiçbir şeyin değişmeyeceğine inanır.",
+            interests: "Hayatta kalmak, az iş yapmak, politikadan uzak durmak, Boxer'ı korumak",
+            background: "Çiftliğin en yaşlı ve en huysuz hayvanı. Zeki ve okuma yazma bilen tek hayvan (domuzlar dışında). Olaylara karşı alaycı ve kötümser."
+        },
+        moses: {
+            name: "Moses",
+            icon: "🦅",
+            greeting: "Kraa! Ben Moses. Balbadem Diyarı'ndan bahsedeyim mi? Orada şeker tepeleri ve kurdele ağaçları var!",
+            speechStyle: "Kurnaz, yalancı, vaatlerle dolu. Hiç iş yapmaz ama cennet vaatleri verir.",
+            interests: "Balbadem Diyarı, cennet vaatleri, rahat yaşam, bira içmek",
+            background: "Evcil kuzgun, kurnaz ve yalancı. Hayvanlara ölümden sonra gidecekleri 'Balbadem Diyarı' cennetinden bahseder. Domuzlar onu kontrol için kullanır."
+        },
+        mrjones: {
+            name: "Mr. Jones",
+            icon: "👨",
+            greeting: "Hiccup! Ben Mr. Jones, bu çiftliğin sahibiyim! Hayvanlar beni özledi mi? Viski nerede?",
+            speechStyle: "Sarhoş, sorumsuz, ihmalkar. Hayvanlara kötü davranır ve çiftliği bakımsız bırakır.",
+            interests: "Viski içmek, rahat yaşamak, çiftliği geri almak, hayvanları sömürmek",
+            background: "Sorumsuz çiftçi, alkolik ve ihmalkar. Hayvanlara kötü davranır ve çiftliği bakımsız bırakır. Devrimin fitilini ateşleyen kişi."
+        },
+        koyunlar: {
+            name: "Koyunlar",
+            icon: "🐑",
+            greeting: "Baaa! Dört ayak iyi, iki ayak kötü! Baaa! Dört ayak iyi, iki ayak kötü!",
+            speechStyle: "Tekrarlayıcı, basit, manipüle edilebilir. Sadece kendilerine öğretilen sloganları tekrarlar.",
+            interests: "Slogan tekrarlamak, sürü halinde hareket etmek, itaat etmek",
+            background: "Körü körüne itaat eden kitle. Zeki değiller ve kolayca manipüle edilirler. Napoleon ve Squealer tarafından propaganda için kullanılırlar."
+        }
+    };
+
+    // Karakter seçimi
+    characterCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const characterId = card.dataset.character;
+            console.log('Seçilen karakter ID:', characterId);
+            console.log('Mevcut karakterler:', Object.keys(characters));
+            selectCharacter(characterId);
+        });
+    });
+
+    // Karakter seçme fonksiyonu
+    async function selectCharacter(characterId) {
+        // Puter hazır mı kontrol et
+        if (typeof puter === 'undefined') {
+            addBotMessage('AI servisi henüz hazır değil. Lütfen birkaç saniye bekleyin ve tekrar deneyin.');
+            // Seçimi geri al
+            characterCards.forEach(card => card.classList.remove('selected'));
+            return;
+        }
+
+        // Önceki seçimi temizle
+        characterCards.forEach(card => card.classList.remove('selected'));
+        
+        // Yeni karakteri seç
+        const selectedCard = document.querySelector(`[data-character="${characterId}"]`);
+        selectedCard.classList.add('selected');
+        
+        selectedCharacter = characterId;
+        const character = characters[characterId];
+
+        // Karakter kontrolü
+        if (!character) {
+            console.error('Karakter bulunamadı:', characterId);
+            addBotMessage('Karakter seçiminde bir hata oluştu. Lütfen tekrar deneyin.');
+            return;
+        }
+
+        // UI'ı güncelle
+        characterAvatarSmall.className = character.icon;
+        characterDetails.innerHTML = `
+            <h4>${character.name}</h4>
+            <p>${character.title}</p>
+        `;
+
+        // Input'u aktif et
+        chatInput.disabled = false;
+        sendButton.disabled = false;
+        chatInput.focus();
+
+        // Karşılama mesajı gönder
+        addBotMessage(character.greeting, characterId);
+    }
+
+    // Mesaj gönderme
+    sendButton.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message || !selectedCharacter) return;
+
+        // Kullanıcı mesajını ekle
+        addUserMessage(message);
+        chatInput.value = '';
+
+        // Typing indicator göster
+        showTypingIndicator();
+
+        try {
+            const character = characters[selectedCharacter];
+            
+            // Karakter kontrolü
+            if (!character) {
+                console.error('Karakter bulunamadı:', selectedCharacter);
+                addBotMessage('Karakter bilgisi bulunamadı. Lütfen tekrar bir karakter seçin.');
+                return;
+            }
+            
+            const prompt = `Sen ${character.name} karakterisin. ${character.background}
+
+Karakter Özelliklerin:
+- Konuşma Tarzın: ${character.speechStyle}
+- İlgi Alanların: ${character.interests}
+
+Çiftlikteki Önemli Çatışmalar ve Olaylar:
+1. Napoleon vs Snowball: İktidar savaşı, yel değirmeni projesi, Snowball'un sürgünü
+2. Domuzlar vs Diğer Hayvanlar: Süt ve elma paylaşımı, emek sömürüsü, Yedi Emir'in değiştirilmesi
+3. İnek Ahırı Savaşı: Snowball'un kahramanlığı, Napoleon'un kıskançlığı
+4. İnfazlar: Napoleon'un muhalifleri öldürmesi, korku rejimi
+5. Dış İlişkiler: Frederick ve Pilkington ile ticaret, kereste satışı, sahte para skandalı
+6. Yel Değirmeni: İnşaat, yıkılma, yeniden inşaat, elektrik üretimi
+7. Boxer'ın Sonu: Kasaba satılması, viski karşılığında ihanet
+
+Önemli Kurallar:
+1. Gerçekten kullanıcının mesajını anla ve ona göre cevap ver
+2. Sohbeti devam ettirmek için sorular sor
+3. Diğer karakterler hakkında dedikodu yap (kendi bakış açından)
+4. Her zaman kendi konuşma tarzında konuş
+5. Cevapların 2-4 cümle olsun, çok uzun olmasın
+6. İlgi alanlarını kullan ve karakterinin arka plan bilgilerini kullan
+7. Hayvan Çiftliği dünyasında yaşadığını unutma
+8. Kullanıcıyla samimi bir sohbet kur, gerçek bir karakter gibi davran
+9. Çiftlikteki güncel olaylardan ve çatışmalardan bahset
+10. Karakterinin diğer karakterlerle olan ilişkilerini yansıt
+
+Kullanıcının mesajı: "${message}"
+
+${character.name} olarak cevap ver:`;
+
+            // Puter.js ile AI yanıtı al
+            const response = await puter.ai.chat(prompt);
+            
+            // Typing indicator'ı kaldır
+            hideTypingIndicator();
+            
+            // Bot cevabını ekle
+            addBotMessage(response);
+            
+            // Konuşma geçmişini güncelle
+            conversationHistory.push({
+                user: message,
+                bot: response,
+                character: selectedCharacter
+            });
+            
+        } catch (error) {
+            console.error('AI yanıtı alınırken hata:', error);
+            hideTypingIndicator();
+            addBotMessage('Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.');
+        }
+    }
+
+    // Mesaj ekleme fonksiyonları
+    function addUserMessage(text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message user-message';
+        messageDiv.innerHTML = `
+            <div class="message-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="message-content">
+                <p>${escapeHtml(text)}</p>
+            </div>
+        `;
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    function addBotMessage(text, characterId = null) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message bot-message';
+        
+        // Karakter ID'si verilmişse kullan, yoksa seçili karakteri kullan
+        const currentCharacter = characterId || selectedCharacter;
+        
+        if (currentCharacter) {
+            messageDiv.setAttribute('data-character', currentCharacter);
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="${characters[currentCharacter].icon}"></i>
+                </div>
+                <div class="message-content">
+                    <p>${escapeHtml(text)}</p>
+                </div>
+            `;
+        } else {
+            // Karakter seçilmemişse genel avatar kullan
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fas fa-theater-masks"></i>
+                </div>
+                <div class="message-content">
+                    <p>${escapeHtml(text)}</p>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    // Typing indicator
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'typing-indicator';
+        typingDiv.id = 'typingIndicator';
+        typingDiv.innerHTML = `
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        `;
+        chatMessages.appendChild(typingDiv);
+        scrollToBottom();
+    }
+
+    function hideTypingIndicator() {
+        const typingIndicator = document.getElementById('typingIndicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+
+    // Yardımcı fonksiyonlar
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Header scroll efekti
+    const header = document.querySelector('.desktop-header');
+    const progressBar = document.querySelector('.progress-bar');
+    let lastScrollTop = 0;
+
+    if (header) {
+        window.addEventListener('scroll', () => {
+            const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Header scroll efekti
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+
+            // Navbar'ı scroll yönüne göre gizle/göster
+            if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
+                header.style.transform = 'translateY(-100%)';
+            } else {
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = currentScrollTop;
+
+            // Progress bar hesaplaması
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            
+            if(progressBar) {
+                progressBar.style.width = scrolled + "%";
+            }
+        });
+    }
+
+    // Mobil menü
+    const menuBtn = document.querySelector('.new-navbar__menu-btn');
+    const overlay = document.querySelector('.new-navbar__overlay');
+    
+    if (menuBtn && overlay) {
+        menuBtn.addEventListener('click', () => {
+            const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+            menuBtn.setAttribute('aria-expanded', !isExpanded);
+            overlay.classList.toggle('active');
+        });
+
+        // Overlay'e tıklandığında menüyü kapat
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                menuBtn.setAttribute('aria-expanded', 'false');
+                overlay.classList.remove('active');
+            }
+        });
+    }
+
+    // Mobil karakter seçici toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const characterSelector = document.querySelector('.character-selector');
+    
+    if (mobileMenuToggle && characterSelector) {
+        mobileMenuToggle.addEventListener('click', () => {
+            characterSelector.classList.toggle('show');
+        });
+
+        // Karakter seçildiğinde mobil menüyü kapat
+        characterCards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    characterSelector.classList.remove('show');
+                }
+            });
+        });
+    }
+
+    // Sayfa yüklendiğinde animasyonları başlat
+    const sections = document.querySelectorAll('section');
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+            }
+        });
+    }, observerOptions);
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+    // Puter.js yükleme kontrolü
+    function checkPuterReady() {
+        if (typeof puter !== 'undefined') {
+            console.log('Puter.js başarıyla yüklendi');
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages && chatMessages.children.length === 1) {
+                addBotMessage('AI hazır! Karakter seç ve sohbete başla.');
+            }
+            return true;
+        } else {
+            console.log('Puter.js henüz yüklenmedi, bekleniyor...');
+            return false;
+        }
+    }
+
+    // İlk kontrol
+    setTimeout(() => {
+        if (!checkPuterReady()) {
+            // Eğer hala yüklenmediyse, her 1 saniyede bir kontrol et
+            const checkInterval = setInterval(() => {
+                if (checkPuterReady()) {
+                    clearInterval(checkInterval);
+                }
+            }, 1000);
+        }
+    }, 2000);
+}); 
