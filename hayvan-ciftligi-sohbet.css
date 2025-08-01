@@ -1,5 +1,15 @@
 /* Hayvan Çiftliği Sohbet Sayfası Styles */
 
+/* Mobil için body ve html ayarları */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
 /* Navbar'ı gizle */
 .desktop-header,
 .new-navbar,
@@ -14,13 +24,20 @@
 }
 
 .chat-main {
-    padding-top: 0;
-    margin-top: -20px; /* Sayfayı biraz daha yukarı kaldır */
+    padding: 0;
+    margin: 0;
     min-height: 100vh;
+    height: 100vh;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .chat-container {
@@ -177,6 +194,10 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-shrink: 0;
 }
 
 .header-left {
@@ -271,6 +292,8 @@
     flex-direction: column;
     gap: 20px;
     background: #1a1a1a;
+    min-height: 0;
+    position: relative;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -412,6 +435,10 @@
     padding: 20px 30px;
     border-top: 1px solid #333;
     background: linear-gradient(135deg, #2a2a2a, #1f1f1f);
+    position: sticky;
+    bottom: 0;
+    z-index: 100;
+    flex-shrink: 0;
 }
 
 .chat-input-wrapper {
@@ -523,13 +550,27 @@
 
 @media (max-width: 768px) {
     .chat-main {
-        padding-top: 0;
-        margin-top: -20px; /* Sayfayı biraz daha yukarı kaldır */
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        height: 100vh;
+        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
     
     .chat-container {
         height: 100vh;
         border-radius: 0;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
     }
     
     .selector-header {
@@ -563,10 +604,16 @@
     .chat-messages {
         padding: 20px;
         gap: 15px;
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
     }
     
     .chat-input-container {
         padding: 15px 20px;
+        position: sticky;
+        bottom: 0;
+        background: linear-gradient(135deg, #2a2a2a, #1f1f1f);
     }
     
     .message {
