@@ -286,14 +286,15 @@ html, body {
 /* Chat Messages */
 .chat-messages {
     flex: 1;
-    padding: 30px;
+    padding: 20px 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 12px;
     background: #1a1a1a;
     min-height: 0;
     position: relative;
+    scroll-behavior: smooth;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -314,8 +315,9 @@ html, body {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    max-width: 80%;
+    max-width: 75%;
     animation: messageSlideIn 0.3s ease;
+    margin-bottom: 8px;
 }
 
 .message-header {
@@ -387,19 +389,23 @@ html, body {
 
 .message-content {
     background: #2a2a2a;
-    padding: 15px 20px;
+    padding: 12px 16px;
     border-radius: 18px;
     border: 1px solid #333;
+    line-height: 1.4;
+    word-wrap: break-word;
 }
 
 .message.user-message .message-content {
     background: linear-gradient(135deg, #0d47a1, #1565c0);
     border-color: #1976d2;
+    border-radius: 18px 18px 4px 18px;
 }
 
 .message.bot-message .message-content {
     background: #2a2a2a;
     border-color: #333;
+    border-radius: 18px 18px 18px 4px;
 }
 
 .message-content p {
@@ -430,38 +436,49 @@ html, body {
     justify-content: center;
 }
 
-/* Chat Input */
+/* Chat Input - WhatsApp Standardı */
 .chat-input-container {
-    padding: 20px 30px;
+    padding: 12px 16px;
     border-top: 1px solid #333;
     background: linear-gradient(135deg, #2a2a2a, #1f1f1f);
     position: sticky;
     bottom: 0;
     z-index: 100;
     flex-shrink: 0;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
 }
 
 .chat-input-wrapper {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: center;
+    width: 100%;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 24px;
+    padding: 8px 12px;
+    min-height: 48px;
 }
 
 #chatInput {
     flex: 1;
-    background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 25px;
-    padding: 15px 25px;
+    background: transparent;
+    border: none;
     color: #e0e0e0;
-    font-size: 1rem;
-    transition: all 0.2s ease;
+    font-size: 16px;
+    line-height: 1.4;
+    padding: 8px 0;
+    min-height: 32px;
+    max-height: 120px;
+    resize: none;
+    outline: none;
+    font-family: inherit;
 }
 
 #chatInput:focus {
     outline: none;
-    border-color: var(--bordo);
-    background: #1a1a1a;
 }
 
 #chatInput:disabled {
@@ -471,21 +488,23 @@ html, body {
 
 #chatInput::placeholder {
     color: #808080;
+    font-size: 16px;
 }
 
 #sendButton {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background: linear-gradient(135deg, var(--bordo), #a00030);
     border: none;
     border-radius: 50%;
     color: white;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
 #sendButton:hover:not(:disabled) {
@@ -602,18 +621,34 @@ html, body {
     }
     
     .chat-messages {
-        padding: 20px;
-        gap: 15px;
+        padding: 16px 12px;
+        gap: 8px;
         flex: 1;
         min-height: 0;
         overflow-y: auto;
     }
     
     .chat-input-container {
-        padding: 15px 20px;
+        padding: 8px 12px;
         position: sticky;
         bottom: 0;
         background: linear-gradient(135deg, #2a2a2a, #1f1f1f);
+        min-height: 56px;
+    }
+    
+    .chat-input-wrapper {
+        min-height: 48px;
+        padding: 6px 10px;
+    }
+    
+    #chatInput {
+        font-size: 16px;
+        min-height: 32px;
+    }
+    
+    #sendButton {
+        width: 40px;
+        height: 40px;
     }
     
     .message {
@@ -645,10 +680,11 @@ html, body {
     }
     
     .message {
-        max-width: 95%;
+        max-width: 85%;
     }
     
     .message-content {
-        padding: 12px 16px;
+        padding: 10px 14px;
+        font-size: 15px;
     }
 } 

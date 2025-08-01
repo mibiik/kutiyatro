@@ -162,10 +162,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mesaj gönderme
     sendButton.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', (e) => {
+    
+    // Textarea otomatik yükseklik ayarlaması
+    chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+
+    // Enter tuşu ile gönderme (Shift+Enter ile yeni satır)
+    chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            sendMessage();
+            if (!sendButton.disabled) {
+                sendMessage();
+            }
         }
     });
 
@@ -176,6 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Kullanıcı mesajını ekle
         addUserMessage(message);
         chatInput.value = '';
+        chatInput.style.height = 'auto';
 
         // Typing indicator göster
         showTypingIndicator();
