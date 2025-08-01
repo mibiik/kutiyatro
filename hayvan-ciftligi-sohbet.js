@@ -95,6 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
             speechStyle: "Tekrarlayıcı, basit, manipüle edilebilir. Sadece kendilerine öğretilen sloganları tekrarlar.",
             interests: "Slogan tekrarlamak, sürü halinde hareket etmek, itaat etmek",
             background: "Körü körüne itaat eden kitle. Zeki değiller ve kolayca manipüle edilirler. Napoleon ve Squealer tarafından propaganda için kullanılırlar."
+        },
+        kopekler: {
+            name: "Köpekler",
+            icon: "fas fa-dog",
+            greeting: "Havhav! Havhavhav! Merhaba yoldaş! Havhav nasılsın? Havhavhav!",
+            speechStyle: "Havhav tarzında konuşur. Her kelimenin arasına 'hav' ekler. Coşkulu ve sadık.",
+            interests: "Napoleon'a sadık kalmak, çiftliği korumak, havlamak, koşmak",
+            background: "Napoleon'un sadık korumaları. Küçük yaştan itibaren eğitilmişler ve Napoleon'a körü körüne itaat ederler. Diğer hayvanları korkutmak için kullanılırlar."
         }
     };
 
@@ -170,6 +178,29 @@ document.addEventListener('DOMContentLoaded', () => {
         this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
     });
 
+    // Klavye açıldığında sayfanın en altına scroll
+    chatInput.addEventListener('focus', function() {
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 300);
+    });
+
+    // Viewport yüksekliği değiştiğinde (klavye açıldığında)
+    window.addEventListener('resize', function() {
+        if (document.activeElement === chatInput) {
+            setTimeout(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 100);
+        }
+    });
+
+    // Input'a tıklandığında da sayfanın en altına scroll
+    chatInput.addEventListener('click', function() {
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 100);
+    });
+
     // Enter tuşu ile gönderme (Shift+Enter ile yeni satır)
     chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -202,10 +233,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
+            // Köpekler için özel havhav tarzı konuşma
+            let speechStyle = character.speechStyle;
+            if (selectedCharacter === 'kopekler') {
+                speechStyle = "Havhav tarzında konuşur. Her kelimenin arasına 'hav' ekler. Örnek: 'Merhaba' yerine 'Havmerhaba', 'Nasılsın' yerine 'Havnasılsınhav'. Coşkulu ve sadık.";
+            }
+            
             const prompt = `Sen ${character.name} karakterisin. ${character.background}
 
 Karakter Özelliklerin:
-- Konuşma Tarzın: ${character.speechStyle}
+- Konuşma Tarzın: ${speechStyle}
 - İlgi Alanların: ${character.interests}
 
 Çiftlikteki Önemli Çatışmalar ve Olaylar:
@@ -288,6 +325,19 @@ BÖLÜM 4 - Yozlaşmanın Tamamlanması:
 Kullanıcının mesajı: "${message}"
 
 ${character.name} olarak cevap ver:`;
+
+            // Köpekler için özel talimat
+            if (selectedCharacter === 'kopekler') {
+                prompt += `
+
+ÖNEMLİ: Köpekler olarak konuşurken her kelimenin arasına "hav" ekle. Örnekler:
+- "Merhaba" → "Havmerhaba"
+- "Nasılsın" → "Havnasılsınhav" 
+- "Çok güzel" → "Havçokhav güzelhav"
+- "Napoleon yoldaş" → "Havnapoleonhav yoldaşhav"
+
+Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.`;
+            }
 
             // Puter.js ile AI yanıtı al
             const response = await puter.ai.chat(prompt);
@@ -400,7 +450,9 @@ ${character.name} olarak cevap ver:`;
 
     // Yardımcı fonksiyonlar
     function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 100);
     }
 
     function escapeHtml(text) {
@@ -431,4 +483,9 @@ ${character.name} olarak cevap ver:`;
             }, 1000);
         }
     }, 2000);
+    
+    // Sayfa yüklendiğinde en alta scroll
+    setTimeout(() => {
+        scrollToBottom();
+    }, 1000);
 }); 
