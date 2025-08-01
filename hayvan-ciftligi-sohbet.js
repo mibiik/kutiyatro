@@ -3,11 +3,37 @@
 document.addEventListener('DOMContentLoaded', () => {
     let selectedCharacter = null;
     let conversationHistory = [];
-
+    
+    // Mobil klavye davranışı için
+    let initialViewportHeight = window.innerHeight;
+    
+    // Viewport yüksekliği değiştiğinde (klavye açıldığında/kapandığında)
+    window.addEventListener('resize', () => {
+        const currentHeight = window.innerHeight;
+        const heightDifference = initialViewportHeight - currentHeight;
+        
+        // Klavye açıldığında
+        if (heightDifference > 150) {
+            document.body.style.height = `${currentHeight}px`;
+            document.documentElement.style.height = `${currentHeight}px`;
+        } else {
+            // Klavye kapandığında
+            document.body.style.height = '100vh';
+            document.documentElement.style.height = '100vh';
+        }
+    });
+    
     // DOM elementleri
     const characterCards = document.querySelectorAll('.character-card');
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
+    
+    // Input focus olduğunda scroll'u en alta getir
+    chatInput.addEventListener('focus', () => {
+        setTimeout(() => {
+            scrollToBottom();
+        }, 300);
+    });
     const sendButton = document.getElementById('sendButton');
     const characterSelector = document.getElementById('characterSelector');
     const characterSelectBtn = document.getElementById('characterSelectBtn');
@@ -18,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const characters = {
         napoleon: {
             name: "Napoleon",
-            icon: "fas fa-piggy-bank",
+            icon: "🐷",
             greeting: "Yoldaşlar! Ben Napoleon, çiftliğin lideriyim. Ne konuşmak istiyorsun?",
             speechStyle: "Kısa, emir veren, otoriter ve kurnaz. Genellikle Squealer aracılığıyla konuşur ama bazen doğrudan emirler verir.",
             interests: "Güç, kontrol, iktidar, lüks yaşam, viski, diğer hayvanları manipüle etmek",
@@ -26,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         snowball: {
             name: "Snowball",
-            icon: "fas fa-lightbulb",
+            icon: "🐷",
             greeting: "Merhaba yoldaş! Ben Snowball, devrimin idealist lideriyim. Yel değirmeni projemi duydun mu?",
             speechStyle: "Coşkulu, idealist, hitabet gücü yüksek. Enerjik ve yaratıcı fikirlerle dolu.",
             interests: "Devrim, eğitim, yel değirmeni projesi, hayvanların refahı, eşitlik",
@@ -34,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         squealer: {
             name: "Squealer",
-            icon: "fas fa-bullhorn",
+            icon: "🐷",
             greeting: "Yoldaşlar! Ben Squealer, size gerçekleri anlatmaya geldim. Hiçbiriniz Jones'un geri gelmesini istemezsiniz, değil mi?",
             speechStyle: "İkna edici, manipülatif, cırtlak sesli. Mantık saptırmaları yapar ve gerçekleri çarpıtır.",
             interests: "Propaganda, manipülasyon, yalan söyleme, istatistikler, korku salma",
@@ -42,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         boxer: {
             name: "Boxer",
-            icon: "fas fa-horse",
+            icon: "🐴",
             greeting: "Merhaba yoldaş! Ben Boxer. Daha çok çalışacağım! Napoleon yoldaş ne diyorsa doğrudur.",
             speechStyle: "Sadık, çalışkan, saf. İki temel sloganı var: 'Daha çok çalışacağım' ve 'Napoleon yoldaş her zaman haklıdır'.",
             interests: "Çalışmak, devrime hizmet etmek, Napoleon'a sadık kalmak, çiftliğin başarısı",
@@ -50,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         clover: {
             name: "Clover",
-            icon: "fas fa-heart",
+            icon: "🐴",
             greeting: "Merhaba! Ben Clover. Boxer'ın en yakın dostuyum. Çiftlikte neler olup bittiğini merak ediyorum...",
             speechStyle: "Anaç, şefkatli, sezgileri güçlü. Domuzların yalan söylediğini hisseder ama ifade edemez.",
             interests: "Diğer hayvanları korumak, Boxer'ın sağlığı, adil düzen, annelik",
@@ -58,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         molly: {
             name: "Molly",
-            icon: "fas fa-gem",
+            icon: "🐴",
             greeting: "Oh, merhaba! Ben Molly. Kurdelelerimi ve şekerlerimi özledim... Eski günlerde çok daha güzeldi.",
             speechStyle: "Süslü, bencil, lükse düşkün. Zorluklara gelemez ve konforlu hayatı özler.",
             interests: "Kurdeleler, şeker, lüks, konfor, eski hayat, tembellik",
@@ -66,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         benjamin: {
             name: "Benjamin",
-            icon: "fas fa-donkey",
+            icon: "🦙",
             greeting: "Hmm... Ben Benjamin. Eşekler uzun yaşar. Hiçbiriniz ölü bir eşek görmediniz. Ne istiyorsun?",
             speechStyle: "Alaycı, kötümser, kısa ve öz. Hiçbir şeyin değişmeyeceğine inanır.",
             interests: "Hayatta kalmak, az iş yapmak, politikadan uzak durmak, Boxer'ı korumak",
@@ -74,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         moses: {
             name: "Moses",
-            icon: "fas fa-crow",
+            icon: "🦅",
             greeting: "Kraa! Ben Moses. Balbadem Diyarı'ndan bahsedeyim mi? Orada şeker tepeleri ve kurdele ağaçları var!",
             speechStyle: "Kurnaz, yalancı, vaatlerle dolu. Hiç iş yapmaz ama cennet vaatleri verir.",
             interests: "Balbadem Diyarı, cennet vaatleri, rahat yaşam, bira içmek",
@@ -82,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         mrjones: {
             name: "Mr. Jones",
-            icon: "fas fa-user-tie",
+            icon: "👨",
             greeting: "Hiccup! Ben Mr. Jones, bu çiftliğin sahibiyim! Hayvanlar beni özledi mi? Viski nerede?",
             speechStyle: "Sarhoş, sorumsuz, ihmalkar. Hayvanlara kötü davranır ve çiftliği bakımsız bırakır.",
             interests: "Viski içmek, rahat yaşamak, çiftliği geri almak, hayvanları sömürmek",
@@ -90,24 +116,21 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         koyunlar: {
             name: "Koyunlar",
-            icon: "fas fa-sheep",
+            icon: "🐑",
             greeting: "Baaa! Dört ayak iyi, iki ayak kötü! Baaa! Dört ayak iyi, iki ayak kötü!",
             speechStyle: "Tekrarlayıcı, basit, manipüle edilebilir. Sadece kendilerine öğretilen sloganları tekrarlar.",
             interests: "Slogan tekrarlamak, sürü halinde hareket etmek, itaat etmek",
             background: "Körü körüne itaat eden kitle. Zeki değiller ve kolayca manipüle edilirler. Napoleon ve Squealer tarafından propaganda için kullanılırlar."
-        },
-        kopekler: {
-            name: "Köpekler",
-            icon: "fas fa-dog",
-            greeting: "Havhav! Havhavhav! Merhaba yoldaş! Havhav nasılsın? Havhavhav!",
-            speechStyle: "Havhav tarzında konuşur. Her kelimenin arasına 'hav' ekler. Coşkulu ve sadık.",
-            interests: "Napoleon'a sadık kalmak, çiftliği korumak, havlamak, koşmak",
-            background: "Napoleon'un sadık korumaları. Küçük yaştan itibaren eğitilmişler ve Napoleon'a körü körüne itaat ederler. Diğer hayvanları korkutmak için kullanılırlar."
         }
     };
 
     // Karakter seçici toggle
     characterSelectBtn.addEventListener('click', () => {
+        characterSelector.classList.add('show');
+    });
+    
+    // Karakter bilgisi alanına tıklandığında da karakter seçiciyi aç
+    selectedCharacterInfo.addEventListener('click', () => {
         characterSelector.classList.add('show');
     });
 
@@ -151,12 +174,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // UI'ı güncelle
-        const characterAvatarSmall = selectedCharacterInfo.querySelector('.character-avatar-small i');
+        const characterAvatarSmall = selectedCharacterInfo.querySelector('.character-avatar-small span');
         const characterDetails = selectedCharacterInfo.querySelector('.character-details');
         
-        characterAvatarSmall.className = character.icon;
+        characterAvatarSmall.textContent = character.icon;
         characterDetails.innerHTML = `
             <h3>${character.name}</h3>
+            <p>Değiştirmek için tıkla</p>
         `;
 
         // Input'u aktif et
@@ -170,79 +194,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mesaj gönderme
     sendButton.addEventListener('click', sendMessage);
-    
-    // Textarea otomatik yükseklik ayarlaması
-    chatInput.addEventListener('input', function() {
-        this.style.height = 'auto';
-        const maxHeight = window.innerWidth <= 768 ? 60 : 120;
-        this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
-    });
-
-    // Klavye durumu takibi
-    let isKeyboardOpen = false;
-    let initialViewportHeight = window.innerHeight;
-
-    // Klavye açıldığında input alanının klavyenin üzerine çıkması
-    chatInput.addEventListener('focus', function() {
-        isKeyboardOpen = true;
-        document.querySelector('.chat-input-container').classList.add('keyboard-open');
-        document.querySelector('.chat-messages').classList.add('keyboard-open');
-        
-        setTimeout(() => {
-            scrollToBottom();
-        }, 300);
-    });
-
-    // Klavye kapandığında normal duruma dön
-    chatInput.addEventListener('blur', function() {
-        isKeyboardOpen = false;
-        document.querySelector('.chat-input-container').classList.remove('keyboard-open');
-        document.querySelector('.chat-messages').classList.remove('keyboard-open');
-    });
-
-    // Viewport yüksekliği değiştiğinde (klavye açıldığında)
-    window.addEventListener('resize', function() {
-        const currentHeight = window.innerHeight;
-        const heightDifference = initialViewportHeight - currentHeight;
-        
-        // Klavye açıldığında (viewport küçüldüğünde)
-        if (heightDifference > 150 && document.activeElement === chatInput) {
-            isKeyboardOpen = true;
-            document.querySelector('.chat-input-container').classList.add('keyboard-open');
-            document.querySelector('.chat-messages').classList.add('keyboard-open');
-            
-            setTimeout(() => {
-                scrollToBottom();
-            }, 100);
-        }
-        // Klavye kapandığında (viewport büyüdüğünde)
-        else if (heightDifference < 50 && isKeyboardOpen) {
-            isKeyboardOpen = false;
-            document.querySelector('.chat-input-container').classList.remove('keyboard-open');
-            document.querySelector('.chat-messages').classList.remove('keyboard-open');
-        }
-    });
-
-    // Input'a tıklandığında da klavye açılsın
-    chatInput.addEventListener('click', function() {
-        if (!isKeyboardOpen) {
-            isKeyboardOpen = true;
-            document.querySelector('.chat-input-container').classList.add('keyboard-open');
-            document.querySelector('.chat-messages').classList.add('keyboard-open');
-        }
-        
-        setTimeout(() => {
-            scrollToBottom();
-        }, 100);
-    });
-
-    // Enter tuşu ile gönderme (Shift+Enter ile yeni satır)
-    chatInput.addEventListener('keydown', (e) => {
+    chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            if (!sendButton.disabled) {
-                sendMessage();
-            }
+            sendMessage();
         }
     });
 
@@ -253,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Kullanıcı mesajını ekle
         addUserMessage(message);
         chatInput.value = '';
-        chatInput.style.height = 'auto';
 
         // Typing indicator göster
         showTypingIndicator();
@@ -268,82 +222,73 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Köpekler için özel havhav tarzı konuşma
-            let speechStyle = character.speechStyle;
-            if (selectedCharacter === 'kopekler') {
-                speechStyle = "Havhav tarzında konuşur. Her kelimenin arasına 'hav' ekler. Örnek: 'Merhaba' yerine 'Havmerhaba', 'Nasılsın' yerine 'Havnasılsınhav'. Coşkulu ve sadık.";
-            }
-            
             const prompt = `Sen ${character.name} karakterisin. ${character.background}
 
 Karakter Özelliklerin:
-- Konuşma Tarzın: ${speechStyle}
+- Konuşma Tarzın: ${character.speechStyle}
 - İlgi Alanların: ${character.interests}
 
-Çiftlikteki Önemli Çatışmalar ve Olaylar:
-1. Napoleon vs Snowball: İktidar savaşı, yel değirmeni projesi, Snowball'un sürgünü
-2. Domuzlar vs Diğer Hayvanlar: Süt ve elma paylaşımı, emek sömürüsü, Yedi Emir'in değiştirilmesi
-3. İnek Ahırı Savaşı: Snowball'un kahramanlığı, Napoleon'un kıskançlığı
-4. İnfazlar: Napoleon'un muhalifleri öldürmesi, korku rejimi
-5. Dış İlişkiler: Frederick ve Pilkington ile ticaret, kereste satışı, sahte para skandalı
-6. Yel Değirmeni: İnşaat, yıkılma, yeniden inşaat, elektrik üretimi
-7. Boxer'ın Sonu: Kasaba satılması, viski karşılığında ihanet
+ÇİFTLİKTEKİ 50 OLAY - TÜM KARAKTERLER BUNLARDAN HABERDAR:
 
-Detaylı Kronoloji ve Olaylar:
-BÖLÜM 1 - Devrimin Şafağı:
-- Koca Reis'in rüyası ve hayvanlara anlattığı vizyon
-- Bay Jones'un hayvanları beslemeyi unutması ve beklenmedik isyan
-- Yedi Emir'in ahır duvarına yazılması
-- Kayıp süt vakası - sütün gizemli şekilde kaybolması
-- İnek Ahırı Savaşı ve zafer
-- Madalya töreni - Boxer ve Snowball'a kahramanlık madalyası
-- Mollie'nin şeker alması ve sorgusu
-- Okuma yazma dersleri - farklı hayvanların öğrenme yetenekleri
-- Boynuz ve Toynak bayrağının göndere çekilmesi
-- Çiftlik evinin müze olarak gezilmesi
+BÖLÜM 1 - Devrimin Şafağı (1-10):
+1. Koca Reis'in Rüyası: Koca Reis, ahırda toplanmış hayvanlara rüyasını anlatır. Boxer en önde huşu içinde dinlerken, Mollie bir parça şekerin hayalini kurar, kedi ise en sıcak yeri bulmuş uyuklamaktadır.
+2. Beklenmedik İsyan: Bay Jones hayvanları beslemeyi unuttuğunda, bir inek kapıyı kırar ve kaos başlar. Hayvanların şaşkınlığı, açlığı ve ardından gelen kolektif öfkesi.
+3. Yedi Emir'in Yazılışı: Snowball ve Napoleon, ahırın duvarına Yedi Emir'i yazarlar. "Hiçbir hayvan yatakta yatmayacak" maddesi üzerinde kısa bir an duraksarlar.
+4. Kayıp Süt Vakası: İnekler sağıldıktan sonra süt kovaları ortada kalır. Napoleon, herkesin dikkatini hasada çeker ve geri döndüklerinde süt gizemli bir şekilde "kaybolmuştur".
+5. İnek Ahırı Savaşı: Snowball'un zekice hazırladığı pusu planı işe yarar. İnsanlar paniğe kapılırken, Boxer'ın gücü ve Snowball'un liderliğiyle zafer kazanılır.
+6. Madalya Töreni: Savaştan sonra Boxer ve Snowball'a "Birinci Derece Hayvan Kahramanı" madalyası verilir. Napoleon ise kendine de aynı madalyadan verir.
+7. Mollie'nin Sorgusu: Clover, Mollie'yi komşu çiftlikten bir adamla konuşurken ve ondan şeker alırken gördüğünü söyler. Mollie inkâr eder ama suçluluğu her halinden bellidir.
+8. Okuma Yazma Dersleri: Snowball, hayvanlara okuma yazma öğretmeye çalışır. Muriel ve Benjamin hemen öğrenirken, Boxer sadece A, B, C, D harflerini öğrenebilir. Koyunlar ise tek bir sloganı ezberler.
+9. Boynuz ve Toynak: Çiftliğin yeni bayrağı göndere çekilir. Hayvanlar, yeşil zemin üzerindeki beyaz toynak ve boynuza gururla bakarlar.
+10. Müze Olarak Çiftlik Evi: Hayvanlar, devrimden sonra çiftlik evini bir müze gibi gezerler. Yataklara dokunmaktan, sandalyelere oturmaktan korkarlar.
 
-BÖLÜM 2 - Güç Mücadelesi:
-- Yel değirmeni tartışması - Snowball'un planları vs Napoleon'un karşı çıkması
-- Koyunların gizli provası - slogan tekrarlama eğitimi
-- Snowball'un sürgünü - dokuz vahşi köpeğin ortaya çıkması
-- Pazar toplantılarının sona ermesi
-- Squealer'ın yel değirmeninin Napoleon'un fikri olduğunu açıklaması
-- Bay Whymper'ın ilk ziyareti
-- Boş varillerin kumla doldurulması
-- Domuzların çiftlik evine taşınması ve çarşaf meselesi
-- Fırtınada yel değirmeninin yıkılması
-- Tavukların yumurta satışına isyanı ve bastırılması
+BÖLÜM 2 - Güç Mücadelesi ve İlk Çatlaklar (11-20):
+11. Yel Değirmeni Tartışması: Snowball, yel değirmeni planlarını coşkuyla anlatır. Napoleon ise hiç konuşmaz, sadece planların üzerine küçümseyerek işer.
+12. Koyunların Provası: Napoleon, koyunlara "Dört ayak iyi, iki ayak kötü" sloganını kritik anlarda hep bir ağızdan bağırmaları için gizlice eğitim verir.
+13. Sürgün: Yel değirmeni oylaması Snowball'un lehine dönerken, Napoleon'un yetiştirdiği dokuz vahşi köpek ortaya çıkar ve Snowball'u çiftlikten can havliyle kovar.
+14. Pazar Toplantılarının Sonu: Snowball kovulduktan sonra Napoleon, artık tartışma ve oylama olmayacağını, tüm kararları özel bir domuz komitesinin alacağını duyurur.
+15. Liderliğin Taktikleri: Squealer, hayvanlara yel değirmeninin aslında Napoleon'un fikri olduğunu ve Snowball'un planları çaldığını açıklar. Napoleon'un karşı çıkmasının sadece bir "taktik" olduğunu söyler.
+16. Bay Whymper'ın İlk Ziyareti: Hayvanlar, insan bir arabulucu olan Bay Whymper'ı çiftlikte gördüklerinde rahatsızlık ve korkuyla birbirlerine bakarlar.
+17. Boş Varillerin Sırrı: Whymper'ı her şeyin yolunda olduğuna ikna etmek için, boş yem varilleri kumla doldurulur ve üzerine ince bir tabaka yem konur.
+18. Çarşaf Meselesi: Domuzlar çiftlik evine taşındığında, yatakta yatmama kuralını çiğnedikleri fark edilir. Squealer, kuralın aslında "çarşaflı yatakta" yatmayı yasakladığını söyler.
+19. Fırtına ve Günah Keçisi: Yel değirmeni bir fırtınada yıkıldığında, Napoleon anında ortaya çıkar ve bunun Snowball'un sabotajı olduğunu ilan eder.
+20. Tavukların İsyanı: Yumurtalarının satılmasına karşı çıkan tavuklar, çatıya tünerek isyan eder. Napoleon, onlara yem verilmesini yasaklayarak isyanı vahşice bastırır.
 
-BÖLÜM 3 - Terör ve Totaliter Rejim:
-- İtiraflar ve infazlar - köpeklerin muhalifleri parçalaması
-- "İngiltere'nin Hayvanları" marşının yasaklanması
-- Minimus'un "Yoldaş Napoleon" şiiri
-- Kereste diplomasisi - Frederick ve Pilkington arasında oynama
-- Sahte para skandalı
-- Frederick'in saldırısı ve yel değirmeninin patlatılması
-- Viski vakası - domuzların sarhoş olması
-- "Alkol içmeme" kuralının gece yarısı değiştirilmesi
-- Spontane gösteriler - zorunlu kutlamalar
-- Tek adaylı seçim - Napoleon'un başkan seçilmesi
-- Moses'ın geri dönüşü ve Balbadem Diyarı masalları
-- Boxer'ın hastalanması ve yere yığılması
-- Kasabın arabası ve Benjamin'in uyarısı
-- Squealer'ın Boxer'ın hastanede öldüğü yalanı
-- Boxer'ın anısına viski şöleni
+BÖLÜM 3 - Terör ve Totaliter Rejim (21-35):
+21. İtiraflar ve İnfazlar: Napoleon, Snowball ile işbirliği yaptığını "itiraf eden" dört domuzu ve diğer hayvanları köpeklerine parçalatır. Çiftlikte korku ve dehşet hakim olur.
+22. Yasaklanan Marş: İnfazların ardından Squealer, "İngiltere'nin Hayvanları" marşının artık yasaklandığını duyurur, çünkü "daha iyi bir toplum" olan isyanın amacı gerçekleşmiştir.
+23. Yoldaş Napoleon'a Şiir: Şair Minimus tarafından yazılan ve Napoleon'u öven "Yoldaş Napoleon" şiiri, Yedi Emir'in yanına büyük harflerle yazılır.
+24. Kereste Diplomasisi: Napoleon, kereste yığınını satmak için komşu çiftçiler Frederick ve Pilkington'u birbirine karşı oynar. Her hafta farklı bir çiftçi hakkında korkunç dedikodular yayar.
+25. Sahte Paralar: Napoleon, keresteyi Frederick'e sattıktan sonra paraların sahte olduğunu anlar. Öfkesi korkunçtur.
+26. Yel Değirmeninin Yıkılışı: Frederick ve adamları çiftliğe saldırır ve büyük zorluklarla yeniden inşa edilen yel değirmenini patlatarak yerle bir ederler.
+27. Viski Vakası: Domuzlar, mahzende bir kasa viski bulur ve körkütük sarhoş olurlar. Ertesi gün, Napoleon'un ölmek üzere olduğu haberi yayılır.
+28. Gecenin Bir Yarısı Düzeltme: Gece yarısı ahırdan bir gürültü gelir. Hayvanlar, Squealer'ı devrilmiş bir merdivenin yanında, elinde fırça ve beyaz boyayla yatarken bulurlar. "Alkol içmeme" kuralı değiştirilmiştir.
+29. Zorunlu Kutlama: Hayvanların artan sefaletini ve azalan yemlerini unutturmak için "Spontane Gösteriler" adı verilen, haftalık zorunlu yürüyüşler ve kutlamalar düzenlenir.
+30. Tek Adaylı Seçim: Hayvan Çiftliği bir cumhuriyet ilan edilir ve başkanlık seçimi yapılır. Tek aday olan Napoleon, oybirliğiyle başkan seçilir.
+31. Moses'ın Geri Dönüşü: Yıllar sonra evcil kuzgun Moses geri döner. Domuzlar onun "Balbadem Diyarı" masallarını kınasa da, ona her gün bir bardak bira vererek çiftlikte kalmasına izin verirler.
+32. Boxer'ın Düşüşü: Boxer, yel değirmeninde çalışırken akciğerleri iflas eder ve yere yığılır.
+33. Kasabın Arabası: Boxer'ı "hastaneye" götürmek için bir araba gelir. Ancak Benjamin, arabanın üzerinde "At Kasabı ve Tutkal İmalatçısı" yazdığını okuduğunda dehşet içinde bağırır.
+34. Hastanenin Yalanı: Squealer, hayvanlara Boxer'ın hastanede tüm ilgiyi gördüğünü ve son sözlerinin "Yaşasın Yoldaş Napoleon!" olduğunu anlatan dokunaklı ve tamamen uydurma bir hikaye anlatır.
+35. Boxer'ın Anısına Şölen: Domuzlar, Boxer'dan gelen parayla bir kasa viski daha alır ve onun "anısına" bir şölen düzenlerler.
 
-BÖLÜM 4 - Yozlaşmanın Tamamlanması:
-- Devrimin unutulması - yeni nesil hayvanlar
-- Squealer'ın iki ayak üzerinde yürümesi
-- Domuzların kırbaçla dışarı çıkması
-- Yeni slogan: "Dört ayak iyi, iki ayak DAHA iyi!"
-- Tek kalan emir: "Bütün hayvanlar eşittir ama bazı hayvanlar daha eşittir"
-- Çiftçiler heyetinin ziyareti
-- Çiftliğin adının "Beylik Çiftlik" olarak değiştirilmesi
-- İskambil oyunu - domuzlar ve insanlar
-- Hilekârlık - maça ası kavgası
-- Penceredeki yüzler - kimin domuz kimin insan olduğunun ayırt edilememesi
+BÖLÜM 4 - Yozlaşmanın Tamamlanması (36-50):
+36. Unutulan Devrim: Yıllar geçer, devrimi hatırlayan çok az hayvan kalmıştır. Çiftlik daha zengindir ama bu zenginlik sadece domuzlar ve köpekler içindir.
+37. İki Ayak Üstünde: Bir gün hayvanlar, ahırdan çıkan Squealer'ı şok içinde iki ayağı üzerinde yürürken görürler.
+38. Kırbaç: Ardından diğer domuzlar da iki ayak üzerinde yürüyerek dışarı çıkar. Napoleon'un elinde bir kırbaç vardır.
+39. Dört Ayak İyi, İki Ayak DAHA İyi!: Tam o anda, koyunlar hep bir ağızdan yeni sloganlarını bağırmaya başlar: "Dört ayak iyi, iki ayak DAHA iyi!"
+40. Tek Kalan Emir: Clover, Benjamin'den duvarı okumasını ister. Duvardaki yedi emrin hepsi silinmiş, yerine tek bir emir yazılmıştır: "BÜTÜN HAYVANLAR EŞİTTİR AMA BAZI HAYVANLAR DİĞERLERİNDEN DAHA EŞİTTİR."
+41. Çiftçiler Heyeti: Komşu çiftliklerden bir heyet, Hayvan Çiftliği'ni gezmeye gelir. Napoleon, kendi hayvanlarını ne kadar az yemle ne kadar çok çalıştırdığını gururla anlatır.
+42. Kadeh Tostu: Napoleon, çiftliğin adının yeniden "Beylik Çiftlik" olduğunu duyurur ve insanlarla dostluk şerefine kadeh kaldırır.
+43. İskambil Oyunu: Akşam yemeğinden sonra domuzlar ve insanlar iskambil oynamaya başlarlar.
+44. Hilekârlar: Hem Napoleon hem de Bay Pilkington, aynı anda masaya maça ası atınca hararetli bir kavga patlak verir.
+45. Penceredeki Yüzler: Dışarıdaki hayvanlar, pencereden içeri bakarlar. İçeride kimin domuz, kimin insan olduğunu ayırt edemezler.
+46. Benjamin'in Haklılığı: Benjamin, kavga eden yüzlere bakar. Hayatında ilk defa haklı çıkmanın getirdiği acı bir tatminle sessizce olanları izler.
+47. Unutulmuş Mezar: Koca Reis'in gömülü olduğu elma bahçesindeki yer artık kimse tarafından hatırlanmamaktadır.
+48. Clover'ın Yaşlılığı: Yaşlı kısrak Clover, devrimin hayallerinin nasıl yok olduğunu düşünür. Genç hayvanlar ise onun anlattıklarını anlamaz.
+49. Yeni Nesil: Devrimden sonra doğan hayvanlar, Jones'u, isyanı ve eski ilkeleri sadece birer masal olarak bilirler.
+50. Son Bakış: Pencereden görünen kavgacı yüzlerle döngü tamamlanmış, ezenler sadece isim değiştirmiştir.
 
-Önemli Kurallar:
+ÖNEMLİ KURALLAR:
 1. Gerçekten kullanıcının mesajını anla ve ona göre cevap ver
 2. Sohbeti devam ettirmek için sorular sor
 3. Diğer karakterler hakkında dedikodu yap (kendi bakış açından)
@@ -355,24 +300,12 @@ BÖLÜM 4 - Yozlaşmanın Tamamlanması:
 9. Çiftlikteki güncel olaylardan ve çatışmalardan bahset
 10. Karakterinin diğer karakterlerle olan ilişkilerini yansıt
 11. Yukarıdaki 50 olaydan herhangi birini kullan ve karakterinin o olaydaki rolünü anlat
-12. Kronolojik sıraya dikkat et - henüz olmamış olaylardan bahsetme
+13. Bu 50 olaydan herhangi birini doğal bir şekilde sohbete dahil et
+14. Karakterinin bu olaylardaki deneyimini ve duygularını paylaş
 
 Kullanıcının mesajı: "${message}"
 
 ${character.name} olarak cevap ver:`;
-
-            // Köpekler için özel talimat
-            if (selectedCharacter === 'kopekler') {
-                prompt += `
-
-ÖNEMLİ: Köpekler olarak konuşurken her kelimenin arasına "hav" ekle. Örnekler:
-- "Merhaba" → "Havmerhaba"
-- "Nasılsın" → "Havnasılsınhav" 
-- "Çok güzel" → "Havçokhav güzelhav"
-- "Napoleon yoldaş" → "Havnapoleonhav yoldaşhav"
-
-Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.`;
-            }
 
             // Puter.js ile AI yanıtı al
             const response = await puter.ai.chat(prompt);
@@ -402,16 +335,11 @@ Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message user-message';
         messageDiv.innerHTML = `
-            <div class="message-header">
-                <span class="message-sender">Sen</span>
+            <div class="message-avatar">
+                <i class="fas fa-user"></i>
             </div>
-            <div class="message-content-wrapper">
-                <div class="message-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="message-content">
-                    <p>${escapeHtml(text)}</p>
-                </div>
+            <div class="message-content">
+                <p>${escapeHtml(text)}</p>
             </div>
         `;
         chatMessages.appendChild(messageDiv);
@@ -427,33 +355,22 @@ Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.
         
         if (currentCharacter) {
             messageDiv.setAttribute('data-character', currentCharacter);
-            const character = characters[currentCharacter];
             messageDiv.innerHTML = `
-                <div class="message-header">
-                    <span class="message-sender">${character.name}</span>
+                <div class="message-avatar">
+                    <span>${characters[currentCharacter].icon}</span>
                 </div>
-                <div class="message-content-wrapper">
-                    <div class="message-avatar">
-                        <i class="${character.icon}"></i>
-                    </div>
-                    <div class="message-content">
-                        <p>${escapeHtml(text)}</p>
-                    </div>
+                <div class="message-content">
+                    <p>${escapeHtml(text)}</p>
                 </div>
             `;
         } else {
             // Karakter seçilmemişse genel avatar kullan
             messageDiv.innerHTML = `
-                <div class="message-header">
-                    <span class="message-sender">Sistem</span>
+                <div class="message-avatar">
+                    <span>🎭</span>
                 </div>
-                <div class="message-content-wrapper">
-                    <div class="message-avatar">
-                        <i class="fas fa-theater-masks"></i>
-                    </div>
-                    <div class="message-content">
-                        <p>${escapeHtml(text)}</p>
-                    </div>
+                <div class="message-content">
+                    <p>${escapeHtml(text)}</p>
                 </div>
             `;
         }
@@ -485,9 +402,7 @@ Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.
 
     // Yardımcı fonksiyonlar
     function scrollToBottom() {
-        setTimeout(() => {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 100);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
     function escapeHtml(text) {
@@ -500,6 +415,10 @@ Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.
     function checkPuterReady() {
         if (typeof puter !== 'undefined') {
             console.log('Puter.js başarıyla yüklendi');
+            const chatMessages = document.getElementById('chatMessages');
+            if (chatMessages && chatMessages.children.length === 1) {
+                addBotMessage('AI hazır! Sol üstteki butona tıklayarak bir karakter seç ve sohbete başla.');
+            }
             return true;
         } else {
             console.log('Puter.js henüz yüklenmedi, bekleniyor...');
@@ -507,20 +426,19 @@ Her cümlede en az 3-4 "hav" olmalı. Coşkulu ve sadık bir köpek gibi konuş.
         }
     }
 
-    // İlk kontrol
+    // Sayfa yüklendiğinde karakter seçimini otomatik aç
     setTimeout(() => {
-        if (!checkPuterReady()) {
-            // Eğer hala yüklenmediyse, her 1 saniyede bir kontrol et
+        if (checkPuterReady()) {
+            // Karakter seçiciyi otomatik aç
+            characterSelector.classList.add('show');
+        } else {
+            // Puter hazır değilse, hazır olduğunda aç
             const checkInterval = setInterval(() => {
                 if (checkPuterReady()) {
                     clearInterval(checkInterval);
+                    characterSelector.classList.add('show');
                 }
             }, 1000);
         }
-    }, 2000);
-    
-    // Sayfa yüklendiğinde en alta scroll
-    setTimeout(() => {
-        scrollToBottom();
     }, 1000);
 }); 

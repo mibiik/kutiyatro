@@ -1,13 +1,5 @@
 /* Hayvan Çiftliği Chatbot Styles */
 
-:root {
-    --bordo: #800020;
-    --text-color: #ffffff;
-    --gri: #cccccc;
-    --heading-font: 'Playfair Display', serif;
-    --body-font: 'Poppins', sans-serif;
-}
-
 .chatbot-main {
     padding-top: 80px;
     min-height: 100vh;
@@ -69,9 +61,6 @@
 
 .hero-cta {
     margin-top: 40px;
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
 }
 
 .chat-start-btn {
@@ -96,15 +85,6 @@
     border-color: rgba(255, 255, 255, 0.2);
     color: white;
     text-decoration: none;
-}
-
-.chat-start-btn.multi-chat {
-    background: linear-gradient(135deg, #2d5a2d, #1a4a1a);
-    box-shadow: 0 8px 25px rgba(45, 90, 45, 0.3);
-}
-
-.chat-start-btn.multi-chat:hover {
-    box-shadow: 0 12px 35px rgba(45, 90, 45, 0.4);
 }
 
 .chat-start-btn i {
