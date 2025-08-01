@@ -287,12 +287,17 @@ optimizeForMobile();
 
 // PWA-like features
 function initPWAFeatures() {
-    // Service worker for caching (opsiyonel)
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js').catch(() => {
-            // Sessizce başarısız ol
-        });
-    }
+    // Service worker for caching (opsiyonel) - Chrome extension hatalarını önlemek için devre dışı
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker.register('/sw.js').catch((error) => {
+    //         // Chrome extension hatalarını görmezden gel
+    //         if (error.message && error.message.includes('chrome-extension')) {
+    //             console.log('Service Worker: Chrome extension hatası görmezden gelindi');
+    //             return;
+    //         }
+    //         console.log('Service Worker kaydı başarısız:', error);
+    //     });
+    // }
     
     // Add to homescreen hint
     let deferredPrompt;

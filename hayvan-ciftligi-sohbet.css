@@ -13,6 +13,13 @@ html, body {
     overflow: hidden;
 }
 
+/* Mobil klavye davranışı için */
+@supports (height: 100dvh) {
+    html, body {
+        height: 100dvh;
+    }
+}
+
 .chat-main {
     min-height: 100vh;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
@@ -32,6 +39,13 @@ html, body {
     position: relative;
     border: none;
     margin-top: 0;
+}
+
+/* Mobil klavye davranışı için */
+@supports (height: 100dvh) {
+    .chat-container {
+        height: 100dvh;
+    }
 }
 
 /* Karakter Seçici */
@@ -166,6 +180,13 @@ html, body {
     flex-direction: column;
     background: #1a1a1a;
     position: relative;
+}
+
+/* Mobil klavye davranışı için */
+@supports (height: 100dvh) {
+    .chat-interface {
+        height: 100dvh;
+    }
 }
 
 /* Chat Header */
@@ -400,6 +421,71 @@ html, body {
     bottom: 0;
     z-index: 100;
     flex-shrink: 0;
+}
+
+/* Mobil klavye açıldığında input'u klavyenin üstüne sabitle */
+@media (max-width: 768px) {
+    .chat-input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: #1a1a1a;
+        border-top: 1px solid #333;
+        padding: 10px 15px;
+    }
+    
+    /* Klavye açıldığında header'ın görünür kalması */
+    .chat-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1001;
+        background: #1a1a1a;
+        border-bottom: 1px solid #333;
+        padding: 10px 15px;
+    }
+    
+    /* Mesaj alanını header ve input arasında konumlandır */
+    .chat-messages {
+        margin-top: 70px;
+        margin-bottom: 80px;
+        height: calc(100vh - 150px);
+        overflow-y: auto;
+    }
+    
+    /* Klavye açık durumu için özel kurallar */
+    body.keyboard-open .chat-input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: #1a1a1a;
+        border-top: 1px solid #333;
+        padding: 10px 15px;
+    }
+    
+    body.keyboard-open .chat-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1001;
+        background: #1a1a1a;
+        border-bottom: 1px solid #333;
+        padding: 10px 15px;
+    }
+    
+    body.keyboard-open .chat-messages {
+        margin-top: 70px;
+        margin-bottom: 80px;
+        height: calc(100vh - 150px);
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
 }
 
 .chat-input-wrapper {

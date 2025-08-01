@@ -16,10 +16,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (heightDifference > 150) {
             document.body.style.height = `${currentHeight}px`;
             document.documentElement.style.height = `${currentHeight}px`;
+            document.body.classList.add('keyboard-open');
         } else {
             // Klavye kapandığında
             document.body.style.height = '100vh';
             document.documentElement.style.height = '100vh';
+            document.body.classList.remove('keyboard-open');
         }
     });
     
