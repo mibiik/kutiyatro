@@ -1,7 +1,21 @@
 /* Hayvan Çiftliği Sohbet Sayfası Styles */
 
+/* Navbar'ı gizle */
+.desktop-header,
+.new-navbar,
+.new-navbar__overlay {
+    display: none !important;
+}
+
+/* Progress bar'ı gizle */
+.progress-bar,
+.scroll-progress {
+    display: none !important;
+}
+
 .chat-main {
-    padding-top: 80px;
+    padding-top: 0;
+    margin-top: -20px; /* Sayfayı biraz daha yukarı kaldır */
     min-height: 100vh;
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
     display: flex;
@@ -156,85 +170,96 @@
 
 /* Chat Header */
 .chat-header {
-    background: linear-gradient(135deg, #2a2a2a, #1f1f1f);
-    padding: 20px 30px;
-    border-bottom: 1px solid #333;
+    background: #2c2c2c;
+    padding: 15px 25px;
+    border-bottom: 1px solid #444;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
 }
 
 .character-select-btn {
-    background: linear-gradient(135deg, var(--bordo), #a00030);
+    background: #8b0000;
     border: none;
     color: white;
-    padding: 12px 16px;
-    border-radius: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .character-select-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(128, 0, 32, 0.4);
+    background: #a00000;
+    transform: translateY(-1px);
+}
+
+.character-select-btn i {
+    font-size: 0.8rem;
 }
 
 .selected-character-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .character-avatar-small {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--bordo), #a00030);
+    background: #8b0000;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: white;
+    flex-shrink: 0;
 }
 
 .character-details h3 {
-    color: #e0e0e0;
-    font-size: 1.2rem;
-    margin: 0 0 5px 0;
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin: 0 0 2px 0;
     font-weight: 600;
 }
 
 .character-details p {
-    color: #b0b0b0;
-    font-size: 0.9rem;
+    color: #cccccc;
+    font-size: 0.8rem;
     margin: 0;
+    opacity: 0.8;
 }
 
 .back-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: #e0e0e0;
-    padding: 10px 20px;
-    border-radius: 10px;
+    background: #444444;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 8px;
     text-decoration: none;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     transition: all 0.2s ease;
-    border: 1px solid #333;
+    border: none;
+    font-size: 0.9rem;
 }
 
 .back-btn:hover {
-    background: rgba(128, 0, 32, 0.2);
-    color: #fff;
+    background: #555555;
+    color: #ffffff;
     text-decoration: none;
-    border-color: var(--bordo);
+    transform: translateY(-1px);
 }
 
 /* Chat Messages */
@@ -264,9 +289,50 @@
 
 .message {
     display: flex;
-    gap: 15px;
+    flex-direction: column;
+    gap: 5px;
     max-width: 80%;
     animation: messageSlideIn 0.3s ease;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    padding-left: 55px; /* Profil fotoğrafı genişliği + gap kadar padding */
+}
+
+.message.user-message .message-header {
+    padding-left: 0;
+    padding-right: 55px;
+    justify-content: flex-end;
+}
+
+.message-sender {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #b0b0b0;
+}
+
+.message.user-message .message-sender {
+    color: #0d47a1;
+}
+
+.message-content-wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.message.user-message {
+    align-self: flex-end;
+}
+
+.message.user-message .message-content-wrapper {
+    flex-direction: row-reverse;
+}
+
+.message.bot-message {
+    align-self: flex-start;
 }
 
 @keyframes messageSlideIn {
@@ -278,15 +344,6 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.message.user-message {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-}
-
-.message.bot-message {
-    align-self: flex-start;
 }
 
 .message-avatar {
@@ -466,7 +523,8 @@
 
 @media (max-width: 768px) {
     .chat-main {
-        padding-top: 60px;
+        padding-top: 0;
+        margin-top: -20px; /* Sayfayı biraz daha yukarı kaldır */
     }
     
     .chat-container {
