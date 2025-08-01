@@ -1,5 +1,13 @@
 /* Hayvan Çiftliği Chatbot Styles */
 
+:root {
+    --bordo: #800020;
+    --text-color: #ffffff;
+    --gri: #cccccc;
+    --heading-font: 'Playfair Display', serif;
+    --body-font: 'Poppins', sans-serif;
+}
+
 .chatbot-main {
     padding-top: 80px;
     min-height: 100vh;
