@@ -178,10 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
         this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
     });
 
-    // Klavye açıldığında sayfanın en altına scroll
+    // Klavye açıldığında sadece mesajlar alanını scroll et
     chatInput.addEventListener('focus', function() {
         setTimeout(() => {
-            window.scrollTo(0, document.body.scrollHeight);
+            scrollToBottom();
         }, 300);
     });
 
@@ -189,15 +189,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', function() {
         if (document.activeElement === chatInput) {
             setTimeout(() => {
-                window.scrollTo(0, document.body.scrollHeight);
+                scrollToBottom();
             }, 100);
         }
     });
 
-    // Input'a tıklandığında da sayfanın en altına scroll
+    // Input'a tıklandığında da mesajlar alanını scroll et
     chatInput.addEventListener('click', function() {
         setTimeout(() => {
-            window.scrollTo(0, document.body.scrollHeight);
+            scrollToBottom();
         }, 100);
     });
 

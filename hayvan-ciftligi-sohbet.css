@@ -200,10 +200,14 @@ html, body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 1000;
     flex-shrink: 0;
+    height: 60px;
+    box-sizing: border-box;
 }
 
 .header-left {
@@ -292,7 +296,7 @@ html, body {
 /* Chat Messages */
 .chat-messages {
     flex: 1;
-    padding: 20px 16px 120px 16px;
+    padding: 80px 16px 120px 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -628,11 +632,12 @@ html, body {
     }
     
     .chat-header {
-        padding: 15px 20px;
+        padding: 12px 16px;
+        height: 50px;
     }
     
     .chat-messages {
-        padding: 12px 8px 100px 8px;
+        padding: 60px 8px 100px 8px;
         gap: 6px;
         flex: 1;
         min-height: 0;
