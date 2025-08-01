@@ -166,7 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Textarea otomatik yükseklik ayarlaması
     chatInput.addEventListener('input', function() {
         this.style.height = 'auto';
-        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        const maxHeight = window.innerWidth <= 768 ? 60 : 120;
+        this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
     });
 
     // Enter tuşu ile gönderme (Shift+Enter ile yeni satır)
